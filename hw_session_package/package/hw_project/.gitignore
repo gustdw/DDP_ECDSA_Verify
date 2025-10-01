@@ -1,0 +1,9 @@
+.Xil/
+NA/
+project_hw/
+*.jou
+vivado.jou
+vivado.log
+vivado_*.jou
+vivado_*.log
+vivado_*.str

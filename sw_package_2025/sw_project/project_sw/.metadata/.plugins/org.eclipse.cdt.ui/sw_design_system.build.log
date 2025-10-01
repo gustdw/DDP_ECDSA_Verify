@@ -1,0 +1,12 @@
+14:31:32 **** Incremental Build of configuration Debug for project sw_design_system ****
+make all 
+make[1]: Entering directory '/home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design_system/Debug'
+Generating bif file for the system project
+Executing command '::scw::generate_bif -xpfm /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/ecc_project_wrapper.xpfm -domains standalone_domain -bifpath /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design_system/Debug/system.bif' on XSCT
+sdcard_gen --xpfm /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/ecc_project_wrapper.xpfm --sys_config ecc_project_wrapper --bif /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design_system/Debug/system.bif --bitstream /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit --elf /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf,ps7_cortexa9_0
+creating BOOT.BIN using /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+Running /home/gustdewit/Xilinx/Vitis/2023.1/bin/bootgen  -image /home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design_system/Debug/sd_card_temp/boot.bif -w -o i BOOT.BIN
+make[1]: Leaving directory '/home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/sw_design_system/Debug'
+
+14:31:37 Build Finished (took 4s.833ms)
+

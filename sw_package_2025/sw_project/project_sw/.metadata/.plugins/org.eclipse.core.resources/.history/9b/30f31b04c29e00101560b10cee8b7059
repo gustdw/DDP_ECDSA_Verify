@@ -1,0 +1,53 @@
+/*
+ * mp_arith.c
+ *
+ */
+
+#include <stdint.h>
+#include <string.h>
+
+// Calculates res = a + b.
+// a and b represent large integers stored in uint32_t arrays
+// a and b are arrays of size elements, res has size+1 elements
+void mp_add(uint32_t *a, uint32_t *b, uint32_t *res, uint32_t size)
+{
+    uint8_t W = 16;
+    uint32_t c = 0;
+    uint32_t t[size+1];
+    uint64_t temp;
+    for (uint8_t i = 0; i < size; i++) {
+        temp = a[i] + b[i] + c;
+        if (temp < W) {
+            c = 0;
+            t[i] = temp;
+        } else {
+            c = 1;
+            t[i] = temp % W;
+        }
+    }
+    t[size] = c;
+    memcpy(res, t, (size+1)*sizeof(uint32_t));
+}
+
+// Calculates res = a - b.
+// a and b represent large integers stored in uint32_t arrays
+// a, b and res are arrays of size elements
+void mp_sub(uint32_t *a, uint32_t *b, uint32_t *res, uint32_t size)
+{
+
+}
+
+// Calculates res = (a + b) mod N.
+// a and b represent operands, N is the modulus. They are large integers stored in uint32_t arrays of size elements
+void mod_add(uint32_t *a, uint32_t *b, uint32_t *N, uint32_t *res, uint32_t size)
+{
+
+}
+
+// Calculates res = (a - b) mod N.
+// a and b represent operands, N is the modulus. They are large integers stored in uint32_t arrays of size elements
+void mod_sub(uint32_t *a, uint32_t *b, uint32_t *N, uint32_t *res, uint32_t size)
+{
+
+}
+

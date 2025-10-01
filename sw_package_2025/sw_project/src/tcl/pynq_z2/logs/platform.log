@@ -1,0 +1,47 @@
+TRACE::2023-07-27.13:56:02::SCWPlatform::Trying to open the hw design at /users/cosic/wlegiest/sw_package_2023/sw_package_pynq/sw_project/src/tcl/pynq_z2/hw/ecc_project_wrapper.xsa
+TRACE::2023-07-27.13:56:02::SCWPlatform::DSA given /users/cosic/wlegiest/sw_package_2023/sw_package_pynq/sw_project/src/tcl/pynq_z2/hw/ecc_project_wrapper.xsa
+TRACE::2023-07-27.13:56:02::SCWPlatform::DSA absoulate path /users/cosic/wlegiest/sw_package_2023/sw_package_pynq/sw_project/src/tcl/pynq_z2/hw/ecc_project_wrapper.xsa
+TRACE::2023-07-27.13:56:02::SCWPlatform::DSA directory /users/cosic/wlegiest/sw_package_2023/sw_package_pynq/sw_project/src/tcl/pynq_z2/hw
+TRACE::2023-07-27.13:56:02::SCWPlatform:: Platform Path /users/cosic/wlegiest/sw_package_2023/sw_package_pynq/sw_project/src/tcl/pynq_z2/hw/ecc_project_wrapper.xsa
+TRACE::2023-07-27.13:56:02::SCWPlatform:: Unique name xilinx:pynq-z2::0.0
+TRACE::2023-07-27.13:56:02::SCWPlatform::Do not have an existing db opened. 
+TRACE::2023-07-27.13:56:05::SCWPlatform::Opened new HwDB with name ecc_project_wrapper
+TRACE::2023-07-27.13:56:05::SCWWriter::formatted JSON is {
+	"platformName":	"pynq_z2",
+	"sprVersion":	"2.0",
+	"mode":	"cmd",
+	"dsaType":	"Fixed",
+	"platformDesc":	"pynq_z2",
+	"platHandOff":	"ecc_project_wrapper.xsa",
+	"platIntHandOff":	"<platformDir>/hw/ecc_project_wrapper.xsa",
+	"deviceType":	"zynq",
+	"platIsPrebuiltAutogen":	"false",
+	"platIsNoBootBsp":	"true",
+	"hasFsblMakeHasChanges":	"false",
+	"hasPmufwMakeHasChanges":	"false",
+	"platPreBuiltFlag":	false,
+	"platformSamplesDir":	""
+}
+TRACE::2023-07-27.13:56:05::SCWWriter::formatted JSON is {
+	"platformName":	"pynq_z2",
+	"sprVersion":	"2.0",
+	"mode":	"cmd",
+	"dsaType":	"Fixed",
+	"platformDesc":	"pynq_z2",
+	"platHandOff":	"ecc_project_wrapper.xsa",
+	"platIntHandOff":	"<platformDir>/hw/ecc_project_wrapper.xsa",
+	"deviceType":	"zynq",
+	"platIsPrebuiltAutogen":	"false",
+	"platIsNoBootBsp":	"true",
+	"hasFsblMakeHasChanges":	"false",
+	"hasPmufwMakeHasChanges":	"false",
+	"platPreBuiltFlag":	false,
+	"platformSamplesDir":	"",
+	"platActiveSys":	"pynq_z2",
+	"systems":	[{
+			"systemName":	"pynq_z2",
+			"systemDesc":	"pynq_z2",
+			"sysIsBootAutoGen":	"true",
+			"systemDispName":	"pynq_z2"
+		}]
+}

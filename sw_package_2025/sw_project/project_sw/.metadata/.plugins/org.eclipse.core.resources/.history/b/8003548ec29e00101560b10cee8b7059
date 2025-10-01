@@ -1,0 +1,51 @@
+/******************************************************************
+ * This is the main file for the Software Sessions
+ *
+ */
+
+#include <stdint.h>
+#include <inttypes.h>
+
+#include "common.h"
+
+// Uncomment for Session SW1
+// extern void warmup();
+
+// Uncomment for Session SW2 onwards
+#include "mp_arith.h"
+//#include "montgomery.h"
+//#include "asm_func.h"
+
+
+int main()
+{
+    init_platform();
+    init_performance_counters(1);
+
+    // Hello World template
+    //----------------------
+    xil_printf("Begin\n\r");
+
+START_TIMING
+
+    xil_printf("Hello World!\n\r");
+
+STOP_TIMING
+
+	xil_printf("End\n\r");
+
+    uint32_t a[32]   = { 0x7a6e75f5, 0x7a65f040, 0x0b537e7c, 0xae2ab026, 0x1df61006, 0x6eec116e, 0xdb4ffcbb, 0x61606436, 0x4aed030c, 0xe66c6e84, 0x01b93e63, 0x08fdf525, 0x0057075f, 0x846b5047, 0x38bfb937, 0xce30bc07, 0xfc8ae892, 0x81ac18e0, 0x8404ee9d, 0x3ad04559, 0xaec4e479, 0x80a47c1a, 0xb2b32f50, 0x24884a4e, 0x162be86a, 0x145e268c, 0x938b5cba, 0x2f6d9bb2, 0x7d55c70b, 0xd956c29d, 0x4b791291, 0xea132c16 };
+    uint32_t b[32]   = { 0xd6e87dad, 0xc677823d, 0xc771a7c2, 0xd96e1505, 0xae99b304, 0x1d1b5b57, 0x74e5dab4, 0xab72ad57, 0x7eabd01a, 0x6443890a, 0x6d138a62, 0xd908ad14, 0xd74c5d5d, 0xdc4df7c0, 0xc0cbee16, 0xd9917d50, 0x95b65c8a, 0xd7bb9c75, 0x6a2fd6e7, 0x2419e74f, 0xb943a41b, 0x1530eb09, 0x0fb28dbf, 0xdb482e16, 0x154bdc9e, 0x2442b812, 0x72b890a3, 0xc59cd6df, 0xddc25e1e, 0x955c0aec, 0xbec377a8, 0x83041587 };
+    uint32_t res[33] = {0};
+    uint32_t size = 32;
+    mp_add(a, b, res, size);
+    xil_printf("Result: \n\r");
+    for (int i = size; i >= 0; i--) {
+        xil_printf("%08x", res[i]);
+    }
+    xil_printf("\n\r");
+
+    cleanup_platform();
+
+    return 0;
+}

@@ -1,0 +1,752 @@
+/*
+
+AMD Vivado v2023.1 (64-bit) [Major: 2023, Minor: 1]
+SW Build: 3865809 on Sun May  7 15:04:56 MDT 2023
+IP Build: 3864474 on Sun May  7 20:36:21 MDT 2023
+IP Build: 3864474 on Sun May  7 20:36:21 MDT 2023
+
+Process ID (PID): 639552
+License: Customer
+Mode: GUI Mode
+
+Current time: 	Tue Sep 23 15:57:50 CEST 2025
+Time zone: 	Central European Standard Time (Europe/Brussels)
+
+OS: Rocky Linux release 9.6 (Blue Onyx)
+OS Version: 5.14.0-570.39.1.el9_6.x86_64
+OS Architecture: amd64
+Available processors (cores): 8
+
+Display: 0
+Screen size: 1920x1080
+Screen resolution (DPI): 100
+Available screens: 1
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+Scale size: 12
+OS font scaling: 100%
+
+Java version: 	17.0.3 64-bit
+JavaFX version: 17.0.1
+Java home: 	/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/tps/lnx64/jre17.0.3_7
+Java executable: 	/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/tps/lnx64/jre17.0.3_7/bin/java
+Java arguments: 	[-Dsun.java2d.pmoffscreen=false, -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2, -Dsun.java2d.xrender=false, -Djdk.gtk.version=2, -Dsun.java2d.uiScale.enabled=false, -Dswing.aatext=true, -XX:-UsePerfData, -Djdk.map.althashing.threshold=512, -XX:StringTableSize=4072, -XX:+UseStringDeduplication, -XX:MaxGCPauseMillis=200, -XX:+ParallelRefProcEnabled, --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-opens=java.base/java.nio=ALL-UNNAMED, --add-opens=java.desktop/sun.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-opens=java.desktop/javax.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-opens=java.desktop/java.awt.event=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-exports=java.base/java.nio=ALL-UNNAMED, --add-exports=java.desktop/sun.swing=ALL-UNNAMED, --add-exports=java.desktop/javax.swing=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-exports=java.desktop/sun.swing=ALL-UNNAMED, --add-exports=java.desktop/sun.swing.table=ALL-UNNAMED, --add-exports=java.desktop/sun.swing.plaf.synth=ALL-UNNAMED, --add-exports=java.desktop/sun.awt.shell=ALL-UNNAMED, --add-exports=java.base/sun.security.action=ALL-UNNAMED, --add-exports=java.desktop/sun.font=ALL-UNNAMED, --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED, -XX:NewSize=80m, -XX:MaxNewSize=80m, -Xms512m, -Xmx4072m, -Xss10m, -Xrs]
+Java initial memory (-Xms): 	512 MB
+Java maximum memory (-Xmx):	 3 GB
+
+User name: 	r0853096
+User home directory: /users/students/r0853096
+User working directory: /users/students/r0853096/DDPHWPACK/package/hw_project
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado
+HDI_APPROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1
+RDI_DATADIR: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/data
+RDI_BINDIR: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/bin
+
+Vivado preferences file: /users/students/r0853096/.Xilinx/Vivado/2023.1/vivado.xml
+Vivado preferences directory: /users/students/r0853096/.Xilinx/Vivado/2023.1/
+Vivado layouts directory: /users/students/r0853096/.Xilinx/Vivado/2023.1/data/layouts
+PlanAhead jar file: 	/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/lib/classes/planAhead.jar
+Vivado log file: 	/users/students/r0853096/DDPHWPACK/package/hw_project/vivado.log
+Vivado journal file: 	/users/students/r0853096/DDPHWPACK/package/hw_project/vivado.jou
+Engine tmp dir: 	/tmp/.Xil_r0853096/Vivado-639552-herkenrode.esat.kuleuven.be
+Non-Default Parameters:	[]
+
+Xilinx & AMD Environment Variables
+--------------------------------------------------------------------------------------------
+RDI_APPROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1
+RDI_BASEROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado
+RDI_BINROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/bin
+RDI_BUILD: yes
+RDI_DATADIR: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/data
+RDI_INSTALLROOT: /esat/micas-data/software/Xilinx/vitis_2023.1
+RDI_INSTALLVER: 2023.1
+RDI_JAVA_PLATFORM: 
+RDI_JAVA_VERSION: 17.0.3_7
+RDI_LIBDIR: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/lib/lnx64.o/Default:/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/lib/lnx64.o
+RDI_OPT_EXT: .o
+RDI_PATCHROOT: 
+RDI_PLATFORM: lnx64
+RDI_PREPEND_PATH: /esat/micas-data/software/Xilinx/vitis_2023.1/Vitis/2023.1/bin:/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/ids_lite/ISE/bin/lin64
+RDI_PROG: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/bin/unwrapped/lnx64.o/vivado
+RDI_SESSION_INFO: /users/students/r0853096/DDPHWPACK/package/hw_project:herkenrode.esat.kuleuven.be_1758635859_639501
+RDI_SHARED_DATA: /esat/micas-data/software/Xilinx/vitis_2023.1/SharedData/2023.1/data
+RDI_TPS_ROOT: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/tps/lnx64
+RDI_USE_JDK17: True
+SHELL: /bin/bash
+XILINX: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/ids_lite/ISE
+XILINXD_LICENSE_FILE: 2100@licserv
+XILINX_DSP: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/ids_lite/ISE
+XILINX_HLS: /esat/micas-data/software/Xilinx/vitis_2023.1/Vitis_HLS/2023.1
+XILINX_PLANAHEAD: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1
+XILINX_SDK: /esat/micas-data/software/Xilinx/vitis_2023.1/Vitis/2023.1
+XILINX_VITIS: /esat/micas-data/software/Xilinx/vitis_2023.1/Vitis/2023.1
+XILINX_VIVADO: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1
+XILINX_VIVADO_HLS: /esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1
+
+
+GUI allocated memory:	512 MB
+GUI max memory:		4,072 MB
+Engine allocated memory: 1,545 MB
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// TclEventType: PROJECT_OPEN_DIALOG
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 99 MB (+100859kb) [00:00:04]
+// [Engine Memory]: 1,348 MB (+1262180kb) [00:00:04]
+// Opening Vivado Project: project_hw/project_hw.xpr. Version: Vivado v2023.1 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: FLOW_ADDED
+// Tcl Message: open_project project_hw/project_hw.xpr 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,634 MB. GUI used memory: 70 MB. Current time: 9/23/25, 3:57:51 PM CEST
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// TclEventType: MSGMGR_REFRESH_MSG
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 124 MB (+21831kb) [00:00:11]
+// [Engine Memory]: 1,731 MB (+330522kb) [00:00:11]
+// WARNING: HEventQueue.dispatchEvent() is taking  1407 ms.
+// Tcl Message: open_project project_hw/project_hw.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories 
+// Tcl Message: INFO: [IP_Flow 19-2207] Repository '/users/students/r0853096/DDPHWPACK/package/hw_project/project_ipcores' already exists; ignoring attempt to add it again. 
+// Tcl Message: INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/esat/micas-data/software/Xilinx/vitis_2023.1/Vivado/2023.1/data/ip'. 
+// Project name: project_hw; location: /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw; part: xc7z020clg400-1
+// Tcl Message: open_project: Time (s): cpu = 00:00:18 ; elapsed = 00:00:08 . Memory (MB): peak = 8005.727 ; gain = 385.008 ; free physical = 20746 ; free virtual = 60425 
+dismissDialog("Open Project"); // bq
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// [Engine Memory]: 1,846 MB (+29524kb) [00:00:15]
+// TclEventType: DG_GRAPH_STALE
+// [GUI Memory]: 145 MB (+15649kb) [00:00:21]
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed time: 43 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, IP Integrator, Open Block Design]", 7, false); // f
+// Run Command: PAResourceCommand.PACommandNames_OPEN_BLOCK_DESIGN
+selectMenuItem((HResource) null, "ecdsa_project.bd"); // ao
+// TclEventType: LOAD_FEATURE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: LOAD_FEATURE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_OPEN_DIAGRAM
+// [GUI Memory]: 157 MB (+4032kb) [00:00:58]
+// Tcl Message: open_bd_design {/users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd} 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,902 MB. GUI used memory: 77 MB. Current time: 9/23/25, 3:58:41 PM CEST
+// TclEventType: RSB_OPEN_DIAGRAM
+// [Engine Memory]: 1,938 MB (+207kb) [00:01:00]
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // t
+dismissDialog("Open Block Design"); // bq
+// Elapsed time: 25 seconds
+selectButton(PAResourceCommand.PACommandNames_ZOOM_FIT, "System_zoom_fit"); // B
+// Run Command: PAResourceCommand.PACommandNames_ZOOM_FIT
+selectButton(PAResourceCommand.PACommandNames_VALIDATE_RSB_DESIGN, "System_validate_bd_design_rsb"); // B
+// Run Command: PAResourceCommand.PACommandNames_VALIDATE_RSB_DESIGN
+// 'dv' command handler elapsed time: 7 seconds
+// Elapsed time: 248 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 21, false); // f
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+// 'ct' command handler elapsed time: 3 seconds
+dismissDialog("No Implementation Results Available"); // u
+selectTab((HResource) null, (HResource) null, "Sources", 0); // aa
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, ecdsa_project_wrapper (ecdsa_project_wrapper.v)]", 1, true); // E - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, ecdsa_project_wrapper (ecdsa_project_wrapper.v)]", 1, true, false, false, false, false, true); // E - Double Click - Node
+// HMemoryUtils.trashcanNow. Engine heap size: 1,985 MB. GUI used memory: 83 MB. Current time: 9/23/25, 4:03:31 PM CEST
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // F
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "System", 0); // o
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 383, 132, 1192, 527, false, false, false, true, false); // fQ - Popup Trigger
+selectMenu(PAResourceQtoS.SelectMenu_HIGHLIGHT, "Highlight"); // al
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // al
+selectMenu(PAResourceQtoS.SystemBuilderView_EXPAND_COLLAPSE, "Expand/Collapse"); // al
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // al
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // al
+selectMenuItem(PAResourceCommand.PACommandNames_GOTO_SOURCE, "Go to Source"); // ao
+// Run Command: PAResourceCommand.PACommandNames_GOTO_SOURCE
+selectCodeEditor("ecdsa.v", 292, 261); // ad
+selectCodeEditor("ecdsa.v", 292, 261); // ad
+selectCodeEditor("ecdsa.v", 292, 261, false, false, false, false, true); // ad - Double Click
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 06m:08s
+// Elapsed time: 12 seconds
+selectButton(PAResourceOtoP.PlanAheadTab_REFRESH_CHANGED_MODULES, "Refresh Changed Modules"); // g
+// TclEventType: IP_LOCK_CHANGE
+// Tcl Message: update_module_reference {ecdsa_project_ecdsa_0_0 tb_ecdsa_project_ecdsa_0_0} 
+// [Engine Memory]: 2,039 MB (+4041kb) [00:06:22]
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: RSB_BITABEN_IPREPODATA_REFRESH
+// TclEventType: BDCELL_LOCK_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 2,083 MB. GUI used memory: 85 MB. Current time: 9/23/25, 4:04:06 PM CEST
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: RSB_BITABEN_IPREPODATA_REFRESH
+// TclEventType: BDCELL_LOCK_CHANGE
+// TclEventType: RSB_OPEN_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILESET_UPDATE_IP
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+// Tcl Message: Upgrading '/users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd' 
+// Tcl Message: INFO: [IP_Flow 19-3420] Updated ecdsa_project_ecdsa_0_0 to use current project options 
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd>  Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ui/bd_a5cf20ae.ui>  
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: RSB_BITABEN_IPREPODATA_REFRESH
+// TclEventType: BDCELL_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_OPEN_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+// Tcl Message: Reading block design file </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd>... Adding component instance block -- xilinx.com:ip:axi_bram_ctrl:4.1 - axi_bram_ctrl_0 Adding component instance block -- xilinx.com:module_ref:tb_mem:1.0 - tb_mem_0 Adding component instance block -- xilinx.com:module_ref:ecdsa:1.0 - ecdsa_0 Adding component instance block -- xilinx.com:module_ref:interfacer:1.0 - interfacer_0 Successfully read diagram <tb_ecdsa_project> from block design file </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd> 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: IP_UPGRADE_COMPLETE
+// Tcl Message: Upgrading '/users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd' 
+// Tcl Message: INFO: [IP_Flow 19-3420] Updated tb_ecdsa_project_ecdsa_0_0 to use current project options 
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd>  Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/ui/bd_1d6f797d.ui>  
+// Tcl Message: update_module_reference: Time (s): cpu = 00:00:10 ; elapsed = 00:00:07 . Memory (MB): peak = 8315.988 ; gain = 44.016 ; free physical = 20262 ; free virtual = 59967 
+dismissDialog("Refresh Changed Modules"); // bq
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// Elapsed Time for: 'L.f': 06m:18s
+// Elapsed Time for: 'L.f': 06m:24s
+// Elapsed time: 11 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 21, false); // f
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+selectButton(RDIResource.BaseDialog_YES, "Yes"); // a
+dismissDialog("No Implementation Results Available"); // u
+// Elapsed time: 20 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// 'ct' command handler elapsed time: 22 seconds
+dismissDialog("Launch Runs"); // cw
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: launch_runs impl_1 -to_step write_bitstream -jobs 8 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd>  
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// [Engine Memory]: 2,245 MB (+108993kb) [00:07:06]
+// Tcl Message: Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/synth/ecdsa_project.v Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/sim/ecdsa_project.v Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/hdl/ecdsa_project_wrapper.v 
+// HMemoryUtils.trashcanNow. Engine heap size: 2,290 MB. GUI used memory: 88 MB. Current time: 9/23/25, 4:04:51 PM CEST
+// Tcl Message: INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_GP0'. A default connection has been created. INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI_ACP'. A default connection has been created. 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// [Engine Memory]: 2,375 MB (+19267kb) [00:07:20]
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block processing_system7_0 . INFO: [BD 41-1029] Generation completed for the IP Integrator block ARCACHE . INFO: [BD 41-1029] Generation completed for the IP Integrator block ARUSER . INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_ps7_0_100M . INFO: [BD 41-1029] Generation completed for the IP Integrator block ecdsa_0 . INFO: [BD 41-1029] Generation completed for the IP Integrator block interfacer_0 . 
+// TclEventType: FILE_SET_NEW
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_0/s00_couplers/auto_pc . 
+// Tcl Message: INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI'. A default connection has been created. INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI'. A default connection has been created. INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_1/s00_couplers/auto_ds . 
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_1/s00_couplers/auto_pc . 
+// Tcl Message: Exporting to file /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/hw_handoff/ecdsa_project.hwh Generated Hardware Definition File /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/synth/ecdsa_project.hwdef 
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// HMemoryUtils.trashcanNow. Engine heap size: 2,471 MB. GUI used memory: 89 MB. Current time: 9/23/25, 4:05:06 PM CEST
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_MODIFY
+// Tcl Message: launch_runs: Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 8850.750 ; gain = 505.738 ; free physical = 19923 ; free virtual = 59668 
+// Elapsed Time for: 'ct.a': 25s
+// Elapsed time: 25 seconds
+dismissDialog("Generate Bitstream"); // bq
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed Time for: 'L.f': 07m:18s
+// Elapsed time: 30 seconds
+selectButton(PAResourceTtoZ.TaskBanner_CLOSE, (String) null); // j
+closeTask("IP Integrator", "Block Design", "DesignTask.IP_INTEGRATOR");
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+dismissDialog("Confirm Close"); // u
+// Tcl Message: current_bd_design [get_bd_designs ecdsa_project] 
+// TclEventType: RSB_CLOSE_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: close_bd_design [get_bd_designs ecdsa_project] 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_ADDRNETWORK
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CLOSE_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_ADDRNETWORK
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: close_bd_design [get_bd_designs tb_ecdsa_project] 
+dismissDialog("Close Block Designs"); // bq
+expandTreeTable(PAResourceEtoH.ExpRunTreePanel_EXP_RUN_TREE_TABLE, "Out-of-Context Module Runs ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ; ", 2); // ao
+collapseTreeTable(PAResourceEtoH.ExpRunTreePanel_EXP_RUN_TREE_TABLE, "Out-of-Context Module Runs ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ;  ; ", 2); // ao
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 08m:14s
+// [Engine Memory]: 2,512 MB (+18820kb) [00:08:26]
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 08m:18s
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// [GUI Memory]: 169 MB (+5007kb) [00:08:45]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// [GUI Memory]: 183 MB (+5084kb) [00:09:50]
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 196 seconds
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+dismissDialog("Bitstream Generation Completed"); // Q.a
+// Elapsed time: 315 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "ecdsa.v", 1); // o
+selectCodeEditor("ecdsa.v", 277, 263); // ad
+selectCodeEditor("ecdsa.v", 278, 262, false, false, false, false, true); // ad - Double Click
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 16m:46s
+// HMemoryUtils.trashcanNow. Engine heap size: 2,566 MB. GUI used memory: 102 MB. Current time: 9/23/25, 4:14:41 PM CEST
+// Elapsed time: 15 seconds
+selectButton(PAResourceOtoP.PlanAheadTab_REFRESH_CHANGED_MODULES, "Refresh Changed Modules"); // g
+// TclEventType: IP_LOCK_CHANGE
+// Tcl Message: update_module_reference {ecdsa_project_ecdsa_0_0 tb_ecdsa_project_ecdsa_0_0} 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: BDCELL_LOCK_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: BDCELL_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_OPEN_DIAGRAM
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // t
+// TclEventType: RSB_OPEN_DIAGRAM
+// TclEventType: RUN_MODIFY
+// Tcl Message: Upgrading '/users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd' 
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_DELETE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_DELETE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILESET_UPDATE_IP
+// Tcl Message: INFO: [IP_Flow 19-3420] Updated ecdsa_project_ecdsa_0_0 to use current project options 
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd>  
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: RSB_BITABEN_IPREPODATA_REFRESH
+// TclEventType: BDCELL_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_OPEN_DIAGRAM
+// Tcl Message: INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository). INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'. INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'. 
+// Tcl Message: Reading block design file </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd>... Adding component instance block -- xilinx.com:ip:axi_bram_ctrl:4.1 - axi_bram_ctrl_0 Adding component instance block -- xilinx.com:module_ref:tb_mem:1.0 - tb_mem_0 Adding component instance block -- xilinx.com:module_ref:interfacer:1.0 - interfacer_0 Adding component instance block -- xilinx.com:module_ref:ecdsa:1.0 - ecdsa_0 Successfully read diagram <tb_ecdsa_project> from block design file </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd> 
+// TclEventType: RSB_OPEN_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: IP_UPGRADE_COMPLETE
+// Tcl Message: Upgrading '/users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd' 
+// Tcl Message: INFO: [IP_Flow 19-3420] Updated tb_ecdsa_project_ecdsa_0_0 to use current project options 
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/tb_ecdsa_project.bd>  Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/tb_ecdsa_project/ui/bd_1d6f797d.ui>  
+// Tcl Message: update_module_reference: Time (s): cpu = 00:00:12 ; elapsed = 00:00:07 . Memory (MB): peak = 8888.328 ; gain = 37.578 ; free physical = 18688 ; free virtual = 58611 
+dismissDialog("Refresh Changed Modules"); // bq
+// Elapsed Time for: 'L.f': 16m:56s
+selectButton(PAResourceOtoP.PlanAheadTab_REFRESH_IP_CATALOG, "Refresh IP Catalog"); // g
+// [Engine Memory]: 2,707 MB (+72407kb) [00:17:09]
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// Elapsed Time for: 'L.f': 17m:04s
+// Elapsed time: 355 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "ecdsa.v", 1); // o
+selectButton(PAResourceTtoZ.TaskBanner_CLOSE, (String) null); // j
+closeTask("IP Integrator", "Block Design", "DesignTask.IP_INTEGRATOR");
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Confirm Close"); // u
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// Tcl Message: current_bd_design [get_bd_designs ecdsa_project] 
+// TclEventType: RSB_CLOSE_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: close_bd_design [get_bd_designs ecdsa_project] 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_ADDRNETWORK
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_CLOSE_DIAGRAM
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_ADDRNETWORK
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: close_bd_design [get_bd_designs tb_ecdsa_project] 
+dismissDialog("Close Block Designs"); // bq
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 21, false); // f
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+selectButton(RDIResource.BaseDialog_YES, "Yes"); // a
+// TclEventType: RUN_MODIFY
+dismissDialog("Synthesis is Out-of-date"); // u
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// Tcl Message: INFO: [Project 1-1160] Copying file /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.runs/synth_1/ecdsa_project_wrapper.dcp to /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/utils_1/imports/synth_1 and adding it to utils fileset 
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Launch Runs"); // cw
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: launch_runs impl_1 -to_step write_bitstream -jobs 8 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// TclEventType: MSGMGR_REFRESH_MSG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: RUN_DELETE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_DELETE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_DELETE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_DELETE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_DELETE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_DELETE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_DELETE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_DELETE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_DELETE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: Wrote  : </users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.srcs/sources_1/bd/ecdsa_project/ecdsa_project.bd>  Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/synth/ecdsa_project.v Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/sim/ecdsa_project.v Verilog Output written to : /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/hdl/ecdsa_project_wrapper.v 
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block ecdsa_0 . 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_CLOSE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_0/s00_couplers/auto_pc . 
+// Tcl Message: INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI'. A default connection has been created. INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI'. A default connection has been created. INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_1/s00_couplers/auto_ds . 
+// Tcl Message: INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_interconnect_1/s00_couplers/auto_pc . 
+// Tcl Message: Exporting to file /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/hw_handoff/ecdsa_project.hwh Generated Hardware Definition File /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.gen/sources_1/bd/ecdsa_project/synth/ecdsa_project.hwdef 
+// Tcl Message: INFO: [IP_Flow 19-6930] IPCACHE: runCacheChecks() number of threads = 8 INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP ecdsa_project_auto_ds_0 INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP ecdsa_project_auto_pc_0 INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP ecdsa_project_auto_pc_1 INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP ecdsa_project_ecdsa_0_0 INFO: [IP_Flow 19-8020] IPCACHE: runCacheChecks() calling threadPool finishWork() 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJ_DESIGN_MODE_SET
+// TclEventType: FILE_SET_NEW
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_ADD
+// HMemoryUtils.trashcanNow. Engine heap size: 2,779 MB. GUI used memory: 110 MB. Current time: 9/23/25, 4:21:01 PM CEST
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_MODIFY
+// Tcl Message: [Tue Sep 23 16:21:06 2025] Launched ecdsa_project_ecdsa_0_0_synth_1, synth_1... Run output will be captured here: ecdsa_project_ecdsa_0_0_synth_1: /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.runs/ecdsa_project_ecdsa_0_0_synth_1/runme.log synth_1: /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.runs/synth_1/runme.log [Tue Sep 23 16:21:06 2025] Launched impl_1... Run output will be captured here: /users/students/r0853096/DDPHWPACK/package/hw_project/project_hw/project_hw.runs/impl_1/runme.log 
+// Tcl Message: launch_runs: Time (s): cpu = 00:00:12 ; elapsed = 00:00:11 . Memory (MB): peak = 9085.152 ; gain = 146.938 ; free physical = 18493 ; free virtual = 58402 
+// Elapsed time: 10 seconds
+dismissDialog("Generate Bitstream"); // bq
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed Time for: 'L.f': 23m:14s
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 23m:48s
+// Elapsed Time for: 'L.f': 23m:50s
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 175 seconds
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+dismissDialog("Bitstream Generation Completed"); // Q.a
+// [GUI Memory]: 197 MB (+5844kb) [00:26:33]
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: FILE_SET_CHANGE
