@@ -14,12 +14,12 @@ module adder(
   wire [383:0] in_b_s;
   wire [384:0] result_w;
   wire done_w;
-  assign in_b_s = subtract ? ((~in_b)+1) : in_b;
+  assign in_b_s = subtract ? ~in_b : in_b;
     pipelined_adder pa (
         .clk    (clk    ),
         .resetn (resetn ),
         .start  (start  ),
-        .Cin    (1'b0),
+        .Cin    (subtract),
         .A      (in_a  ),
         .B      (in_b_s  ),
         .C      (result_w),
