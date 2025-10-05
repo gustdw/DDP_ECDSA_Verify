@@ -16,6 +16,16 @@
 #include "montgomery.h"
 #include "asm_func.h"
 
+void customprint(uint32_t *in, uint32_t size)
+{
+    int32_t i;
+
+    xil_printf("0x");
+    for (i = size; i > 0; --i) {
+    	xil_printf("%08x,", in[i]);
+    }
+    xil_printf("\n\r");
+}
 
 int main()
 {

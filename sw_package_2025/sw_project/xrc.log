@@ -6,3 +6,6 @@ Wed Oct  1 13:56:51 2025: Running Rule Check Server
 Wed Oct  1 13:56:51 2025: Version 1.6.1
 Wed Oct  1 13:56:52 2025: Rule Check Server: Accepted socket connection from client
 Wed Oct  1 13:56:52 2025: EXCHANGE_TOKEN received, server token: 18fc5229-8ad6-4539-9c05-483f16a836e2, passed token: 18fc5229-8ad6-4539-9c05-483f16a836e2
+Wed Oct  1 22:41:04 2025: STOP_SERVER received, server token: 18fc5229-8ad6-4539-9c05-483f16a836e2, passed token: 18fc5229-8ad6-4539-9c05-483f16a836e2
+Wed Oct  1 22:41:04 2025: Socket received request to stop server.
+Wed Oct  1 22:41:04 2025: SERVER: destructor for server bound to port 42125
