@@ -134,6 +134,20 @@ module modadder(
     end
 
     // Final result selection
-    assign result = subtract ? (cout_adder1 ? out : res_buf3) : (cout_adder2 ? res_buf3 : out);
+    always @(*) begin
+        if(subtract) begin
+            if (cout_buf3) begin
+                result <= out;
+            end else begin
+                result <= res_buf3;
+            end
+        end else begin
+            if (cout_adder2) begin
+                result <= res_buf3;
+            end else begin
+                result <= out;
+            end
+        end   
+    end
 
 endmodule
