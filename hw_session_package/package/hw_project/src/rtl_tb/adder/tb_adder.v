@@ -145,6 +145,19 @@ module tb_adder();
     $display("result calculated=%x", result);
     $display("result expected  =%x", expected);
     $display("error            =%x", expected-result);
+    #`CLK_PERIOD;
+    
+    // Test addition with seed 2025
+    $display("\nSubtraction with testvector seed 2025");
+  
+    perform_add(384'hf5ce81f666205d52abf7f0fdf78bbe4d468c29325cd9ba711166b776f2f25176740faf9af62aa69ea4ea469ccfecf892, 
+                    384'hfe433e9289c4d83bf669b2f4f004ae5487dbae5b083c5e1604c2ad103e21e890434cbf112375a95de6b4f2a67eab633e);
+    expected = 385'h1f411c088efe5358ea261a3f2e7906ca1ce67d78d651618871629648731143a06b75c6eac19a04ffc8b9f39434e985bd0;
+    wait (done==1);
+    result_ok = (expected==result);
+    $display("result calculated=%x", result);
+    $display("result expected  =%x", expected);
+    $display("error            =%x", expected-result);
     #`CLK_PERIOD;    
     
     $finish;
