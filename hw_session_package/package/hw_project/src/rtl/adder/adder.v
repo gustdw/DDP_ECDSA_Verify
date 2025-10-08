@@ -15,7 +15,7 @@ module adder(
   wire [384:0] result_w;
   wire done_w;
   assign in_b_s = subtract ? ~in_b : in_b;
-    pipelined_adder pa (
+    single_stage_adder pa (
         .clk    (clk    ),
         .resetn (resetn ),
         .start  (start  ),
@@ -26,22 +26,9 @@ module adder(
         .done   (done_w   )
     );
     
-    wire subtract_buf1_D, subtract_buf2_D, subtract_buf3_D;
-    reg subtract_buf1_Q, subtract_buf2_Q, subtract_buf3_Q;
-
-    assign subtract_buf1_D = subtract;
-    assign subtract_buf2_D = subtract_buf1_Q;
-    assign subtract_buf3_D = subtract_buf2_Q;
-
-    always @(posedge clk) begin
-        subtract_buf1_Q <= subtract_buf1_D;
-        subtract_buf2_Q <= subtract_buf2_D;
-        subtract_buf3_Q <= subtract_buf3_D;
-    end
-    
 always @(*) begin
     result[383:0] <= result_w[383:0];
-    result[384] <= result_w[384] ^ subtract_buf3_Q;
+    result[384] <= result_w[384] ^ subtract;
     done <= done_w;
 end
 
