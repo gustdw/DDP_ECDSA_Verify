@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item key="sdx.custom.platform.repository.locations" value="/home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper"/>
+	<item key="sdx.custom.platform.repository.locations" value="/home/gustdewit/KULeuven/Digital_Design_Platforms/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper;/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper"/>
 </section>

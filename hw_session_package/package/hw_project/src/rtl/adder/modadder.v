@@ -134,6 +134,10 @@ module modadder(
     end
 
     // Final result selection
-    assign result = subtract ? (cout_buf3 ? out : res_buf3) : (cout_adder2 ? res_buf3 : out);
+    wire [380:0] result_w;
+    assign result_w = subtract ? (cout_buf3 ? out : res_buf3) : (cout_adder2 ? res_buf3 : out);
+    always @(*) begin
+        result <= result_w;
+    end
 
 endmodule
