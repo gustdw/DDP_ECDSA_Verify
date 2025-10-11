@@ -37,3 +37,6 @@ timestamp=[2025-10-08 16:05:56], mode=BUILD, duration=0:00:00.328, duration_ms=3
 timestamp=[2025-10-08 16:08:14], mode=BUILD, duration=0:00:00.328, duration_ms=328, data={name=sw_design, configuration=Debug, clean_build=false}
 timestamp=[2025-10-08 16:15:31], mode=BUILD, duration=0:00:00.223, duration_ms=223, data={name=sw_design, configuration=Debug, clean_build=false}
 timestamp=[2025-10-08 16:15:52], mode=BUILD, duration=0:00:00.224, duration_ms=224, data={name=sw_design, configuration=Debug, clean_build=false}
+timestamp=[2025-10-11 16:16:36], mode=WORKBENCH_START, duration=0:00:12.311, duration_ms=12311, data={}
+timestamp=[2025-10-11 16:16:36], mode=WORKBENCH_UI_INIT, duration=0:00:00.129, duration_ms=129, data={editors_count=5, platform_editors_count=0, projects_count=4, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,ecc_project_wrapper,sw_design,sw_design_system}
+timestamp=[2025-10-11 16:16:36], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.270, duration_ms=270, data={}

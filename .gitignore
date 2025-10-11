@@ -1,0 +1,87 @@
+# ===== Source control: keep
+# Keep sources and hand-authored files (do NOT ignore these)
+# src/rtl/, src/rtl_tb/, sw_project/src/, tcl scripts, Makefiles, testvectors, etc.
+
+# ===== Vivado/Vitis generated files and directories
+# Vivado project files/directories (usually generated)
+project_hw/project_hw.gen/
+project_hw/project_hw.hw/
+project_hw/project_hw.xpr
+project_hw/project_hw.lpr
+project_hw/project_hw.ip_user_files/
+project_hw/project_hw.sim/
+project_hw/project_hw.srcs/sources_1/bd/*/hdl/**/sim/
+project_hw/project_hw.srcs/sources_1/bd/*/*.bxml
+project_hw/project_hw.srcs/sources_1/bd/*/*.bda
+# If you keep the bd sources under src/rtl/ then ignore the generated ones
+package/hw_project/NA/
+# General patterns for Vivado runs/cache
+*.runs/
+*.cache/
+*.hw/
+*.sim/
+*.ip_user_files/
+*.gen/
+*.xref/
+*.backup/
+
+# Vivado logs and reports
+*.log
+*.jou
+*.str
+*.rpt
+
+# Generated bitstreams and images (track in LFS if needed, otherwise ignore)
+*.bit
+*.bin
+*.elf
+*.xsa
+*.hdf
+*.mcs
+*.deb
+*.iso
+
+# Vitis/SDK/workspace metadata
+*/.Xil/
+*/.metadata/
+*/.settings/
+*/Debug/
+*/Release/
+*.xpe
+*.xpe_log
+
+# Simulation / waveform / coverage files
+*.wdb
+*.wcfg
+*.vcd
+*.vpd
+*.wlf
+*.fsdb
+*.key
+*.coverage
+
+# Synthesis/intermediate files
+*.ngc
+*.ngd
+*.ncd
+*.xpi
+
+# OS/editor transient files
+*.swp
+*~
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+# VS Code / IDE
+.vscode/
+.idea/
+*.iml
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Optional: large generated exports (e.g., .xpr backup directories)
+*.gen/
