@@ -84,58 +84,29 @@ module modadder(
     assign out = res_adder2[380:0];
     assign done = done_adder2; // since rest is combinatorial logic, done when second adder is done
 
-    // Res buffer because adder takes 3 clock cycles
-    // Buffer 1
+    // Res buffer because adder takes 1 clock cycle
 
-    reg [380:0] res_buf1;
-    reg         cout_buf1;
+    reg [380:0] res_buf;
+    reg         cout_buf;
 
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
-            res_buf1 <= 0;
-            cout_buf1 <= 0;
+            res_buf <= 0;
+            cout_buf <= 0;
         end else begin
             if (done_adder1) begin
-                res_buf1 <= res;
-                cout_buf1 <= cout_adder1;
+                res_buf <= res;
+                cout_buf <= cout_adder1;
             end else begin
-                res_buf1 <= res_buf1;
-                cout_buf1 <= cout_buf1;
+                res_buf <= res_buf;
+                cout_buf <= cout_buf;
             end
-        end
-    end
-
-    // Buffer 2
-    reg [380:0] res_buf2;
-    reg         cout_buf2;
-
-    always @(posedge clk or negedge resetn) begin
-        if (!resetn) begin
-            res_buf2 <= 0;
-            cout_buf2 <= 0;           
-        end else begin
-            res_buf2 <= res_buf1;
-            cout_buf2 <= cout_buf1;
-        end
-    end
-
-    // Buffer 3
-    reg [380:0] res_buf3;
-    reg         cout_buf3;
-
-    always @(posedge clk or negedge resetn) begin
-        if (!resetn) begin
-            res_buf3 <= 0;
-            cout_buf3 <= 0;
-        end else begin
-            res_buf3 <= res_buf2;
-            cout_buf3 <= cout_buf2;
         end
     end
 
     // Final result selection
     wire [380:0] result_w;
-    assign result_w = subtract ? (cout_buf3 ? out : res_buf3) : (cout_adder2 ? res_buf3 : out);
+    assign result_w = subtract ? (cout_buf ? out : res_buf) : (cout_adder2 ? res_buf : out);
     always @(*) begin
         result <= result_w;
     end
