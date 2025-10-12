@@ -7,7 +7,8 @@ set_property board_part tul.com.tw:pynq-z2:part0:1.0 [current_project]
 
 
 # Set IP repository paths
-set_property ip_repo_paths "[file normalize $origin_dir/project_ipcores] [file normalize $origin_dir/project_ipcores]" [get_filesets sources_1]
+# Gust: commented out this line because we don't have custom ip cores, so folder doesn't exist (gets deleted by make clean)
+# set_property ip_repo_paths "[file normalize $origin_dir/project_ipcores] [file normalize $origin_dir/project_ipcores]" [get_filesets sources_1]
 
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog
