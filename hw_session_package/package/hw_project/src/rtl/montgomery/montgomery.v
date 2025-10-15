@@ -231,16 +231,18 @@ module montgomery(
 
 
     // Adder instantiation
-    adder adder_inst (
-        .clk(clk),
-        .resetn(resetn),
-        .start(1'b1), // always start
-        .subtract(subtract),
-        .in_a(C),
-        .in_b(adder_in_b),
-        .result(adder_out),
-        .done(adder_done)
-    );
+//    adder adder_inst (
+//        .clk(clk),
+//        .resetn(resetn),
+//        .start(1'b1), // always start
+//        .subtract(subtract),
+//        .in_a(C),
+//        .in_b(adder_in_b),
+//        .result(adder_out),
+//        .done(adder_done)
+//    );
+
+    assign adder_out = subtract ? C - adder_in_b : C + adder_in_b;
 
     // Mux for adder input B
     always @(*) begin
