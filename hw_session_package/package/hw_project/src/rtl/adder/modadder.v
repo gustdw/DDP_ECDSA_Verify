@@ -57,8 +57,8 @@ module modadder(
         .resetn (resetn ),
         .start  (start  ),
         .subtract (subtract),
-        .in_a   ({3'b0, in_a}  ),
-        .in_b   ({3'b0, in_b}  ),
+        .in_a   ({{3{in_a[380]}}, in_a}  ),
+        .in_b   ({{3{in_b[380]}}, in_b}  ),
         .result (res_adder1),
         .done   (done_adder1   )
     );
