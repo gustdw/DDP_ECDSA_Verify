@@ -26,5 +26,7 @@ uint32_t arr_copy(uint32_t *a, uint32_t *b, uint32_t n);
 // pointer to n array is stored in [SP, #4] (one position above m)
 void multiply(uint32_t i, uint32_t *t, uint32_t *a, uint32_t *b, uint32_t *m, uint32_t *n);
 
+void montgomery_multiply(uint32_t *t, uint32_t *a, uint32_t *b, uint32_t i, uint32_t j, uint32_t *S, uint32_t *C);
+
 
 #endif /* ASM_FUNC_H_ */

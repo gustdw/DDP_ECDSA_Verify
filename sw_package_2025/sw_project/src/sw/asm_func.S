@@ -74,9 +74,38 @@ multiply:
 .endfunc
 
 
+.text
 
+.global montgomery_multiply
+.func montgomery_multiply, montgomery_multiply
+.type montgomery_multiply, %function
 
+montgomery_multiply:
+	push {r4-r12}		//Preserve registers that will be used in the function
+	// r0 = t or &S 
+	// r1 = a or res
+	// r2 = b or n
+	// r3 = i
+	// r4 = j or i
+	// r5 = &S
+	// r6 = &C
 
+	ldr r4, [sp, #4]
+	ldr r5, [sp, #8]
+	ldr r6, [sp, #12]
+
+	ldr r7, [r0]			//Load S or t[0] in r7
+	ldr r8, [r1, r3, lsl #2]	//Load a[i] or res[i] in r8
+	sub r4, r3, r4		//Calculate i-j or i-i in r4
+	ldr r9, [r2, r4, lsl #2]	//Load b[i-j] or n[i-j] in r9
+	umull r10, r11, r8, r9	//{r11,r10} = a[i] * b[i-j] or res[i] * n[i-j]
+	adds r7, r7, r10	//S = S + a[i]*b[i-j] or t[0] = t[0] + res[i]*n[i-j]
+	adc r11, r11, #0	//Add carry to higher part
+
+	str r10, [r5]
+	str r11, [r6]
+	pop {r4-r12}
+	bx lr
 
 @USEFUL FUNCTIONS
 

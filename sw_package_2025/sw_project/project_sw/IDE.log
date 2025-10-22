@@ -1,25 +1,438 @@
-00:46:43 DEBUG : Logs will be stored at '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/IDE.log'.
-00:46:43 INFO  : Registering command handlers for Vitis TCF services
-00:46:43 INFO  : Platform repository initialization has completed.
-00:46:43 INFO  : Successfully done query RDI_DATADIR 
-00:46:43 INFO  : plnx-install-location is set to ''
-00:46:47 INFO  : Platform 'ecc_project_wrapper' is added to custom repositories.
-00:47:00 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
-00:47:13 DEBUG : Logs will be stored at '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/IDE.log'.
-00:47:13 INFO  : Launching XSCT server: xsct -n  -interactive /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/temp_xsdb_launch_script.tcl
-00:47:14 INFO  : XSCT server has started successfully.
-00:47:14 INFO  : plnx-install-location is set to ''
-00:47:14 INFO  : Successfully done setting XSCT server connection channel  
-00:47:14 INFO  : Successfully done setting workspace for the tool. 
-00:47:20 INFO  : Registering command handlers for Vitis TCF services
-00:47:20 INFO  : Successfully done query RDI_DATADIR 
-00:47:20 INFO  : Platform repository initialization has completed.
-00:53:39 DEBUG : Logs will be stored at '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/IDE.log'.
-00:53:39 INFO  : Launching XSCT server: xsct -n  -interactive /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/temp_xsdb_launch_script.tcl
-00:53:40 INFO  : XSCT server has started successfully.
-00:53:40 INFO  : Successfully done setting XSCT server connection channel  
-00:53:40 INFO  : plnx-install-location is set to ''
-00:53:40 INFO  : Successfully done setting workspace for the tool. 
-00:53:44 INFO  : Successfully done query RDI_DATADIR 
-00:53:44 INFO  : Registering command handlers for Vitis TCF services
-00:53:44 INFO  : Platform repository initialization has completed.
+17:59:18 DEBUG : Logs will be stored at '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/IDE.log'.
+17:59:18 INFO  : Registering command handlers for Vitis TCF services
+17:59:18 INFO  : Platform repository initialization has completed.
+17:59:18 INFO  : Successfully done query RDI_DATADIR 
+17:59:18 INFO  : plnx-install-location is set to ''
+17:59:22 INFO  : Platform 'ecc_project_wrapper' is added to custom repositories.
+17:59:34 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+17:59:47 DEBUG : Logs will be stored at '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/IDE.log'.
+17:59:47 INFO  : Launching XSCT server: xsct -n  -interactive /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/temp_xsdb_launch_script.tcl
+17:59:48 INFO  : XSCT server has started successfully.
+17:59:48 INFO  : Successfully done setting XSCT server connection channel  
+17:59:48 INFO  : plnx-install-location is set to ''
+17:59:48 INFO  : Successfully done setting workspace for the tool. 
+17:59:49 INFO  : Registering command handlers for Vitis TCF services
+17:59:49 INFO  : Successfully done query RDI_DATADIR 
+17:59:49 INFO  : Platform repository initialization has completed.
+18:00:05 INFO  : Result from executing command 'getProjects': ecc_project_wrapper
+18:00:05 INFO  : Result from executing command 'getPlatforms': ecc_project_wrapper|/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/ecc_project_wrapper.xpfm;xilinx_zcu102_base_202310_1|/home/gustdewit/Xilinx/Vitis/2023.1/base_platforms/xilinx_zcu102_base_202310_1/xilinx_zcu102_base_202310_1.xpfm;xilinx_zcu102_base_dfx_202310_1|/home/gustdewit/Xilinx/Vitis/2023.1/base_platforms/xilinx_zcu102_base_dfx_202310_1/xilinx_zcu102_base_dfx_202310_1.xpfm;xilinx_zcu104_base_202310_1|/home/gustdewit/Xilinx/Vitis/2023.1/base_platforms/xilinx_zcu104_base_202310_1/xilinx_zcu104_base_202310_1.xpfm
+18:00:13 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:00:41 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:00:41 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:00:41 INFO  : 'jtag frequency' command is executed.
+18:00:41 INFO  : Context for 'APU' is selected.
+18:00:41 INFO  : System reset is completed.
+18:00:44 INFO  : 'after 3000' command is executed.
+18:00:44 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:00:46 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:00:46 INFO  : Context for 'APU' is selected.
+18:00:46 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:00:46 INFO  : 'configparams force-mem-access 1' command is executed.
+18:00:46 INFO  : Context for 'APU' is selected.
+18:00:46 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:00:47 INFO  : 'ps7_init' command is executed.
+18:00:47 INFO  : 'ps7_post_config' command is executed.
+18:00:47 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:00:47 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:00:47 INFO  : 'configparams force-mem-access 0' command is executed.
+18:00:47 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:00:47 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:00:47 INFO  : 'con' command is executed.
+18:00:47 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:00:47 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:01:22 INFO  : Disconnected from the channel tcfchan#2.
+18:01:23 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:01:23 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:01:23 INFO  : 'jtag frequency' command is executed.
+18:01:25 INFO  : Context for 'APU' is selected.
+18:01:25 INFO  : System reset is completed.
+18:01:28 INFO  : 'after 3000' command is executed.
+18:01:28 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:01:30 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:01:30 INFO  : Context for 'APU' is selected.
+18:01:30 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:01:30 INFO  : 'configparams force-mem-access 1' command is executed.
+18:01:30 INFO  : Context for 'APU' is selected.
+18:01:30 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:01:31 INFO  : 'ps7_init' command is executed.
+18:01:31 INFO  : 'ps7_post_config' command is executed.
+18:01:31 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:01:31 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:01:31 INFO  : 'configparams force-mem-access 0' command is executed.
+18:01:31 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:01:31 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:01:31 INFO  : 'con' command is executed.
+18:01:31 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:01:31 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:02:55 INFO  : Disconnected from the channel tcfchan#3.
+18:02:56 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:02:56 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:02:56 INFO  : 'jtag frequency' command is executed.
+18:02:56 INFO  : Context for 'APU' is selected.
+18:02:56 INFO  : System reset is completed.
+18:02:59 INFO  : 'after 3000' command is executed.
+18:02:59 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:03:02 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:03:02 INFO  : Context for 'APU' is selected.
+18:03:02 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:03:02 INFO  : 'configparams force-mem-access 1' command is executed.
+18:03:02 INFO  : Context for 'APU' is selected.
+18:03:02 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:03:02 INFO  : 'ps7_init' command is executed.
+18:03:02 INFO  : 'ps7_post_config' command is executed.
+18:03:02 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:03:02 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:03:02 INFO  : 'configparams force-mem-access 0' command is executed.
+18:03:02 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:03:02 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:03:02 INFO  : 'con' command is executed.
+18:03:02 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:03:02 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:05:35 INFO  : Disconnected from the channel tcfchan#4.
+18:05:36 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:05:36 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:05:36 INFO  : 'jtag frequency' command is executed.
+18:05:38 INFO  : Context for 'APU' is selected.
+18:05:38 INFO  : System reset is completed.
+18:05:41 INFO  : 'after 3000' command is executed.
+18:05:41 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:05:44 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:05:44 INFO  : Context for 'APU' is selected.
+18:05:44 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:05:44 INFO  : 'configparams force-mem-access 1' command is executed.
+18:05:44 INFO  : Context for 'APU' is selected.
+18:05:44 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:05:44 INFO  : 'ps7_init' command is executed.
+18:05:44 INFO  : 'ps7_post_config' command is executed.
+18:05:44 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:05:44 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:05:44 INFO  : 'configparams force-mem-access 0' command is executed.
+18:05:44 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:05:44 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:05:44 INFO  : 'con' command is executed.
+18:05:44 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:05:44 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:08:21 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:08:30 INFO  : Disconnected from the channel tcfchan#5.
+18:08:31 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:08:31 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:08:31 INFO  : 'jtag frequency' command is executed.
+18:08:31 INFO  : Context for 'APU' is selected.
+18:08:31 INFO  : System reset is completed.
+18:08:34 INFO  : 'after 3000' command is executed.
+18:08:34 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:08:37 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:08:37 INFO  : Context for 'APU' is selected.
+18:08:37 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:08:37 INFO  : 'configparams force-mem-access 1' command is executed.
+18:08:37 INFO  : Context for 'APU' is selected.
+18:08:37 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:08:37 INFO  : 'ps7_init' command is executed.
+18:08:37 INFO  : 'ps7_post_config' command is executed.
+18:08:37 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:08:37 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:08:37 INFO  : 'configparams force-mem-access 0' command is executed.
+18:08:37 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:08:37 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:08:37 INFO  : 'con' command is executed.
+18:08:37 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:08:37 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:09:53 INFO  : Disconnected from the channel tcfchan#6.
+18:09:54 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:09:54 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:09:54 INFO  : 'jtag frequency' command is executed.
+18:09:56 INFO  : Context for 'APU' is selected.
+18:09:56 INFO  : System reset is completed.
+18:09:59 INFO  : 'after 3000' command is executed.
+18:09:59 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:10:02 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:10:02 INFO  : Context for 'APU' is selected.
+18:10:02 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:10:02 INFO  : 'configparams force-mem-access 1' command is executed.
+18:10:02 INFO  : Context for 'APU' is selected.
+18:10:02 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:10:02 INFO  : 'ps7_init' command is executed.
+18:10:02 INFO  : 'ps7_post_config' command is executed.
+18:10:02 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:10:02 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:10:02 INFO  : 'configparams force-mem-access 0' command is executed.
+18:10:02 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:10:02 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:10:02 INFO  : 'con' command is executed.
+18:10:02 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:10:02 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:13:11 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:13:20 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:13:31 INFO  : Disconnected from the channel tcfchan#7.
+18:13:32 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:13:32 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:13:32 INFO  : 'jtag frequency' command is executed.
+18:13:34 INFO  : Context for 'APU' is selected.
+18:13:34 INFO  : System reset is completed.
+18:13:37 INFO  : 'after 3000' command is executed.
+18:13:37 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:13:39 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:13:39 INFO  : Context for 'APU' is selected.
+18:13:39 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:13:39 INFO  : 'configparams force-mem-access 1' command is executed.
+18:13:39 INFO  : Context for 'APU' is selected.
+18:13:39 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:13:40 INFO  : 'ps7_init' command is executed.
+18:13:40 INFO  : 'ps7_post_config' command is executed.
+18:13:40 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:13:40 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:13:40 INFO  : 'configparams force-mem-access 0' command is executed.
+18:13:40 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:13:40 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:13:40 INFO  : 'con' command is executed.
+18:13:40 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:13:40 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/debugger_sw_design-default.tcl'
+18:15:51 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:16:12 INFO  : Checking for BSP changes to sync application flags for project 'sw_design'...
+18:16:48 INFO  : Disconnected from the channel tcfchan#8.
+18:16:49 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:16:49 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:16:49 INFO  : 'jtag frequency' command is executed.
+18:16:51 INFO  : Context for 'APU' is selected.
+18:16:51 INFO  : System reset is completed.
+18:16:54 INFO  : 'after 3000' command is executed.
+18:16:54 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:16:56 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:16:56 INFO  : Context for 'APU' is selected.
+18:16:56 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:16:56 INFO  : 'configparams force-mem-access 1' command is executed.
+18:16:56 INFO  : Context for 'APU' is selected.
+18:16:56 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:16:57 INFO  : 'ps7_init' command is executed.
+18:16:57 INFO  : 'ps7_post_config' command is executed.
+18:16:57 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:16:57 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:16:57 INFO  : 'configparams force-mem-access 0' command is executed.
+18:16:57 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:16:57 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:16:57 INFO  : 'con' command is executed.
+18:16:57 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:16:57 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/systemdebugger_sw_design_system_standalone.tcl'
+18:24:43 INFO  : Disconnected from the channel tcfchan#10.
+18:24:43 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+18:24:43 INFO  : Jtag cable 'Xilinx TUL 1234-tulA' is selected.
+18:24:43 INFO  : 'jtag frequency' command is executed.
+18:24:43 INFO  : Context for 'APU' is selected.
+18:24:43 INFO  : System reset is completed.
+18:24:46 INFO  : 'after 3000' command is executed.
+18:24:46 INFO  : 'targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}' command is executed.
+18:24:48 INFO  : Device configured successfully with "/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit"
+18:24:48 INFO  : Context for 'APU' is selected.
+18:24:48 INFO  : Hardware design and registers information is loaded from '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa'.
+18:24:48 INFO  : 'configparams force-mem-access 1' command is executed.
+18:24:48 INFO  : Context for 'APU' is selected.
+18:24:48 INFO  : Sourcing of '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl' is done.
+18:24:48 INFO  : 'ps7_init' command is executed.
+18:24:48 INFO  : 'ps7_post_config' command is executed.
+18:24:48 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:24:48 INFO  : The application '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf' is downloaded to processor 'ps7_cortexa9_0'.
+18:24:48 INFO  : 'configparams force-mem-access 0' command is executed.
+18:24:48 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Xilinx TUL 1234-tulA" && level==0 && jtag_device_ctx=="jsn-TUL-1234-tulA-23727093-0"}
+fpga -file /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/bitstream/rsa_project_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/ecc_project_wrapper/export/ecc_project_wrapper/hw/ecc_project_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design/Debug/sw_design.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+18:24:48 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+18:24:48 INFO  : 'con' command is executed.
+18:24:48 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+18:24:48 INFO  : Launch script is exported to file '/home/gustdewit/KULeuven/Digital_Design_Platforms/ddp_g01/sw_package_2025/sw_project/project_sw/sw_design_system/_ide/scripts/systemdebugger_sw_design_system_standalone.tcl'
+10:45:54 INFO  : Disconnected from the channel tcfchan#11.
