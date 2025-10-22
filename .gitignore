@@ -3,7 +3,7 @@
 # src/rtl/, src/rtl_tb/, sw_project/src/, tcl scripts, Makefiles, testvectors, etc.
 
 # Source file
-hw_session_package/package/source_me*
+hw_session_package/package/source_me
 
 # ===== Vivado/Vitis generated files and directories
 # Vivado project files/directories (usually generated)
