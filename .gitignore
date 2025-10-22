@@ -2,6 +2,9 @@
 # Keep sources and hand-authored files (do NOT ignore these)
 # src/rtl/, src/rtl_tb/, sw_project/src/, tcl scripts, Makefiles, testvectors, etc.
 
+# Source file
+hw_session_package/package/source_me*
+
 # ===== Vivado/Vitis generated files and directories
 # Vivado project files/directories (usually generated)
 project_hw/project_hw.gen/
