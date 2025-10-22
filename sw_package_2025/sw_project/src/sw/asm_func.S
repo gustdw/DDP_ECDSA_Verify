@@ -106,6 +106,8 @@ montgomery_multiply:
 	str r11, [r6]
 	pop {r4-r12}
 	bx lr
+.endfunc
+.text
 
 @USEFUL FUNCTIONS
 

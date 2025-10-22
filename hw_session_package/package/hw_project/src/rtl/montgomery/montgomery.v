@@ -27,6 +27,8 @@ module montgomery(
     localparam S2 = 3'b010;
     localparam S3 = 3'b011;
     localparam S4 = 3'b100;
+    localparam S5 = 3'b101;
+   
 
     reg [2:0] state, next_state;
     reg [8:0] count; // counter for 381 bits
@@ -42,6 +44,7 @@ module montgomery(
     reg increment, reset_count;
     reg subtract;
     reg select_in;
+    reg comp_BM;
     reg [1:0] select_C; // 00 -> 0, 01 -> C, 10 -> adder output (shifted), 11 -> output adder (no shift)
 
 
@@ -59,11 +62,14 @@ module montgomery(
         case (state)
             S0: begin
                 if (start) begin
-                    next_state = S1;
+                    next_state = S5;
                 end else begin
                     next_state = S0;
                 end
             end
+            S5: begin
+                next_state = S1;
+                end
             S1: begin
                 if (count == 9'd380) begin
                     next_state = S2;
@@ -96,14 +102,26 @@ module montgomery(
         case (state)
             S0: begin
                 select_in = 1'b1;
+                comp_BM = 1'b0;
                 done = 1'b0;
                 increment = 1'b0;
                 reset_count = 1'b1;
                 subtract = 1'b0;
                 select_C = 2'b00;
             end
+            S5: begin
+                select_in = 1'b1;
+                comp_BM = 1'b1;
+                done = 1'b0;
+                increment = 1'b0;
+                reset_count = 1'b0;
+                subtract = 1'b0;
+                select_C = 2'b00;
+            end
+                
             S1: begin
                 select_in = 1'b0;
+                comp_BM = 1'b0;
                 done = 1'b0;
                 increment = 1'b1;
                 reset_count = 1'b0;
@@ -112,6 +130,7 @@ module montgomery(
             end
             S2: begin
                 select_in = 1'b0;
+                comp_BM = 1'b0;
                 done = 1'b0;
                 increment = 1'b0;
                 reset_count = 1'b0;
@@ -120,6 +139,7 @@ module montgomery(
             end
             S3: begin
                 select_in = 1'b0;
+                comp_BM = 1'b0;
                 done = 1'b0;
                 increment = 1'b0;
                 reset_count = 1'b0;
@@ -128,6 +148,7 @@ module montgomery(
             end
             S4: begin
                 select_in = 1'b0;
+                comp_BM = 1'b0;
                 done = 1'b1;
                 increment = 1'b0;
                 reset_count = 1'b0;
@@ -136,6 +157,7 @@ module montgomery(
             end
             default: begin
                 select_in = 1'b0;
+                comp_BM = 1'b0;
                 done = 1'b0;
                 increment = 1'b0;
                 reset_count = 1'b0;
@@ -160,10 +182,10 @@ module montgomery(
 reg [383:0] add_a, add_b;
 
 always @(*) begin
-    casez ({select_in, A_reg[0], subtract, C[0]})
+    casez ({comp_BM, A_reg[0], subtract, C[0]})
         4'b1???: begin
-            add_a = {3'b0, in_m};
-            add_b = {3'b0, in_b};
+            add_a = {3'b0, M_reg};
+            add_b = {3'b0, B_reg};
         end
         4'b01??: begin
             add_a = C;
@@ -192,13 +214,19 @@ assign adder_out = add_a + add_b;
         if (select_in) begin
             B_next = in_b;
             M_next = in_m;
-            BM_reg_next = adder_out[381:0];
             M_neg_next = - {3'b0, in_m};
         end else begin
             B_next = B_reg;
             M_next = M_reg;  
-            BM_reg_next = BM_reg;
             M_neg_next = M_neg_reg;
+        end
+    end
+    
+    always @(*) begin
+        if (comp_BM) begin
+            BM_reg_next = adder_out[381:0];
+        end else begin
+            BM_reg_next = BM_reg;
         end
     end
 
@@ -230,12 +258,15 @@ assign adder_out = add_a + add_b;
             B_reg <= 381'b0;
             M_reg <= 381'b0;
             C <= 383'b0;
+//            BM_reg <= 382'b0;
+//            M_neg_reg <= 384'b0;
         end else begin
             A_reg <= A_next;
             B_reg <= B_next;
             M_reg <= M_next;
             C <= C_next;
             BM_reg <= BM_reg_next;
+            M_neg_reg <= M_neg_next;
         end
     end
     
