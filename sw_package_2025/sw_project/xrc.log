@@ -6,3 +6,9 @@ Wed Oct 22 15:49:26 2025: Running Rule Check Server
 Wed Oct 22 15:49:26 2025: Version 1.6.1
 Wed Oct 22 15:49:26 2025: Rule Check Server: Accepted socket connection from client
 Wed Oct 22 15:49:26 2025: EXCHANGE_TOKEN received, server token: 6b8f7959-3820-48ed-91f5-f42c8394b266, passed token: 6b8f7959-3820-48ed-91f5-f42c8394b266
+Wed Oct 22 19:01:44 2025: STOP_SERVER received, server token: 6b8f7959-3820-48ed-91f5-f42c8394b266, passed token: 6b8f7959-3820-48ed-91f5-f42c8394b266
+Wed Oct 22 19:01:44 2025: Socket received request to stop server.
+Wed Oct 22 19:01:44 2025: SERVER: destructor for server bound to port 39041
+Wed Oct 22 19:01:44 2025: XRC main fifo: Good unlink of /tmp/xrcmain6b8f7959-3820-48ed-91f5-f42c8394b266
+Wed Oct 22 19:01:44 2025: Server exiting with status 0.
+Wed Oct 22 19:01:44 2025: Closing log file.
