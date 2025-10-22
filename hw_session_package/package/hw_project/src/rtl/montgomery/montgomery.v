@@ -27,25 +27,22 @@ module montgomery(
     localparam S2 = 3'b010;
     localparam S3 = 3'b011;
     localparam S4 = 3'b100;
-    localparam S5 = 3'b101;
-    localparam S6 = 3'b110;
-    localparam S7 = 3'b111;
 
     reg [2:0] state, next_state;
     reg [8:0] count; // counter for 381 bits
+    reg done;
 
     reg [383:0] C;
     reg [380:0] A_reg, B_reg, M_reg;
+    reg [381:0] BM_reg;
+    reg [384:0] M_neg_reg;
 
 
     // Control signals
     reg increment, reset_count;
     reg subtract;
-    reg select_in_b_adder;
     reg select_in;
-    reg shift_a;
-    reg [1:0] select_shift; // 00 -> shift a, 01 -> shift C, 10 -> shift adder output
-    reg [2:0] select_C; // 000 -> 0, 001 -> C, 010 -> C >> 1, 011 -> C+B or C-M, 100 -> C + M >> 1
+    reg [1:0] select_C; // 00 -> 0, 01 -> C, 10 -> adder output (shifted), 11 -> output adder (no shift)
 
 
     // Sequential logic for state transition
@@ -68,40 +65,23 @@ module montgomery(
                 end
             end
             S1: begin
-                next_state = S2;
+                if (count == 9'd380) begin
+                    next_state = S2;
+                end else begin
+                    next_state = S1;
+                end
             end
             S2: begin
-                if (C[0] == 1'b1) begin
+                if (adder_out[384] == 1'b1) begin
                     next_state = S3;
                 end else begin
                     next_state = S4;
                 end
             end
             S3: begin
-                if (count == 9'd380) begin
-                    next_state = S5;
-                end else begin
-                    next_state = S1;
-                end
+                next_state = S2;
             end
-            s4: begin
-                if (count == 9'd380) begin
-                    next_state = S5;
-                end else begin
-                    next_state = S1;
-                end
-            end
-            S5: begin
-                if (C[384] == 1'b1) begin
-                    next_state = S6;
-                end else begin
-                    next_state = S7;
-                end
-            end
-            S6: begin
-                next_state = S5;
-            end
-            S7: begin
+            S4: begin
                 next_state = S0;
             end
             default: begin
@@ -113,158 +93,112 @@ module montgomery(
 
     // Control signal logic
     always @(*) begin
-        if (!resetn) begin
-            count = 9'd0;
-        end else begin
-            case (state)
-                S0: begin
-                    select_in = 1'b1;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'bx;
-                    reset_count = 1'b1;
-                    select_in_b_adder = 1'bx;
-                    subtract = 1'bx;
-                    select_shift = 2'bxx;
-                    select_C = 2'b000;
-                end
-                S1: begin
-                    if (a[0] == 1'b1) begin
-                        select_C = 3'b011; // select C + B
-                    end else begin
-                        select_C = 3'b001; // select C
-                    end
-                    select_in = 1'b0;
-                    shift_a = 1'b1;
-                    done = 1'b0;
-                    increment = 1'b0;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b1; // select B
-                    subtract = 1'b0; // addition
-                    select_shift = 2'b00; // shift a
-                    
-                end
-                S2: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'b0;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'bx;
-                    subtract = 1'bx;
-                    select_shift = 2'bxx;
-                    select_C = 3'b001; // select C
-                end
-                S3: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'b1;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b0; // select M
-                    subtract = 1'b0; // addition
-                    select_shift = 2'b10; // shift adder output
-                    select_C = 3'b100; // select C + M >> 1
-                end
-                S4: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'b1;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b0; // select M
-                    select_shift = 2'b01; // shift C
-                    select_C = 3'b010; // select C >> 1
-                end
-                S5: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'b0;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b0; // select M
-                    subtract = 1'b1; // subtraction
-                    select_shift = 2'b00; // no shift
-                    select_C = 3'b001; // select C
-                end
-                S6: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'b0;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b0; // select M
-                    subtract = 1'b1; // subtraction
-                    select_shift = 2'b00; // no shift
-                    select_C = 3'b011; // select C - M
-                end
-                S7: begin
-                    select_in = 1'b0;
-                    shift_a = 1'b0;
-                    done = 1'b1;
-                    increment = 1'b0;
-                    reset_count = 1'b0;
-                    select_in_b_adder = 1'b0; // select M
-                    subtract = 1'b0; // addition
-                    select_shift = 2'b00; // no shift
-                    select_C = 3'b001; // select C
-                end
-                default: begin
-                    select_in = 1'b1;
-                    shift_a = 1'b0;
-                    done = 1'b0;
-                    increment = 1'bx;
-                    reset_count = 1'b1;
-                    select_in_b_adder = 1'bx;
-                    subtract = 1'bx;
-                    select_shift = 2'bxx;
-                    select_C = 2'b000;
-                end
-            endcase
-        end
+        case (state)
+            S0: begin
+                select_in = 1'b1;
+                done = 1'b0;
+                increment = 1'b0;
+                reset_count = 1'b1;
+                subtract = 1'b0;
+                select_C = 2'b00;
+            end
+            S1: begin
+                select_in = 1'b0;
+                done = 1'b0;
+                increment = 1'b1;
+                reset_count = 1'b0;
+                subtract = 1'b0;
+                select_C = 2'b10;
+            end
+            S2: begin
+                select_in = 1'b0;
+                done = 1'b0;
+                increment = 1'b0;
+                reset_count = 1'b0;
+                subtract = 1'b1;
+                select_C = 2'b01;
+            end
+            S3: begin
+                select_in = 1'b0;
+                done = 1'b0;
+                increment = 1'b0;
+                reset_count = 1'b0;
+                subtract = 1'b1;
+                select_C = 2'b11;
+            end
+            S4: begin
+                select_in = 1'b0;
+                done = 1'b1;
+                increment = 1'b0;
+                reset_count = 1'b0;
+                subtract = 1'b0;
+                select_C = 2'b01;
+            end
+            default: begin
+                select_in = 1'b0;
+                done = 1'b0;
+                increment = 1'b0;
+                reset_count = 1'b0;
+                subtract = 1'b0;
+                select_C = 2'b00;
+            end
+        endcase
     end
 
     // Data path
     // Wires
-    wire [380:0] a, b, m;
     wire [384:0] adder_out;
-    wire adder_done;
-    wire [383:0] C_next;
-    wire [380:0] A_next;
-    wire [380:0] B_next;
-    wire [380:0] M_next;
-    wire [380:0] adder_in_b;
+    reg [383:0] C_next;
+    reg [380:0] A_next;
+    reg [380:0] B_next;
+    reg [380:0] M_next;
+    reg [383:0] M_neg_next;
+    reg [383:0] adder_in_b, adder_in_a;
+    reg [381:0] BM_reg_next;
 
 
-    // Adder instantiation
-    adder adder_inst (
-        .clk(clk),
-        .resetn(resetn),
-        .start(1'b1), // always start
-        .subtract(subtract),
-        .in_a(C),
-        .in_b(adder_in_b),
-        .result(adder_out),
-        .done(adder_done)
-    );
+reg [383:0] add_a, add_b;
 
-    // Mux for adder input B
-    always @(*) begin
-        if (select_in_b_adder) begin
-            adder_in_b = b[380] ? {3'b1, b[380:0]} : {3'b0, b[380:0]}; // select B
-        end else begin
-            adder_in_b = m[380] ? {3'b1, m[380:0]} : {3'b0, m[380:0]}; // select M
+always @(*) begin
+    casez ({select_in, A_reg[0], subtract, C[0]})
+        4'b1???: begin
+            add_a = {3'b0, in_m};
+            add_b = {3'b0, in_b};
         end
-    end
+        4'b01??: begin
+            add_a = C;
+            add_b = C[0] ^ B_reg[0] ? {2'b0, BM_reg} : {3'b0, B_reg};
+        end
+        4'b001?: begin
+            add_a = C;
+            add_b = M_neg_reg;
+        end
+        4'b0001: begin
+            add_a = C;
+            add_b = {3'b0, M_reg};
+        end
+        default: begin
+            add_a = C;
+            add_b = 384'b0;
+        end
+    endcase
+end
+
+assign adder_out = add_a + add_b;
+
 
     // Mux for inputs M and B
     always @(*) begin
         if (select_in) begin
             B_next = in_b;
             M_next = in_m;
+            BM_reg_next = adder_out[381:0];
+            M_neg_next = - {3'b0, in_m};
         end else begin
             B_next = B_reg;
             M_next = M_reg;  
+            BM_reg_next = BM_reg;
+            M_neg_next = M_neg_reg;
         end
     end
 
@@ -272,24 +206,22 @@ module montgomery(
     always @(*) begin
         if (select_in) begin
             A_next = in_a;
-        end else if (shift_a) begin
-            A_next = A_reg >> 1;
         end else begin
-            A_next = A_reg;
+            A_next = A_reg >> 1;
         end
     end
 
-    // Mux for C
+    // Mux for input C
     always @(*) begin
         case (select_C)
-            3'b000: C_next = 384'b0; // 0
-            3'b001: C_next = C; // C
-            3'b010: C_next = C >> 1; // C >> 1
-            3'b011: C_next = adder_out; // C + B or C - M
-            3'b100: C_next = adder_out >> 1; // (C + M) >> 1
-            default: C_next = 384'b0;
+            2'b00: C_next = 383'b0;
+            2'b01: C_next = C;
+            2'b10: C_next = adder_out >> 1;
+            2'b11: C_next = adder_out[383:0];
+            default: C_next = 383'b0;
         endcase
     end
+
 
     // Registers
     always @(posedge clk or negedge resetn) begin
@@ -297,14 +229,17 @@ module montgomery(
             A_reg <= 381'b0;
             B_reg <= 381'b0;
             M_reg <= 381'b0;
-            C <= 384'b0;
+            C <= 383'b0;
         end else begin
             A_reg <= A_next;
             B_reg <= B_next;
             M_reg <= M_next;
             C <= C_next;
+            BM_reg <= BM_reg_next;
         end
     end
+    
+    assign result = C[380:0];
 
     // Counter
     always @(posedge clk or negedge resetn) begin
