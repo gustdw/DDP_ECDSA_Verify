@@ -4,6 +4,7 @@
  */
 
 #include "montgomery.h"
+#include "asm_func.h"
 #include <string.h>
 
 #define WORD_SIZE 32
@@ -116,23 +117,22 @@ void montMul(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n_prime, uint32_t 
 void montMulOpt(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n_prime, uint32_t *res, uint32_t size)
 {
     uint32_t t[3] = {0};
-    uint64_t sum = 0;
     uint32_t C, S;
     for (uint32_t i = 0; i < size; i++) {
         for (uint32_t j = 0; j<i; j++) {
             montgomery_multiply(t, a, b, i, j, &S, &C);
-            add_opt(t, 1, C);
+            add(t, 1, C);
             
             montgomery_multiply(&S, res, n, i, j, &S, &C);
             t[0] = S;
-            add_opt(t, 1, C);
+            add(t, 1, C);
         }
         montgomery_multiply(t, a, b, i, i, &S, &C);
-        add_opt(t, 1, C);
+        add(t, 1, C);
 
         res[i] = (uint32_t)(S*(*n_prime));
         montgomery_multiply(&S, res, n, i, i, &S, &C);
-        add_opt(t, 1, C);
+        add(t, 1, C);
         t[0] = t[1];
         t[1] = t[2];
         t[2] = 0;
@@ -140,11 +140,11 @@ void montMulOpt(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n_prime, uint32
     for (uint32_t i = size; i<2*size; i++) {
         for (uint32_t j = i-size+1; j<size; j++) {
             montgomery_multiply(t, a, b, i, j, &S, &C);
-            add_opt(t, 1, C);
+            add(t, 1, C);
 
             montgomery_multiply(&S, res, n, i, j, &S, &C);
             t[0] = S;
-            add_opt(t, 1, C);
+            add(t, 1, C);
         }
         res[i-size] = t[0];
         t[0] = t[1];

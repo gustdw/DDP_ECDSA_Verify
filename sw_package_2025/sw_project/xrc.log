@@ -1,11 +1,8 @@
-Wed Oct 15 17:59:50 2025: Server was asked to start on port: '45099'
-Wed Oct 15 17:59:50 2025: Server is using token UUID: '055525e2-0f2b-408f-95aa-e6e780404530'
-Wed Oct 15 17:59:50 2025: Attempting to start server on port '45099'
-Wed Oct 15 17:59:50 2025: XRC main fifo: created main fifo '/tmp/xrcmain055525e2-0f2b-408f-95aa-e6e780404530', fd read = 11
-Wed Oct 15 17:59:50 2025: Running Rule Check Server
-Wed Oct 15 17:59:50 2025: Version 1.6.1
-Wed Oct 15 17:59:50 2025: Rule Check Server: Accepted socket connection from client
-Wed Oct 15 17:59:50 2025: EXCHANGE_TOKEN received, server token: 055525e2-0f2b-408f-95aa-e6e780404530, passed token: 055525e2-0f2b-408f-95aa-e6e780404530
-Thu Oct 16 10:45:54 2025: STOP_SERVER received, server token: 055525e2-0f2b-408f-95aa-e6e780404530, passed token: 055525e2-0f2b-408f-95aa-e6e780404530
-Thu Oct 16 10:45:54 2025: Socket received request to stop server.
-Thu Oct 16 10:45:54 2025: SERVER: destructor for server bound to port 45099
+Wed Oct 22 15:05:57 2025: Server was asked to start on port: '40079'
+Wed Oct 22 15:05:57 2025: Server is using token UUID: 'fc98b859-83aa-47cc-9248-94b005be1a47'
+Wed Oct 22 15:05:57 2025: Attempting to start server on port '40079'
+Wed Oct 22 15:05:57 2025: XRC main fifo: created main fifo '/tmp/xrcmainfc98b859-83aa-47cc-9248-94b005be1a47', fd read = 11
+Wed Oct 22 15:05:57 2025: Running Rule Check Server
+Wed Oct 22 15:05:57 2025: Version 1.6.1
+Wed Oct 22 15:05:58 2025: Rule Check Server: Accepted socket connection from client
+Wed Oct 22 15:05:58 2025: EXCHANGE_TOKEN received, server token: fc98b859-83aa-47cc-9248-94b005be1a47, passed token: fc98b859-83aa-47cc-9248-94b005be1a47
