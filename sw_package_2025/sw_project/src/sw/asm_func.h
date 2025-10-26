@@ -28,5 +28,6 @@ void multiply(uint32_t i, uint32_t *t, uint32_t *a, uint32_t *b, uint32_t *m, ui
 
 void montgomery_multiply(uint32_t *t, uint32_t *a, uint32_t *b, uint32_t i, uint32_t j, uint32_t *S, uint32_t *C);
 
+void montMulOpt_ARM(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n_prime, uint32_t *res, uint32_t size);
 
 #endif /* ASM_FUNC_H_ */

@@ -27,8 +27,6 @@ int main()
     //----------------------
     xil_printf("Begin\n\r");
 
-START_TIMING
-
     xil_printf("Hello World!\n\r");
 
 	xil_printf("End\n\r");
@@ -39,7 +37,11 @@ START_TIMING
     uint32_t n_prime[32]   = { 0xd99cfff7, 0x66d5d9a1, 0x982538cd, 0xfcaae0be, 0x2bff5dcd, 0x900d557d, 0x4fce0d05, 0xc68d63be, 0x8d856b52, 0x581ffa6d, 0x9c0d0c36, 0xb8add071, 0xd56d2a26, 0xb14b57bf, 0x7b097b90, 0x79e77aab, 0x6c790550, 0xf305dc6f, 0x5e0a3df5, 0x71a9d6b2, 0xcb1af2b9, 0x9659b4a6, 0x43ab6fac, 0xd414126c, 0x5531de8b, 0x38ee7009, 0x54a7cd6d, 0x79b33b00, 0x4aefee1e, 0x57949d8f, 0x291126cf, 0xf1922b2d };
     uint32_t res[33] = {0};
     uint32_t size = 32;
-    montMulOpt(a, b, n, n_prime, res, size);
+
+START_TIMING
+    // montMulOpt(a, b, n, n_prime, res, size);
+    montMul(a, b, n, n_prime, res, size);
+STOP_TIMING
 
     uint32_t expected_res[32]       = { 0x6f73dca3, 0x57d8d8ce, 0x15c46a97, 0x687e5e6b, 0x200c59d0, 0x241229f8, 0x82816b5a, 0x1733a791, 0xfe61b476, 0xc2e694e7, 0xcc4630ed, 0x40b827ce, 0x0d6a29ef, 0x64e66c68, 0xec5f5681, 0x710f980f, 0xfc451057, 0xe9ce4590, 0x642f3453, 0x54725c91, 0x3193e9f7, 0x9c04e33c, 0xfdb83c82, 0x66ac1a02, 0x1a5a7ba7, 0x9e9fc81c, 0x9582fd04, 0x007e5f97, 0xf77e091c, 0xa541c254, 0x8b0b4a07, 0x7b4afb24 };
     if (memcmp(res, expected_res, 32*sizeof(uint32_t)) == 0) {
@@ -50,6 +52,7 @@ START_TIMING
         for (int i = size; i > 0; --i) {
             xil_printf("%08x", expected_res[i-1]);
         }
+        xil_printf("\n\r");
         xil_printf("Calculated: \n\r");
         for (int i = size; i > 0; --i) {
             xil_printf("%08x", res[i-1]);
@@ -57,7 +60,6 @@ START_TIMING
         xil_printf("\n\r");
     }
     xil_printf("\n\r");
-STOP_TIMING
 
     cleanup_platform();
 

@@ -146,7 +146,7 @@ module ecdsa (
   always@(posedge clk)
     case (state)
       STATE_RX_WAIT : r_data <= (dma_done) ? dma_rx_data : r_data;
-      STATE_COMPUTE : r_data <= {32'h00000000, r_data[348:0]};
+      STATE_COMPUTE : r_data <= {32'hDEADBEEF, r_data[348:0]};
     endcase
   assign dma_tx_data = r_data;
 
