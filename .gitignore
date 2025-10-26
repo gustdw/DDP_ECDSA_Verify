@@ -112,3 +112,4 @@ sw_package_2025/sw_project/src/sw/helloworld.c
 sw_package_2025/sw_project/src/sw/platform.c
 sw_package_2025/sw_project/src/sw/platform.h
 sw_package_2025/sw_project/src/sw/platform_config.h
+sw_package_2025/sw_project/project_sw/sw_design/Debug/*
