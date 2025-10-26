@@ -93,3 +93,22 @@ sw_package_2025/sw_project/project_sw/.metadata/
 sw_package_2025/sw_project/project_sw/.metadata/.log
 sw_package_2025/sw_project/project_sw/.metadata/.plugins/
 sw_package_2025/sw_project/src/sw/asm_func.S
+
+# Ignore auto-generated files and directories
+sw_package_2025/sw_project/project_sw/.analytics
+sw_package_2025/sw_project/project_sw/.metadata/
+sw_package_2025/sw_project/project_sw/ecc_project_wrapper/platform.spr
+sw_package_2025/sw_project/project_sw/ecc_project_wrapper/platform.tcl
+sw_package_2025/sw_project/project_sw/ecc_project_wrapper/ps7_cortexa9_0/standalone_domain/bsp/
+sw_package_2025/sw_project/project_sw/ecc_project_wrapper/zynq_fsbl/
+sw_package_2025/sw_project/project_sw/sw_design/.cproject
+sw_package_2025/sw_project/project_sw/sw_design/sw_design.prj
+sw_package_2025/sw_project/project_sw/sw_design_system/.cproject
+sw_package_2025/sw_project/project_sw/sw_design_system/sw_design_system.sprj
+sw_package_2025/sw_project/xrc.log
+sw_package_2025/sw_project/.Xil/
+sw_package_2025/sw_project/project_sw/sw_design/_ide/
+sw_package_2025/sw_project/src/sw/helloworld.c
+sw_package_2025/sw_project/src/sw/platform.c
+sw_package_2025/sw_project/src/sw/platform.h
+sw_package_2025/sw_project/src/sw/platform_config.h
