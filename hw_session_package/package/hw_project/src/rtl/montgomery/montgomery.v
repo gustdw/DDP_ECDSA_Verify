@@ -27,6 +27,7 @@ module montgomery(
     localparam S2 = 3'b010;
     localparam S3 = 3'b011;
     localparam S4 = 3'b100;
+   
 
     reg [2:0] state, next_state;
     reg [8:0] count; // counter for 381 bits
@@ -157,34 +158,26 @@ module montgomery(
     reg [381:0] BM_reg_next;
 
 
-reg [383:0] add_a, add_b;
+reg [383:0] add_b;
 
 always @(*) begin
-    casez ({select_in, A_reg[0], subtract, C[0]})
-        4'b1???: begin
-            add_a = {3'b0, in_m};
-            add_b = {3'b0, in_b};
-        end
-        4'b01??: begin
-            add_a = C;
+    casez ({A_reg[0], subtract, C[0]})
+        3'b1??: begin
             add_b = C[0] ^ B_reg[0] ? {2'b0, BM_reg} : {3'b0, B_reg};
         end
-        4'b001?: begin
-            add_a = C;
+        3'b01?: begin
             add_b = M_neg_reg;
         end
-        4'b0001: begin
-            add_a = C;
+        3'b001: begin
             add_b = {3'b0, M_reg};
         end
         default: begin
-            add_a = C;
             add_b = 384'b0;
         end
     endcase
 end
 
-assign adder_out = add_a + add_b;
+assign adder_out = C + add_b;
 
 
     // Mux for inputs M and B
@@ -192,13 +185,9 @@ assign adder_out = add_a + add_b;
         if (select_in) begin
             B_next = in_b;
             M_next = in_m;
-            BM_reg_next = adder_out[381:0];
-            M_neg_next = - {3'b0, in_m};
         end else begin
             B_next = B_reg;
             M_next = M_reg;  
-            BM_reg_next = BM_reg;
-            M_neg_next = M_neg_reg;
         end
     end
 
@@ -230,12 +219,27 @@ assign adder_out = add_a + add_b;
             B_reg <= 381'b0;
             M_reg <= 381'b0;
             C <= 383'b0;
+//            BM_reg <= 382'b0;
+//            M_neg_reg <= 384'b0;
         end else begin
             A_reg <= A_next;
             B_reg <= B_next;
             M_reg <= M_next;
             C <= C_next;
-            BM_reg <= BM_reg_next;
+        end
+    end
+
+    // BM reg and M neg reg
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
+            BM_reg <= 382'b0;
+            M_neg_reg <= 384'b0;
+        end else if (select_in) begin
+            BM_reg <= in_b + in_m;
+            M_neg_reg <= - {3'b0, in_m};
+        end else begin
+            BM_reg <= BM_reg;
+            M_neg_reg <= M_neg_reg;
         end
     end
     

@@ -88,3 +88,8 @@ __pycache__/
 
 # Optional: large generated exports (e.g., .xpr backup directories)
 *.gen/
+
+sw_package_2025/sw_project/project_sw/.metadata/
+sw_package_2025/sw_project/project_sw/.metadata/.log
+sw_package_2025/sw_project/project_sw/.metadata/.plugins/
+sw_package_2025/sw_project/src/sw/asm_func.S

@@ -1,0 +1,55 @@
+r0: t = 0x113d3c
+r1: a = 0x113fec
+r2: b = 0x113f6c
+r3: i = 0 (address = 0x113d54)
+r4: j = 0 (address = 0x113d54)
+r5: &S = 0x113d44
+r6: &C = 0x113d48
+
+MontMul:
+Montgomery multiply S: EA2D3509 C: 4C6F07BB
+Second multiply S: 00000000 C: C5A0CC41
+
+After 1 loop S: 
+After 32 loops S: 0x00000000 C: 0x2a084ea4
+
+
+MontMulOpt:
+Montgomery multiply S: EA2D3509 C: 4C6F07BB
+Second multiply S: 15D2CAF7 C: C5A0CC41
+Second multiply S: B4C76020 C: 69359C1E
+Third multiply S: 8C9D8C60 C: 0000000F
+Fourth multiply S: 00000000 C: 00000000
+
+i = 0 loop: 
+i = 1 loop: S = 00000000 C = 9d972c2a
+
+
+
+; .global montMulOpt
+; .func montMulOpt, montMulOpt
+; .type montMulOpt, %function
+
+; montMulOpt:
+; 	push {r4-r12}		//Preserve registers that will be used in the function
+; 	// r0 = *a
+; 	// r1 = *b
+; 	// r2 = *n
+; 	// r3 = *n_prime
+; 	// r4 = *res
+; 	// r5 = size
+; 	ldr r4, [sp, #4] // load pointer to res
+; 	ldr r5, [sp, #8] // load size
+
+
+; .endfunc
+; .text	
+
+montMulOpt_ASM: i = 0, j = 0: S = 0, C = c5a0cc41, t = {0x120FD3FC, 0x00000001, 0x00000000}, res = {EBEE22AF, 000...} 
+montMul: 	i = 0, j = 0: S = 0, C = c5a0cc41, t = {0x120FD3FC, 0x00000001, 0x00000000}, res = {EBEE22AF, 000...}
+
+montMulOpt_ASM: i = 1, j = 0.5: S = 2a0c38da, C = 250f0b6d, t = {120FD3FC, 0x250f0b6e, 0x00000000}, res = {EBEE22AF, 000...} 
+montMul: 	i = 1, j = 0.5: S = 2a0c38da, C = 250f0b6d, t = {0x120fd3fc, 0x250f0b6e, 0x00000000}, res = {EBEE22AF, 000...}
+
+montMulOpt_ASM: i = 1, j = 0: S = 475ac43b, C = 8491f9e0, t = {0x475ac43b, 0xa9a1054e, 0x00000000}, res = {EBEE22AF, 000...} 
+montMul: 	i = 1, j = 0: S = 475ac43b, C = 8491f9e0, t = {0x475ac43b, 0xa9a1054e, 0x00000000}, res = {EBEE22AF, 000...}
