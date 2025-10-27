@@ -25,7 +25,7 @@ void add(uint32_t *t, uint32_t i, uint32_t C) {
 void sub_cond(uint32_t *u, uint32_t *n, uint32_t size) {
     uint32_t B = 0;
     uint32_t t[size+1];
-    memset(t, 0, (size+1)*(sizeof(uint32_t)));
+    // memset(t, 0, (size+1)*(sizeof(uint32_t)));
     uint32_t sub = 0;
     for (uint32_t i = 0; i<=size; i++) {
         sub = u[i] - n[i] - B;

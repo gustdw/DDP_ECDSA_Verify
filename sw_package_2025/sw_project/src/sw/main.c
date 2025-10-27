@@ -39,8 +39,8 @@ int main()
     uint32_t size = 32;
 
 START_TIMING
-    // montMulOpt(a, b, n, n_prime, res, size);
-    montMul(a, b, n, n_prime, res, size);
+    montMulOpt(a, b, n, n_prime, res, size);
+    // montMul(a, b, n, n_prime, res, size);
 STOP_TIMING
 
     uint32_t expected_res[32]       = { 0x6f73dca3, 0x57d8d8ce, 0x15c46a97, 0x687e5e6b, 0x200c59d0, 0x241229f8, 0x82816b5a, 0x1733a791, 0xfe61b476, 0xc2e694e7, 0xcc4630ed, 0x40b827ce, 0x0d6a29ef, 0x64e66c68, 0xec5f5681, 0x710f980f, 0xfc451057, 0xe9ce4590, 0x642f3453, 0x54725c91, 0x3193e9f7, 0x9c04e33c, 0xfdb83c82, 0x66ac1a02, 0x1a5a7ba7, 0x9e9fc81c, 0x9582fd04, 0x007e5f97, 0xf77e091c, 0xa541c254, 0x8b0b4a07, 0x7b4afb24 };
