@@ -1,10 +1,3 @@
-/*
- * asm_func.h
- *
- *  Created on: May 13, 2016
- *      Author: dbozilov
- */
-
 #ifndef ASM_FUNC_H_
 #define ASM_FUNC_H_
 

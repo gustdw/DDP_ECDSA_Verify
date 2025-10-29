@@ -18,6 +18,10 @@ bx lr
 
 .text
 
+.data
+.align 4
+t: .word 0, 0, 0
+
 // Register usage:
 // r0 = *a
 // r1 = *b
@@ -62,10 +66,9 @@ montMulOpt_ARM:
 
 			// montgomery_multiply(t[0], a, b, i, j);
             sub r14, r6, r7        //Calculate i-j in r14
-            ldr r8, [r0, r7, lsl #2] 	//Load a[j] in r8
             ldr r12, [r1, r14, lsl #2]	//Load b[i-j] in r12
-            umull r8, r9, r8, r12	//{r9,r8} = a[j] * b[i-j]
-            ldr r12, [r2, r14, lsl #2]	//Load n[i-j] in r12 here for pipeline efficiency
+            ldr r14, [r0, r7, lsl #2] 	//Load a[j] in r14
+            umull r8, r9, r14, r12	//{r9,r8} = a[j] * b[i-j]
             adds r8, r8, r3
             adc r9, r9, #0
 
@@ -76,15 +79,15 @@ montMulOpt_ARM:
             adds r5, r5, r9 // t[2] = t[2] + C
 
 			// montgomery_multiply(S, res, n, i, j);
-            // i-j already in r14
-            // r12 = n[i-j] already loaded
+            sub r14, r6, r7        //Calculate i-j in r14
+            ldr r12, [r2, r14, lsl #2]	//Load n[i-j] in r12
             ldr r14, [r10, r7, lsl #2] 	//Load res[j] in r14
             umull r14, r9, r14, r12	//{r9,r14} = res[j] * n[i-j]
-            add r7, r7, #1 // j++
             adds r8, r8, r14
             adc r9, r9, #0
 			
 			// t[0] = S
+			//str r8, [r3] // t[0] = S
             mov r3, r8 // t[0] = S
 
 			// add(t, 1, C)
@@ -93,6 +96,7 @@ montMulOpt_ARM:
             adc r9, r9, #0
             adds r5, r5, r9 // t[2] = t[2] + C
 
+			add r7, r7, #1 // j++
 			b j_loop1
 		exit_j_loop1:
 
@@ -100,7 +104,6 @@ montMulOpt_ARM:
         ldr r14, [r0, r6, lsl #2] 	//Load a[i] in r14
         ldr r12, [r1]	//Load b[0] in r12
         umull r8, r9, r14, r12	//{r9,r8} = a[i] * b[0]
-        ldr r14, [sp, #12] // r14 = n_prime, already loaded here for pipeline efficiency
         adds r8, r8, r3
         adc r9, r9, #0
 
@@ -111,16 +114,15 @@ montMulOpt_ARM:
         adds r5, r5, r9 // t[2] = t[2] + C
 
 		// res[i] = S*(*n_prime)
-		// r14 = n_prime, already loaded
+		ldr r14, [sp, #12] // r14 = n_prime
 		ldr r14, [r14] // r14 = *n_prime
         mul r14, r8, r14  // r14 = (uint32_t)(S * *n_prime)  (lower 32 bits only)
 		str r14, [r10, r6, lsl #2] // res[i] = lower 32 bits
 		
 		// montgomery_multiply(S, res, n, i, i);
-        ldr r7, [r10, r6, lsl #2] 	//Load res[i] in r7, for pipeline efficiency
+        ldr r14, [r10, r6, lsl #2] 	//Load res[i] in r14
         ldr r12, [r2]	//Load n[0] in r12
-        umull r14, r9, r7, r12	//{r9,r14} = res[i] * n[0]
-        add r6, r6, #1 // i++, added here for pipeline efficiency
+        umull r14, r9, r14, r12	//{r9,r14} = res[i] * n[0]
         adds r8, r8, r14
         adc r9, r9, #0        
 
@@ -134,6 +136,7 @@ montMulOpt_ARM:
         mov r4, r5 // t[1] = t[2]
         mov r5, #0 // t[2] = 0
 
+		add r6, r6, #1 // i++
 		b i_loop1
 	exit_i_loop1:
 	
@@ -148,10 +151,9 @@ montMulOpt_ARM:
 
 			// montgomery_multiply(t[0], a, b, i, j);
             sub r14, r6, r7        //Calculate i-j in r14
-            ldr r8, [r0, r7, lsl #2] 	//Load a[j] in r8
             ldr r12, [r1, r14, lsl #2]	//Load b[i-j] in r12
-            umull r8, r9, r8, r12	//{r9,r8} = a[j] * b[i-j]
-            ldr r12, [r2, r14, lsl #2]	//Load n[i-j] in r12 here for pipeline efficiency
+            ldr r14, [r0, r7, lsl #2] 	//Load a[j] in r14
+            umull r8, r9, r14, r12	//{r9,r8} = a[j] * b[i-j]
             adds r8, r8, r3
             adc r9, r9, #0
 
@@ -162,11 +164,10 @@ montMulOpt_ARM:
             adds r5, r5, r9 // t[2] = t[2] + C
 
 			// montgomery_multiply(S, res, n, i, j);
-            //Calculate i-j in r14 already done
-            // r12 = n[i-j] already loaded
+            sub r14, r6, r7        //Calculate i-j in r14
+            ldr r12, [r2, r14, lsl #2]	//Load n[i-j] in r12
             ldr r14, [r10, r7, lsl #2] 	//Load res[j] in r14
             umull r14, r9, r14, r12	//{r9,r14} = res[j] * n[i-j]
-            add r7, r7, #1 // j++, added here for pipeline efficiency
             adds r8, r8, r14
             adc r9, r9, #0
 			
@@ -179,6 +180,7 @@ montMulOpt_ARM:
             adc r9, r9, #0
             adds r5, r5, r9 // t[2] = t[2] + C
 
+			add r7, r7, #1 // j++
 			b j_loop2
 		exit_j_loop2:
 
@@ -195,7 +197,8 @@ montMulOpt_ARM:
 	
 	exit_i_loop2:
 	// res[size] = t[0]
-	str r3, [r10, r11, lsl #2] // res[size] = t[0]
+	add r12, r10, r11, lsl #2 // r12 = &res[size]
+	str r3, [r12] // res[size] = t[0]
 
 	// sub_cond(res, n, size)
 	mov r0, r10 // r0 = res
@@ -210,58 +213,67 @@ montMulOpt_ARM:
 
 .func sub_cond_ARM, sub_cond_ARM
 sub_cond_ARM:
-    // r0 = u, r1 = n, r2 = size
-    push {r4-r8, lr}
-    mov r4, r0          // r4 = u
-    mov r5, r1          // r5 = n
-    mov r6, r2          // r6 = size
+	// r0 = u
+	// r1 = n
+	// r2 = size
+	push {r4-r8, lr}
+	mov r4, r0 // r4 = u
+	mov r5, r1 // r5 = n
+	mov r6, r2 // r6 = size
 
-    // --- STACK ALLOCATION ---
-    add r8, r6, #1      // r8 = size + 1 (number of words)
-    lsl r8, r8, #2      // r8 = (size + 1) * 4 (bytes needed)
-    sub sp, sp, r8      // Allocate space on the stack
-    mov r8, sp          // r8 = temp array pointer (now points to the stack)
-    // -------------------------
+	add r0, r2, #1	// r0 = size + 1
+	bl malloc	// Allocate memory for temp array, pointer in r0
+	cmp r0, #0
+	beq end_sub_cond	// If malloc failed, skip subtraction
+	mov r8, r0 // r8 = temp array pointer, t
 
-    mov r7, #0          // i = 0
-sub_cond_loop:
-    cmp r7, r6          // i > size
-    bgt exit_sub_cond_loop
-    ldr r0, [r4, r7, lsl #2]
-    ldr r1, [r5, r7, lsl #2]
-    cmp r7, #0
-    beq first_sub
-    bne next_sub
-first_sub:
-    subs r2, r0, r1
-    b store_result
-next_sub:
-    sbcs r2, r0, r1
-store_result:
-    str r2, [r8, r7, lsl #2]
-    add r7, r7, #1
-    b sub_cond_loop
-    
-exit_sub_cond_loop:
-    bcc copy_temp_to_u
-    b cleanup_stack
+	mov r7, #0	// i = 0
+	sub_cond_loop:
+		cmp r7, r6	// i > size
+		bgt exit_sub_cond_loop
+		ldr r0, [r4, r7, lsl #2]	// r0 =  u[i]
+		ldr r1, [r5, r7, lsl #2]	// r1 =  n[i]
+		
+		// If i == 0 → start fresh with SUBS (sets carry)
+		// Else continue with SBCS (uses previous carry)
+		cmp r7, #0
+		beq first_sub
+		bne next_sub
 
-copy_temp_to_u:
-    mov r0, r8          // r0 = temp array pointer (stack)
-    mov r1, r4          // r1 = u pointer
-    sub r2, r6, #1
-    bl arr_copy
+		first_sub:
+			subs r2, r0, r1             // r2 = u[i] - n[i]; sets carry
+			b store_result
 
-cleanup_stack:
-    // --- STACK DEALLOCATION ---
-    add r8, r6, #1      // Recalculate bytes to deallocate
-    lsl r8, r8, #2
-    add sp, sp, r8      // Deallocate space from the stack
-    // --------------------------
-
-    pop {r4-r8, lr}
-    bx lr
+		next_sub:
+			sbcs r2, r0, r1             // r2 = u[i] - n[i] - (1 - C); sets carry
+		
+		store_result:
+			str r2, [r8, r7, lsl #2]    // store result in temp array
+		
+		add r7, r7, #1               // i++
+		b sub_cond_loop
+	
+	exit_sub_cond_loop:
+		// If no borrow (C == 1) → copy temp array to u
+		// Else do nothing (u already has correct value)
+		bcc copy_temp_to_u
+		b free_temp
+	
+	copy_temp_to_u:
+		mov r0, r8               // r0 = temp array pointer
+		mov r1, r4               // r1 = u pointer
+		sub r2, r6, #1			 // r2 = (size - 1)
+		bl arr_copy              // copy temp array to u
+	
+	free_temp:
+		// Free temp array
+		mov r0, r8
+		bl free
+	end_sub_cond:
+		pop {r4-r8, lr}
+		bx lr
 .endfunc
+
 
 .text
 
