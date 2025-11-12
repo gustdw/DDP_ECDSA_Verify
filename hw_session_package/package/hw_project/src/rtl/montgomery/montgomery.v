@@ -32,6 +32,7 @@ module montgomery(
     reg [2:0] state, next_state;
     reg [8:0] count; // counter for 381 bits
     reg done;
+    reg done_next;
 
     reg [383:0] C;
     reg [380:0] A_reg, B_reg, M_reg;
@@ -41,9 +42,13 @@ module montgomery(
 
     // Control signals
     reg increment, reset_count;
+    reg increment_next, reset_count_next;
     reg subtract;
+    reg subtract_next;
     reg select_in;
+    reg select_in_next;
     reg [1:0] select_C; // 00 -> 0, 01 -> C, 10 -> adder output (shifted), 11 -> output adder (no shift)
+    reg [1:0] select_C_next;
 
 
     // Sequential logic for state transition
@@ -52,6 +57,25 @@ module montgomery(
             state <= S0;
         end else begin
             state <= next_state;
+        end
+    end
+
+    // Register for control signals (lower critical path)
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
+            increment <= 1'b1;
+            reset_count <= 1'b0;
+            subtract <= 1'b0;
+            select_in <= 1'b1;
+            select_C <= 2'b00;
+            done <= 1'b0;
+        end else begin
+            increment <= increment_next;
+            reset_count <= reset_count_next;
+            subtract <= subtract_next;
+            select_in <= select_in_next;
+            select_C <= select_C_next;
+            done <= done_next;
         end
     end
 
@@ -94,54 +118,54 @@ module montgomery(
 
     // Control signal logic
     always @(*) begin
-        case (state)
+        case (next_state)
             S0: begin
-                select_in = 1'b1;
-                done = 1'b0;
-                increment = 1'b0;
-                reset_count = 1'b1;
-                subtract = 1'b0;
-                select_C = 2'b00;
+                select_in_next = 1'b1;
+                done_next = 1'b0;
+                increment_next = 1'b0;
+                reset_count_next = 1'b1;
+                subtract_next = 1'b0;
+                select_C_next = 2'b00;
             end
             S1: begin
-                select_in = 1'b0;
-                done = 1'b0;
-                increment = 1'b1;
-                reset_count = 1'b0;
-                subtract = 1'b0;
-                select_C = 2'b10;
+                select_in_next = 1'b0;
+                done_next = 1'b0;
+                increment_next = 1'b1;
+                reset_count_next = 1'b0;
+                subtract_next = 1'b0;
+                select_C_next = 2'b10;
             end
             S2: begin
-                select_in = 1'b0;
-                done = 1'b0;
-                increment = 1'b0;
-                reset_count = 1'b0;
-                subtract = 1'b1;
-                select_C = 2'b01;
+                select_in_next = 1'b0;
+                done_next = 1'b0;
+                increment_next = 1'b0;
+                reset_count_next = 1'b0;
+                subtract_next = 1'b1;
+                select_C_next = 2'b01;
             end
             S3: begin
-                select_in = 1'b0;
-                done = 1'b0;
-                increment = 1'b0;
-                reset_count = 1'b0;
-                subtract = 1'b1;
-                select_C = 2'b11;
+                select_in_next = 1'b0;
+                done_next = 1'b0;
+                increment_next = 1'b0;
+                reset_count_next = 1'b0;
+                subtract_next = 1'b1;
+                select_C_next = 2'b11;
             end
             S4: begin
-                select_in = 1'b0;
-                done = 1'b1;
-                increment = 1'b0;
-                reset_count = 1'b0;
-                subtract = 1'b0;
-                select_C = 2'b01;
+                select_in_next = 1'b0;
+                done_next = 1'b1;
+                increment_next = 1'b0;
+                reset_count_next = 1'b0;
+                subtract_next = 1'b0;
+                select_C_next = 2'b01;
             end
             default: begin
-                select_in = 1'b0;
-                done = 1'b0;
-                increment = 1'b0;
-                reset_count = 1'b0;
-                subtract = 1'b0;
-                select_C = 2'b00;
+                select_in_next = 1'b0;
+                done_next = 1'b0;
+                increment_next = 1'b0;
+                reset_count_next = 1'b0;
+                subtract_next = 1'b0;
+                select_C_next = 2'b00;
             end
         endcase
     end
