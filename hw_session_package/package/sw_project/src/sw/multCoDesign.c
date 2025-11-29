@@ -40,7 +40,6 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   Xil_DCacheFlushRange((UINTPTR)m, 32 * sizeof(uint32_t));
 
   // Populate the address table with the *base addresses* of the operand arrays.
-  // The DMA will read the entire 128-byte aligned block.
   addr_table[0] = (uint32_t)a;
   addr_table[1] = (uint32_t)b;
   addr_table[2] = (uint32_t)m;
@@ -74,12 +73,10 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   Xil_DCacheInvalidateRange((UINTPTR)res, 32 * sizeof(uint32_t));
   
   printf("MONTGOMERY STATUS 0 %08X | Done %d | Idle %d | Error %d \n\r", (unsigned int)HWreg[STATUS], ISFLAGSET(HWreg[STATUS],0), ISFLAGSET(HWreg[STATUS],1), ISFLAGSET(HWreg[STATUS],2));
-  xil_printf("HW rout1(result LSB): %08X\n\r", (unsigned int)HWreg[1]);
-  xil_printf("HW rout2(addr_table): %08X\n\r", (unsigned int)HWreg[2]);
-  xil_printf("HW rout3(argc):       %08X\n\r", (unsigned int)HWreg[3]);
-  xil_printf("HW rout4(addr_buff):  %08X\n\r", (unsigned int)HWreg[4]);
-  xil_printf("HW rout5(val_buff):   %08X\n\r", (unsigned int)HWreg[5]);
-  xil_printf("HW rout6(DEADBEEF):   %08X\n\r", (unsigned int)HWreg[6]);
+  printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
+  xil_printf("HW rout1(addr_buff 0): %08X\n\r", (unsigned int)HWreg[1]);
+  xil_printf("HW rout2(addr_buff 1): %08X\n\r", (unsigned int)HWreg[2]);
+  xil_printf("HW rout3(addr_buff 2): %08X\n\r", (unsigned int)HWreg[3]);
   
   print_array_contents("a", a);
   print_array_contents("b", b);

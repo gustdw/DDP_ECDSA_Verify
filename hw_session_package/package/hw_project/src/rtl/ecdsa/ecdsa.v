@@ -1,4 +1,4 @@
-module ecdsa #(parameter MAX_ARGC = 5) (
+module ecdsa #(parameter MAX_ARGC = 3) (
     input  wire          clk,
     input  wire          resetn,
     output wire   [ 3:0] leds,
@@ -39,14 +39,19 @@ module ecdsa #(parameter MAX_ARGC = 5) (
 
   // Only one output register is used. It will the status of FPGA's execution.
   wire [31:0] status, result;
-  assign rout0 = status; // use rout0 as status
-  assign rout1 = result[31:0];  // As a test, return the least-significant 32-bits of the result
-  assign rout2 = addr_table_base;  // not used
-  assign rout3 = argc;  // not used
-  assign rout4 = input_addr_buff[31:0];  // not used
-  assign rout5 = input_value_buff[31:0];  // not used
-  assign rout6 = 32'hDEADBEEF;  // not used
-  assign rout7 = 32'b0;  // not used
+  // assign rout0 = status; // use rout0 as status
+  // assign rout1 = mont_mult_result[31:0];  // As a test, return the least-significant 32-bits of the result
+  // assign rout2 = input_addr_buff[31:0];  // not used
+  // assign rout3 = input_value_buff[31:0];  // not used
+  // assign rout4 = addr_table_base;  // not used
+  // assign rout5 = argc;  // not used
+  // assign rout6 = 32'hDEADBEEF;  // not used
+  // assign rout7 = 32'b0;  // not used
+  assign rout0 = status; // use rout0 as status --- IGNORE ---
+  assign rout1 = input_addr_buff[31:0];  // As a test, return the least-significant 32-bits of the result --- IGNORE ---
+  assign rout2 = input_addr_buff[63:32];  // not used --- IGNORE ---
+  assign rout3 = input_addr_buff[95:64];  // not used --- IGNORE ---
+
 
 localparam
     CMD_MONT_MULT = 32'd1,
@@ -63,13 +68,15 @@ localparam
   localparam
     STATE_IDLE        = 4'd0,
     STATE_LOAD_INPUT_TABLE = 4'd1,
-    STATE_READ_INPUT_TABLE = 4'd2,
-    STATE_LOAD_VALUE_TABLE = 4'd3,
-    STATE_READ_VALUE_TABLE = 4'd4,
-    STATE_COMPUTE     = 4'd5,
-    STATE_TX          = 4'd6,
-    STATE_TX_WAIT     = 4'd7,
-    STATE_DONE        = 4'd8;
+    STATE_WAIT_INPUT_TABLE = 4'd2,
+    STATE_READ_INPUT_TABLE = 4'd3,
+    STATE_LOAD_VALUE_TABLE = 4'd4,
+    STATE_WAIT_VALUE_TABLE = 4'd5,
+    STATE_READ_VALUE_TABLE = 4'd6,
+    STATE_COMPUTE     = 4'd7,
+    STATE_TX          = 4'd8,
+    STATE_TX_WAIT     = 4'd9,
+    STATE_DONE        = 4'd10;
 
   // The state machine
   reg [3:0] state = STATE_IDLE;
@@ -79,7 +86,6 @@ localparam
   wire inputs_loaded;
   assign inputs_loaded = (counter == argc - 1);
   
-
   always@(*) begin
     // state defined logic
     case (state)
@@ -91,7 +97,11 @@ localparam
       // Wait, if dma is not idle. Otherwise, start dma operation and go to
       // next state to wait its completion.
       STATE_LOAD_INPUT_TABLE: begin
-        next_state <= (~dma_idle) ? STATE_READ_INPUT_TABLE : state;
+        next_state <= (~dma_idle) ? STATE_WAIT_INPUT_TABLE : state;
+      end
+
+      STATE_WAIT_INPUT_TABLE : begin
+        next_state <= (dma_done) ? STATE_READ_INPUT_TABLE : state;
       end
 
       // Wait the completion of dma.
@@ -100,7 +110,11 @@ localparam
       end
 
       STATE_LOAD_VALUE_TABLE : begin
-        next_state <= (~dma_idle) ? STATE_READ_VALUE_TABLE : state;
+        next_state <= (~dma_idle) ? STATE_WAIT_VALUE_TABLE : state;
+      end
+      
+      STATE_WAIT_VALUE_TABLE : begin
+        next_state <= (dma_done) ? STATE_READ_VALUE_TABLE : state;
       end
 
       STATE_READ_VALUE_TABLE : begin
@@ -183,6 +197,13 @@ localparam
       counter <= 0;
     end else begin
       case (state)
+        STATE_IDLE : begin
+          r_data <= 0;
+          offset_32 <= 0;
+          offset_381 <= 0;
+          counter <= 0;
+        end
+
         STATE_LOAD_INPUT_TABLE : begin
           if (counter == 0) begin
             dma_rx_address <= addr_table_base;
@@ -191,32 +212,34 @@ localparam
           end
         end
 
+        STATE_WAIT_INPUT_TABLE : begin
+          input_addr_buff[offset_32+31 -: 32] <= (dma_done) ? dma_rx_data[31 -: 32] : input_addr_buff[offset_32+31 -: 32];
+        end
+
         // Load in each address of the inputarguments into the input_values_buffer. 
         // After this, argc input arguments should be loaded in.
         // Goes to next state when inputs_loaded (= (counter==argc)) == 1
         STATE_READ_INPUT_TABLE : begin
-          if (dma_done) begin
-            input_addr_buff[offset_32+31 -: 31] <= dma_rx_data;
-            counter <= counter + 1;
-            offset_32 <= offset_32 + 32;
-          end
+          counter <= counter + 1;
+          offset_32 <= offset_32 + 32;
         end
 
         STATE_LOAD_VALUE_TABLE: begin
           if (counter == 0) begin
             dma_rx_address <= input_addr_buff[31:0];
           end else begin
-            dma_rx_address <= input_addr_buff[offset_32+31 -: 31];
+            dma_rx_address <= input_addr_buff[offset_32+31 -: 32];
           end
         end
 
+        STATE_WAIT_VALUE_TABLE : begin
+          input_value_buff[offset_381+380 -: 381] <= (dma_done) ? dma_rx_data[380:0] : input_value_buff[offset_381+380 -: 381];
+        end
+
         STATE_READ_VALUE_TABLE: begin
-          if (dma_done) begin
-            input_value_buff[offset_381+380 -: 380] <= dma_rx_data;
-            counter <= counter + 1;
-            offset_32 <= offset_32 + 32;
-            offset_381 <= offset_381 + 381;
-          end
+          counter <= counter + 1;
+          offset_32 <= offset_32 + 32;
+          offset_381 <= offset_381 + 381;
         end
 
         STATE_COMPUTE : begin
@@ -233,7 +256,7 @@ localparam
       endcase
       // Handle the counter reset between the two loops specifically:
       // If we are finishing READ_INPUT and moving to LOAD_VALUE, we must reset counter/offsets.
-      if (state == STATE_READ_INPUT_TABLE && dma_done && counter == argc) begin
+      if (state == STATE_READ_INPUT_TABLE && counter == argc - 1) begin
           counter <= 0;
           offset_32 <= 0; // Reset offset_32 so we can read from the start of input_addr_buff
       end
@@ -245,14 +268,14 @@ localparam
   // Status signals to the CPU
   wire isStateIdle = (state == STATE_IDLE);
   wire isStateDone = (state == STATE_DONE);
-  assign status = {29'b0, dma_error, isStateIdle, isStateDone};
+  assign status = {16'hDEAD, 13'b0, dma_error, isStateIdle, isStateDone};
   
   assign leds = state; // for debugging: show current state on leds
 
 
   // Multiplier
   wire mont_mult_start, mont_mult_done;
-  wire [380:0] mont_mult_result;
+  wire [380:0] mont_mult_result, mont_mult_a, mont_mult_b, mont_mult_m;
   assign mont_mult_start = (state == STATE_COMPUTE && isCmdMontMult);
   assign mont_mult_a = input_value_buff[380 : 0];
   assign mont_mult_b = input_value_buff[2*381-1 : 381];
