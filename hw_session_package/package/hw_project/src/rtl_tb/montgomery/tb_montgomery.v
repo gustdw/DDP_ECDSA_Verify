@@ -46,10 +46,14 @@ module tb_montgomery();
         #`RESET_TIME
         
         // You can generate your own with test vector generator python script
-        in_a           <= 381'h01b8a552b0f9f0ec9a380d9663d7e16cd96fe122a8b4f1e212c00772de94d88c20060be12d6c3abb0a05600685e8916a;
-        in_b           <= 381'h0d0701fec5b8695ee00b13b98bfb7aa172c5f3f5702915d66a6ab12f5f5fb7048142eb8c8837de3d99f8364b9bbd7275;
-        in_m           <= 381'h108fdf5201b93e63e66c6e844aed030c61606436db4ffcbb6eec116e1df61006ae2ab0260b537e7c7a65f0407a6e75f5;
-        expected       <= 381'h0491d0a6d5d908239837691e8b0db0ec9e20394d914bcbaa42fb56716b7a983e6070bb8e01d56ce9283332206408310f;
+        //in_a           <= 381'h01b8a552b0f9f0ec9a380d9663d7e16cd96fe122a8b4f1e212c00772de94d88c20060be12d6c3abb0a05600685e8916a;
+        //in_b           <= 381'h0d0701fec5b8695ee00b13b98bfb7aa172c5f3f5702915d66a6ab12f5f5fb7048142eb8c8837de3d99f8364b9bbd7275;
+        //in_m           <= 381'h108fdf5201b93e63e66c6e844aed030c61606436db4ffcbb6eec116e1df61006ae2ab0260b537e7c7a65f0407a6e75f5;
+        //expected       <= 381'h0491d0a6d5d908239837691e8b0db0ec9e20394d914bcbaa42fb56716b7a983e6070bb8e01d56ce9283332206408310f;
+        in_a <= 381'h2;
+        in_b <= 381'h3;
+        in_m <= 381'h5;
+        expected <= 381'h1;
         start<=1;
         #`CLK_PERIOD;
         start<=0;

@@ -290,6 +290,7 @@ module interfacer#(
   assign dma_done     = (m_axi_dma_rready & m_axi_dma_rvalid) | m_axi_dma_bvalid;
   assign dma_idle     = (state == S_IDLE);
   assign dma_c2f_data = m_axi_dma_rdata[1023:643];
+  //assign dma_c2f_data = m_axi_dma_rdata[380:0];
   
 
 endmodule

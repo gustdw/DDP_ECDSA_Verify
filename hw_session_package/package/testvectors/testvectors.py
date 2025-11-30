@@ -188,6 +188,8 @@ if operation == 6:
   signature = SW.ecdsa_sign(private_key, message)
   K, s = signature
 
+  print(K[0])
+
   print("Signature:")
   print(f"K.x          <= 381'h{K[0]:096x};")
   print(f"K.y          <= 381'h{K[1]:096x};")

@@ -25,7 +25,7 @@ uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, 
 
     EC_mult((EC_point_t*)G, (uint32_t*)message, Q);
     EC_mult((EC_point_t*)public_key, K_X_Modn, L);
-    EC_add(Q, L, C);
+    EC_add_HW(Q, L, C);
     EC_mult((EC_point_t*)&signature->K, (uint32_t*)signature->s, C_prime);
 
     // Compare C and C_prime
