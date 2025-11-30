@@ -41,9 +41,9 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   Xil_DCacheFlushRange((UINTPTR)m, 32 * sizeof(uint32_t));
 
   // Populate the address table with the *base addresses* of the operand arrays.
-  addr_table[29] = (uint32_t)a;
+  addr_table[31] = (uint32_t)a;
   addr_table[30] = (uint32_t)b;
-  addr_table[31] = (uint32_t)m;
+  addr_table[29] = (uint32_t)m;
 
   // Flush the address table itself so the hardware can read it via DMA.
   Xil_DCacheFlushRange((UINTPTR)addr_table, sizeof(addr_table));

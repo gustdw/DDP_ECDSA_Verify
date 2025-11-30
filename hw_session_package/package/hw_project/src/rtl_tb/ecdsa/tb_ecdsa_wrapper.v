@@ -209,9 +209,7 @@ module tb_ecdsa_wrapper();
     mem_write(B_ADDR, 1024'd3 << (643));
     mem_write(M_ADDR, 1024'd5 << (643));
 
-    mem_write(MEM_ARRAY, (16'b0 << 80 | M_ADDR << 64 | 16'b0 << 48 | B_ADDR << 32| 16'b0 << 16 | A_ADDR) << (1024-96)); // addr_table[0] = &a
-    //mem_write_array(MEM_ARRAY + 32, B_ADDR); // addr_table[1] = &b
-    //mem_write_array(MEM_ARRAY + 64, M_ADDR); // addr_table[2] = &m
+    mem_write(MEM_ARRAY, (16'b0 << 80 | A_ADDR << 64 | 16'b0 << 48 | B_ADDR << 32| 16'b0 << 16 | M_ADDR) << (1024-96)); // addr_table[0] = &a
 
     reg_write(ADDR_TABLE_BASE, MEM_ARRAY); // addr_table base address
     reg_write(ARGC, 32'd3);

@@ -1,4 +1,4 @@
-module ecdsa #(parameter MAX_ARGC = 3) (
+module ecdsa #(parameter MAX_ARGC = 4) (
     input  wire          clk,
     input  wire          resetn,
     output wire   [ 3:0] leds,
@@ -224,9 +224,10 @@ localparam
         STATE_LOAD_VALUE_TABLE: begin
           // Explicit MUX based on counter
           case (counter)
-              0: dma_rx_address <= input_addr_buff[31:0];
-              1: dma_rx_address <= input_addr_buff[63:32];
-              2: dma_rx_address <= input_addr_buff[95:64];
+              0: dma_rx_address <= input_addr_buff[((MAX_ARGC-0)*32 - 1) -: 32];
+              1: dma_rx_address <= input_addr_buff[((MAX_ARGC-1)*32 - 1) -: 32];
+              2: dma_rx_address <= input_addr_buff[((MAX_ARGC-2)*32 - 1) -: 32];
+              3: dma_rx_address <= input_addr_buff[((MAX_ARGC-3)*32 - 1) -: 32];
               default: dma_rx_address <= 32'h0;
           endcase
       end
@@ -238,6 +239,7 @@ localparam
                   0: input_value_buff[380:0]     <= dma_rx_data[380:0];
                   1: input_value_buff[761:381]   <= dma_rx_data[380:0];
                   2: input_value_buff[1142:762]  <= dma_rx_data[380:0];
+                  3: input_value_buff[1523:1143] <= dma_rx_data[380:0];
               endcase
           end
       end
