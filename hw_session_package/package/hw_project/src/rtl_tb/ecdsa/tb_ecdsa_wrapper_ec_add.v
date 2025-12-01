@@ -6,7 +6,7 @@
 `define CLK_PERIOD   10
 `define CLK_HALF      5
 
-module tb_ecdsa_wrapper();
+module tb_ecdsa_wrapper_ec_add();
     
   reg           clk         ;
   reg           resetn      ;
@@ -187,17 +187,26 @@ module tb_ecdsa_wrapper();
 
   // Byte Addresses of 32-bit registers
   localparam  COMMAND = 0, // r0
-              ADDR_TABLE_BASE  = 4, // r1
-              ARGC  = 8, // r2
-              RES_ADDR = 12, // r3
+              ADDR_TABLE_BASE_I  = 4, // r1
+              ARGC_I  = 8, // r2
+              ADDR_TABLE_BASE_O = 12,
+              ARGC_O = 16,
+
               STATUS  = 0;
 
   // Byte Addresses of 1024-bit distant memory locations
-  localparam  MEM_ARRAY = 16'h280,
-              A_ADDR  = 16'h80,
-              B_ADDR  = 16'h100,
-              M_ADDR  = 16'h180,
-              R_ADDR = 16'h200;
+  localparam  MEM_ARRAY_I = 16'h0,
+              Xp_ADDR  = 16'h80,
+              Yp_ADDR  = 16'h100,
+              Zp_ADDR  = 16'h180,
+              Xq_ADDR  = 16'h200,
+              Yq_ADDR  = 16'h280,
+              Zq_ADDR  = 16'h300,
+              M_ADDR  = 16'h380,
+              MEM_ARRAY_O = 16'h400,
+              Xr_ADDR = 16'h480,
+              Yr_ADDR = 16'h500,
+              Zr_ADDR = 16'h580;
 
   reg [31:0] reg_status;
 
@@ -205,17 +214,25 @@ module tb_ecdsa_wrapper();
 
     #`LONG_WAIT
 
-    mem_write(A_ADDR, 1024'd2 << (643));
-    mem_write(B_ADDR, 1024'd3 << (643));
-    mem_write(M_ADDR, 1024'd5 << (643));
+    mem_write(Xp_ADDR, 1024'd1 << (643));
+    mem_write(Yp_ADDR, 1024'd2 << (643));
+    mem_write(Zp_ADDR, 1024'd3 << (643));
 
-    mem_write(MEM_ARRAY, (16'b0 << 80 | A_ADDR << 64 | 16'b0 << 48 | B_ADDR << 32| 16'b0 << 16 | M_ADDR) << (1024-96)); // addr_table[0] = &a
+    mem_write(Xq_ADDR, 1024'd1 << (643));
+    mem_write(Yq_ADDR, 1024'd2 << (643));
+    mem_write(Zq_ADDR, 1024'd3 << (643));
+    
+    mem_write(M_ADDR, 1024'd10 << (643));
 
-    reg_write(ADDR_TABLE_BASE, MEM_ARRAY); // addr_table base address
-    reg_write(ARGC, 32'd3);
-    reg_write(RES_ADDR, R_ADDR); // result address
+    mem_write(MEM_ARRAY_I, (16'b0 << 208 | Xp_ADDR << 192 | 16'b0 << 176 | Yp_ADDR << 160| 16'b0 << 144 | Zp_ADDR << 128 | 16'b0 << 112 | Xq_ADDR << 96 | 16'b0 << 80 | Yq_ADDR << 64 | 16'b0 << 48 | Zq_ADDR << 32 | 16'b0 << 16 | M_ADDR) << (1024-224)); // addr_table[0] = &a
+    mem_write(MEM_ARRAY_O, (16'b0 << 80 | Xr_ADDR << 64 | 16'b0 << 48 | Yr_ADDR << 32 | 16'b0 << 16 | Zr_ADDR) << (1024-96)); // addr_table[31] = &r
 
-    reg_write(COMMAND, 32'h00000001); // start command
+    reg_write(ADDR_TABLE_BASE_I, MEM_ARRAY_I); // addr_table base address
+    reg_write(ARGC_I, 32'd7);
+    reg_write(ADDR_TABLE_BASE_O, MEM_ARRAY_O); // result address
+    reg_write(ARGC_O, 32'd3);
+
+    reg_write(COMMAND, 32'h00000002); // start command
     
     // Poll Done Signal
     reg_read(COMMAND, reg_status);
@@ -226,8 +243,6 @@ module tb_ecdsa_wrapper();
     end
     
     reg_write(COMMAND, 32'h00000000);
-
-    mem_read(RES_ADDR);
 
     $finish;
 
