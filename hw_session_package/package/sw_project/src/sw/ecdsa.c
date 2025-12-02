@@ -23,10 +23,10 @@ uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, 
         return -1; // Indicate error
     }
 
-    EC_mult((EC_point_t*)G, (uint32_t*)message, Q);
-    EC_mult((EC_point_t*)public_key, K_X_Modn, L);
-    EC_add_HW(Q, L, C);
-    EC_mult((EC_point_t*)&signature->K, (uint32_t*)signature->s, C_prime);
+    EC_mult((EC_point_t*)G, (uint32_t*)message, Q, modulus);
+    EC_mult((EC_point_t*)public_key, K_X_Modn, L, modulus);
+    EC_add_HW(Q, L, C, (uint32_t*)modulus);
+    EC_mult((EC_point_t*)&signature->K, (uint32_t*)signature->s, C_prime, modulus);
 
     // Compare C and C_prime
     uint32_t LHS[32];
