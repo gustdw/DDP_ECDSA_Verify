@@ -6,8 +6,6 @@
 #include <stdlib.h>
 
 uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, const EC_point_t *public_key, const EC_point_t *G, uint32_t K_X_Modn[32], const uint32_t modulus[32]) {
-    // Allocate memory for EC_point_t structs. Using malloc ensures they are
-    // on the heap, avoiding stack overflow with large structs.
     EC_point_t *Q = malloc(sizeof(EC_point_t));
     EC_point_t *L = malloc(sizeof(EC_point_t));
     EC_point_t *C = malloc(sizeof(EC_point_t));
@@ -15,12 +13,11 @@ uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, 
     
     // Check for allocation failures
     if (!Q || !L || !C || !C_prime) {
-        // Handle allocation failure
         if (Q) free(Q);
         if (L) free(L);
         if (C) free(C);
         if (C_prime) free(C_prime);
-        return -1; // Indicate error
+        return -1;
     }
 
     EC_mult((EC_point_t*)G, (uint32_t*)message, Q, modulus);
