@@ -34,7 +34,7 @@ uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, 
     montMul_HW(C->Z, C_prime->X, modulus, LHS);
     montMul_HW(C_prime->Z, C->X, modulus, RHS);
     
-    int result = memcmp(LHS, RHS, 32 * sizeof(uint32_t));
+    uint8_t result = memcmp(LHS, RHS, 32 * sizeof(uint32_t));
 
     // Free the allocated memory before returning
     free(Q);

@@ -36,28 +36,26 @@ module ecdsa #(parameter MAX_ARGC_I = 7, parameter MAX_ARGC_O = 3) (
 
   // Internal signals
   reg [MAX_ARGC_I*32-1:0] input_addr_buff; // buffer to hold all input addresses read from memory, MAX_ARGC_I is a random number, should be revisited after all operations are in place
-  reg [MAX_ARGC_I*381-1:0] input_value_buff; // buffer to hold all the dereferenced input addresses.
+  reg [380:0] buff_0; // Mont A / EC Xp
+  reg [380:0] buff_1; // Mont B / EC Yp
+  reg [380:0] buff_2; // Mont M / EC Zp
+  reg [380:0] buff_3; // EC Xq
+  reg [380:0] buff_4; // EC Yq
+  reg [380:0] buff_5; // EC Zq
+  reg [380:0] buff_6; // EC M
 
   reg [MAX_ARGC_O*32-1:0] output_addr_buff; // buffer to hold all output addresses read from memory
 
   // Only one output register is used. It will the status of FPGA's execution.
   wire [31:0] status;
-  // assign rout0 = status; // use rout0 as status
-  // assign rout1 = mont_mult_result[31:0];  // As a test, return the least-significant 32-bits of the result
-  // assign rout2 = input_addr_buff[31:0];  // not used
-  // assign rout3 = input_value_buff[31:0];  // not used
-  // assign rout4 = addr_table_base_i;  // not used
-  // assign rout5 = argc_i;  // not used
-  // assign rout6 = 32'hDEADBEEF;  // not used
-  // assign rout7 = 32'b0;  // not used
   assign rout0 = status; // use rout0 as status --- IGNORE ---
   assign rout1 = 0;
   assign rout2 = 0;
   assign rout3 = 0;
   assign rout4 = 0;
-  assign rout5 = input_value_buff[284 -: 32];
-  assign rout6 = input_value_buff[252 -: 32];
-  assign rout7 = mont_mult_result[380 -: 32];
+  assign rout5 = 0;
+  assign rout6 = 0;
+  assign rout7 = 0;
 
 
 localparam
@@ -97,8 +95,8 @@ localparam
   wire inputs_loaded, outputs_written, computation_done;
   assign inputs_loaded = (counter == argc_i - 1);
   assign outputs_written = (counter == argc_o - 1);
-  assign computation_done = (isCmdMontMult) ? mont_mult_done :
-                            (isCmdECAdd)    ? ec_add_done :
+  assign computation_done = (isCmdMontMult) ? mont_done_reg :
+                            (isCmdECAdd)    ? ec_done_reg :
                             1'b0;
   
   always@(*) begin
@@ -257,13 +255,13 @@ localparam
           if (dma_done) begin
               // Explicit write enable based on counter
               case (counter)
-                  0: input_value_buff[380:0]     <= dma_rx_data[380:0];
-                  1: input_value_buff[761:381]   <= dma_rx_data[380:0];
-                  2: input_value_buff[1142:762]  <= dma_rx_data[380:0];
-                  3: input_value_buff[1523:1143] <= dma_rx_data[380:0];
-                  4: input_value_buff[1904:1524] <= dma_rx_data[380:0];
-                  5: input_value_buff[2285:1905] <= dma_rx_data[380:0];
-                  6: input_value_buff[2666:2286] <= dma_rx_data[380:0];
+                  0: buff_0     <= dma_rx_data[380:0];
+                  1: buff_1     <= dma_rx_data[380:0];
+                  2: buff_2     <= dma_rx_data[380:0];
+                  3: buff_3     <= dma_rx_data[380:0];
+                  4: buff_4     <= dma_rx_data[380:0];
+                  5: buff_5     <= dma_rx_data[380:0];
+                  6: buff_6     <= dma_rx_data[380:0];
                   default: ;
               endcase
           end
@@ -274,10 +272,6 @@ localparam
         end
 
         STATE_COMPUTE : begin
-          case (command)
-            CMD_MONT_MULT: r_data <= (mont_mult_done) ? mont_mult_result : r_data;
-            CMD_EC_ADD: r_data <= (ec_add_done) ? ec_add_Xr : r_data;
-          endcase
         end
 
         STATE_LOAD_OUTPUT_TABLE : begin
@@ -311,14 +305,6 @@ localparam
 
         STATE_TX_UPDATE: begin
           counter <= counter + 1;
-          case (command)
-            CMD_EC_ADD:
-              case (counter)
-                0: r_data <= ec_add_Xr;
-                1: r_data <= ec_add_Yr;
-                2: r_data <= ec_add_Zr;
-              endcase
-          endcase
         end
 
         default: begin
@@ -333,61 +319,92 @@ localparam
   end
   assign dma_tx_data = r_data;
 
+  // --- OUTPUT DATA ---
+  always @(posedge clk) begin
+      if (~resetn) begin 
+          r_data <= 0; 
+      end else begin
+          if (mont_mult_done && isCmdMontMult) 
+              r_data <= mont_result_reg;
+          
+          else if (state == STATE_TX || state == STATE_TX_UPDATE) begin
+              if (isCmdECAdd) begin
+                  case (counter)
+                      0: r_data <= ec_add_Xr;
+                      1: r_data <= ec_add_Yr;
+                      2: r_data <= ec_add_Zr;
+                      default: r_data <= ec_add_Xr;
+                  endcase
+              end
+          end
+      end
+  end
+
   // Status signals to the CPU
   wire isStateIdle = (state == STATE_IDLE);
   wire isStateDone = (state == STATE_DONE);
   assign status = {29'b0, dma_error, isStateIdle, isStateDone};
   
-  assign leds = state; // for debugging: show current state on leds
-
   // --- ECDSA OPERATIONS INSTANCES ---
+  reg start_pulse;
+  always @(posedge clk) begin
+      if (~resetn) 
+          start_pulse <= 0;
+      else 
+          // Pulse high ONLY when transitioning INTO compute state
+          start_pulse <= (state == STATE_READ_VALUE_TABLE && inputs_loaded); 
+  end
+
   // Multiplier
-  wire mont_mult_start, mont_mult_done;
-  wire [380:0] mont_mult_result, mont_mult_a, mont_mult_b, mont_mult_m;
-  assign mont_mult_start = (state == STATE_COMPUTE && isCmdMontMult);
-  assign mont_mult_a = input_value_buff[380 : 0];
-  assign mont_mult_b = input_value_buff[2*381-1 : 381];
-  assign mont_mult_m = input_value_buff[3*381-1 : 2*381];
+  reg [380:0] mont_result_reg;
+  reg         mont_done_reg, ec_done_reg;
+
+  // Update these registers only when we are about to compute
+  always @(posedge clk) begin
+      if (~resetn) begin
+          mont_done_reg  <= 0;
+          mont_result_reg <= 0;
+          ec_done_reg  <= 0;
+      end else begin
+          if (state == STATE_IDLE) begin
+              mont_done_reg  <= 0;
+              ec_done_reg  <= 0;
+          end
+          mont_done_reg  <= (isCmdMontMult && mont_mult_done); // latch done signal
+          if (mont_done_reg) mont_result_reg <= mont_mult_result;
+          ec_done_reg  <= (isCmdECAdd && ec_add_done); // latch done signal
+      end
+  end
+  
+  // Multiplier Instance
+  wire [380:0] mont_mult_result; // Output remains a wire for now
+  wire mont_mult_done;
+
   montgomery montgomery_instance (
-    .clk (clk),
+    .clk    (clk),
     .resetn (resetn),
-    .start (mont_mult_start),
-    .in_a (mont_mult_a),
-    .in_b (mont_mult_b),
-    .in_m (mont_mult_m),
-    .done (mont_mult_done),
+    .start  (start_pulse && isCmdMontMult),
+    .in_a   (buff_0),
+    .in_b   (buff_1),
+    .in_m   (buff_2),
+    .done   (mont_mult_done),
     .result (mont_mult_result)
   );
 
-  // EC Addition
-  wire ec_add_start, ec_add_done;
-  assign ec_add_start = (state == STATE_COMPUTE && isCmdECAdd);
-
-  wire [380:0] ec_add_Xp, ec_add_Yp, ec_add_Zp;
-  assign ec_add_Xp = input_value_buff[1*381-1 -: 381];
-  assign ec_add_Yp = input_value_buff[2*381-1 -: 381];
-  assign ec_add_Zp = input_value_buff[3*381-1 -: 381];
-
-  wire [380:0] ec_add_Xq, ec_add_Yq, ec_add_Zq;
-  assign ec_add_Xq = input_value_buff[4*381-1 -: 381];
-  assign ec_add_Yq = input_value_buff[5*381-1 -: 381];
-  assign ec_add_Zq = input_value_buff[6*381-1 -: 381];
-
-  wire [380:0] ec_add_M;
-  assign ec_add_M = input_value_buff[7*381-1 -: 381];
-
+  // EC Addition Instance
   wire [380:0] ec_add_Xr, ec_add_Yr, ec_add_Zr;
+
   EC_adder ec_adder_inst (
     .clk(clk),
     .resetn(resetn),
-    .start(ec_add_start),
-    .Xp(ec_add_Xp),
-    .Yp(ec_add_Yp),
-    .Zp(ec_add_Zp),
-    .Xq(ec_add_Xq),
-    .Yq(ec_add_Yq),
-    .Zq(ec_add_Zq),
-    .M(ec_add_M),
+    .start(start_pulse && isCmdECAdd),
+    .Xp(buff_0),
+    .Yp(buff_1),
+    .Zp(buff_2),
+    .Xq(buff_3),
+    .Yq(buff_4),
+    .Zq(buff_5),
+    .M(buff_6),
     .Xr(ec_add_Xr),
     .Yr(ec_add_Yr),
     .Zr(ec_add_Zr),
