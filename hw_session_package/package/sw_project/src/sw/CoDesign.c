@@ -73,19 +73,19 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   // the CPU reads the new data from DRAM.
   Xil_DCacheInvalidateRange((UINTPTR)res, 32 * sizeof(uint32_t));
   
-  printf("MONTGOMERY STATUS 0 %08X | Done %d | Idle %d | Error %d \n\r", (unsigned int)HWreg[STATUS], ISFLAGSET(HWreg[STATUS],0), ISFLAGSET(HWreg[STATUS],1), ISFLAGSET(HWreg[STATUS],2));
-  printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
-  xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
-  xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
-  xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
-  xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
-  xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
-  xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
-  xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
-  
-  print_array_contents("a", a);
-  print_array_contents("b", b);
-  print_array_contents("result", res);
+  // printf("MONTGOMERY STATUS 0 %08X | Done %d | Idle %d | Error %d \n\r", (unsigned int)HWreg[STATUS], ISFLAGSET(HWreg[STATUS],0), ISFLAGSET(HWreg[STATUS],1), ISFLAGSET(HWreg[STATUS],2));
+  // printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
+  // xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
+  // xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
+  // xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
+  // xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
+  // xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
+  // xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
+  // xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
+  // 
+  // print_array_contents("a", a);
+  // print_array_contents("b", b);
+  // print_array_contents("result", res);
 }
 
 void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
@@ -136,7 +136,7 @@ void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
 
   // --- Send commands to Hardware ---
   HWreg[ADDR_TABLE_BASE_I] = (uint32_t)addr_table_i;
-  HWreg[ARGC_I] = 6;
+  HWreg[ARGC_I] = 7;
   HWreg[ADDR_TABLE_BASE_O] = (uint32_t)addr_table_o;
   HWreg[ARGC_O] = 3;
   HWreg[COMMAND] = EC_ADD_START; // Start operation
@@ -152,16 +152,16 @@ void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
   Xil_DCacheInvalidateRange((UINTPTR)R->Y, 32 * sizeof(uint32_t));
   Xil_DCacheInvalidateRange((UINTPTR)R->Z, 32 * sizeof(uint32_t));
   
-  printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
-  xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
-  xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
-  xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
-  xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
-  xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
-  xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
-  xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
+  // printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
+  // xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
+  // xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
+  // xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
+  // xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
+  // xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
+  // xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
+  // xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
   
-  print_array_contents("result Rx", R->X); // Example: print R->X as result
-  print_array_contents("result Ry", R->Y); // Example: print R->Y as result
-  print_array_contents("result Rz", R->Z); // Example: print R->Z as result
+  // print_array_contents("result Rx", R->X); // Example: print R->X as result
+  // print_array_contents("result Ry", R->Y); // Example: print R->Y as result
+  // print_array_contents("result Rz", R->Z); // Example: print R->Z as result
 }

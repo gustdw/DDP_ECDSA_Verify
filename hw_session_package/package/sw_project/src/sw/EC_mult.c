@@ -1,4 +1,6 @@
 #include "EC_mult.h"
+#include "EC_add_HW_ASM.h"
+#include <string.h>
 
 #define ISBITSET(WORD,BIT) ( (WORD & (1<<BIT)) ? 1 : 0 )
 
@@ -30,9 +32,9 @@ void EC_mult(EC_point_t *P, uint32_t s[32], EC_point_t *R, const uint32_t modulu
 highest_bit_found:
     for (int32_t i = first_word_index; i >= 20; i--) {
         for (int32_t j = (i == first_word_index) ? first_bit_index : 31; j >= 0; j--) {
-            EC_add_HW(R, R, R, modulus); // R = R + R
+            EC_add_HW_ASM(R, R, R, modulus); // R = R + R
             if (ISBITSET(s[i], j)) {
-                EC_add_HW(R, P, R, modulus); // R = R + P
+                EC_add_HW_ASM(R, P, R, modulus); // R = R + P
             }
         }
     }

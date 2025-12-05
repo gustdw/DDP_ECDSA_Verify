@@ -25,14 +25,15 @@ module ecdsa #(parameter MAX_ARGC_I = 7, parameter MAX_ARGC_O = 3) (
   // In this example three input registers are used.
   // The first one is used for giving a command to FPGA.
   // The others are for setting DMA input and output data addresses.
-  wire [31:0] command, addr_table_base_i, argc_i, addr_table_base_o, argc_o;
+  wire [31:0] command, addr_table_base_i, addr_table_base_o;
+  wire [2:0] argc_i, argc_o;
   assign command        = rin0; // use rin0 as command
 
   // Inputs use the following logic: point to a table of arguments in memory which has the inputs stored sequentially. The argument count is also provided.
   assign addr_table_base_i = rin1; // use rin1 as input base address of argument table
-  assign argc_i = rin2; // use rin2 as input amount of expected arguments
+  assign argc_i = rin2[2:0]; // use rin2 as input amount of expected arguments
   assign addr_table_base_o = rin3; // use rin3 as output data address
-  assign argc_o = rin4; // use rin4 as output data address
+  assign argc_o = rin4[2:0]; // use rin4 as output data address
 
   // Internal signals
   reg [MAX_ARGC_I*32-1:0] input_addr_buff; // buffer to hold all input addresses read from memory, MAX_ARGC_I is a random number, should be revisited after all operations are in place
@@ -232,37 +233,18 @@ localparam
         end
 
         STATE_LOAD_VALUE_TABLE: begin
-          // Explicit MUX based on counter
-          casez (counter)
-              0: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-0)*32 - 1) -: 32];
-              1: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-1)*32 - 1) -: 32];
-              2: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-2)*32 - 1) -: 32];
-              3: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-3)*32 - 1) -: 32];
-              4: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-4)*32 - 1) -: 32];
-              5: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-5)*32 - 1) -: 32];
-              6: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-6)*32 - 1) -: 32];
-              default: dma_rx_address <= 32'h0;
-          endcase
+          dma_rx_address <= input_addr_buff[31:0];
       end
 
       STATE_WAIT_VALUE_TABLE : begin
           if (dma_done) begin
-              // Explicit write enable based on counter
-              casez (counter)
-                  0: input_value_buff[380:0]     <= dma_rx_data[380:0];
-                  1: input_value_buff[761:381]   <= dma_rx_data[380:0];
-                  2: input_value_buff[1142:762]  <= dma_rx_data[380:0];
-                  3: input_value_buff[1523:1143] <= dma_rx_data[380:0];
-                  4: input_value_buff[1904:1524] <= dma_rx_data[380:0];
-                  5: input_value_buff[2285:1905] <= dma_rx_data[380:0];
-                  6: input_value_buff[2666:2286] <= dma_rx_data[380:0];
-                  default: ;
-              endcase
+              input_value_buff <= { input_value_buff[MAX_ARGC_I*381-382 : 0], dma_rx_data[380:0] };
           end
       end
 
         STATE_READ_VALUE_TABLE: begin
           counter <= counter + 1;
+          input_addr_buff <= {32'b0, input_addr_buff[MAX_ARGC_I*32-1 : 32]};
         end
 
         STATE_COMPUTE : begin
@@ -284,18 +266,7 @@ localparam
         end
         
         STATE_TX: begin
-          casez (counter)
-            0: begin 
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 0)*32 - 1) -: 32];
-            end
-            1: begin
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 1)*32 - 1) -: 32];
-            end
-            2: begin
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 2)*32 - 1) -: 32];
-            end
-            default: dma_tx_address <= 32'h0;
-          endcase
+          dma_tx_address <= output_addr_buff[31:0];
         end
 
         STATE_TX_WAIT: begin
@@ -303,12 +274,14 @@ localparam
 
         STATE_TX_UPDATE: begin
           counter <= counter + 1;
+          output_addr_buff <= {32'b0, output_addr_buff[MAX_ARGC_O*32-1 : 32]};
+          
           casez (command)
             CMD_EC_ADD:
-              casez (counter)
-                0: r_data <= ec_add_Xr;
+              casez (counter + 1)
                 1: r_data <= ec_add_Yr;
                 2: r_data <= ec_add_Zr;
+                default: r_data <= 381'b0;
               endcase
           endcase
         end
