@@ -357,7 +357,7 @@ localparam
   //   .result (mont_mult_result)
   // );
 
-  mont montgomery_willem (
+  montgomery montgomery_willem (
     .clk (clk),
     .resetn (resetn),
     .start (mont_mult_start_reg),
