@@ -212,8 +212,8 @@ module tb_ecdsa_wrapper_montgomery();
     mem_write(B_ADDR, 1024'd3 << (643));
     mem_write(M_ADDR, 1024'd5 << (643));
 
-    mem_write(MEM_ARRAY_I, (16'b0 << 80 | A_ADDR << 64 | 16'b0 << 48 | B_ADDR << 32| 16'b0 << 16 | M_ADDR) << (1024-224)); // addr_table[0] = &a
-    mem_write(MEM_ARRAY_O, (16'b0 << 16 | R_ADDR) << (1024-96)); // addr_table[31] = &r
+    mem_write(MEM_ARRAY_I, (16'b0 << 80 | A_ADDR << 64 | 16'b0 << 48 | B_ADDR << 32| 16'b0 << 16 | M_ADDR) << (1024-96)); // addr_table[0] = &a
+    mem_write(MEM_ARRAY_O, (16'b0 << 16 | R_ADDR) << (1024-32)); // addr_table[31] = &r
 
     reg_write(ADDR_TABLE_BASE_I, MEM_ARRAY_I); // addr_table base address
     reg_write(ARGC_I, 32'd3);
@@ -231,6 +231,8 @@ module tb_ecdsa_wrapper_montgomery();
     end
     
     reg_write(COMMAND, 32'h00000000);
+    
+    mem_read(R_ADDR);
 
     $finish;
 

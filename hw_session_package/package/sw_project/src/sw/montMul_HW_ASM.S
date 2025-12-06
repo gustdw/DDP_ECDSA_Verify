@@ -33,9 +33,9 @@ montMul_HW_ASM:
     /* Prepare input address table */
     ldr r8, =mont_addr_i
     
-    str r0, [r8, #126]      /* mont_addr_i[31] = &m */
+    str r0, [r8, #124]      /* mont_addr_i[31] = &a */
     str r1, [r8, #120]      /* mont_addr_i[30] = &b */
-    str r2, [r8, #114]      /* mont_addr_i[29] = &a */
+    str r2, [r8, #116]      /* mont_addr_i[29] = &m */
 
     /* Prepare output address table */
     ldr r9, =mont_addr_o
@@ -54,7 +54,7 @@ montMul_HW_ASM:
     mov r6, #1              /* Number of output addresses */
     str r6, [r4, #0x10]
     
-    mov r7, #0x02           /* Command: START */
+    mov r7, #0x01           /* Command: START */
     str r7, [r4, #0x00]
 
     /* Wait for operation to complete */
