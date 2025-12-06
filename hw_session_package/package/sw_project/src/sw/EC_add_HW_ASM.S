@@ -33,32 +33,27 @@ EC_add_HW_ASM:
     /* Prepare input address table */
     ldr r8, =addr_table_i
 
-    /* Modulus (r3) -> Table */
-    str r3, [r8, #124]      /* addr_table_i[31] = &modulus */
+    str r0, [r8, #124]      /* addr_table_i[31] = &P->X */
+    add r0, r0, #128
+    str r0, [r8, #120]      /* addr_table_i[30] = &P->Y */
+    add r0, r0, #128
+    str r0, [r8, #116]      /* addr_table_i[29] = &P->Z */
 
-    /* Q (r1) -> Table */
     str r1, [r8, #112]      /* addr_table_i[28] = &Q->X */
     add r1, r1, #128
-    str r1, [r8, #116]      /* addr_table_i[29] = &Q->Y */
+    str r1, [r8, #108]      /* addr_table_i[27] = &Q->Y */
     add r1, r1, #128
-    str r1, [r8, #120]      /* addr_table_i[30] = &Q->Z */
+    str r1, [r8, #104]      /* addr_table_i[26] = &Q->Z */
 
-    /* P (r0) -> Table */
-    str r0, [r8, #100]      /* addr_table_i[25] = &P->X */
-    add r0, r0, #128
-    str r0, [r8, #104]      /* addr_table_i[26] = &P->Y */
-    add r0, r0, #128
-    str r0, [r8, #108]      /* addr_table_i[27] = &P->Z */
-    
     /* Prepare output address table */
     ldr r9, =addr_table_o
     
     /* R (r2) -> Table */
-    str r2, [r9, #116]      /* addr_table_o[31] = &R->X */
+    str r2, [r9, #116]      /* addr_table_o[29] = &R->X */
     add r2, r2, #128
     str r2, [r9, #120]      /* addr_table_o[30] = &R->Y */
     add r2, r2, #128
-    str r2, [r9, #124]      /* addr_table_o[29] = &R->Z */
+    str r2, [r9, #124]      /* addr_table_o[31] = &R->Z */
 
     /* Set up CoDesign hardware */
     ldr r4, =0x40400000

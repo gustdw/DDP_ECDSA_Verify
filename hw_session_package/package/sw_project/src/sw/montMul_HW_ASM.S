@@ -26,27 +26,25 @@ montMul_HW_ASM:
     /* Inputs:
        r0: uint32_t *a
        r1: uint32_t *b
-       r2: uint32_t *m
-       r3: uint32_t *res
+       r2: uint32_t *res
     */
 
     /* Prepare input address table */
     ldr r8, =mont_addr_i
     
-    str r0, [r8, #124]      /* mont_addr_i[31] = &a */
-    str r1, [r8, #120]      /* mont_addr_i[30] = &b */
-    str r2, [r8, #116]      /* mont_addr_i[29] = &m */
+    str r0, [r8, #108]      /* mont_addr_i[27] = &a */
+    str r1, [r8, #104]      /* mont_addr_i[26] = &b */
 
     /* Prepare output address table */
     ldr r9, =mont_addr_o
-    str r3, [r9, #124]      /* mont_addr_o[31] = &R->X (result) */
+    str r2, [r9, #116]      /* mont_addr_o[29] = &result */
 
     /* Set up CoDesign hardware */
     ldr r4, =0x40400000
     
     str r8, [r4, #0x04]     /* Write input address table address */
     
-    mov r5, #3              /* Number of input addresses */
+    mov r5, #2              /* Number of input addresses */
     str r5, [r4, #0x08]
     
     str r9, [r4, #0x0C]     /* Write output address table address */

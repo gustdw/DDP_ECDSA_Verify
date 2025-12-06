@@ -21,7 +21,7 @@ void print_array_contents(const char* name, const uint32_t* src) {
   xil_printf("\n\r");
 }
 
-void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_t *res) {
+void montMul_HW(const uint32_t *a, const uint32_t *b, uint32_t *res) {
   volatile uint32_t* HWreg = (volatile uint32_t*)0x40400000;
 
   // Hardware Register Mapping (matches ecdsa.v)
@@ -40,14 +40,12 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   // it gets the latest data from CPU.
   Xil_DCacheFlushRange((UINTPTR)a, 32 * sizeof(uint32_t));
   Xil_DCacheFlushRange((UINTPTR)b, 32 * sizeof(uint32_t));
-  Xil_DCacheFlushRange((UINTPTR)m, 32 * sizeof(uint32_t));
 
   // Populate the address table with the *base addresses* of the operand arrays.
-  addr_table_i[31] = (uint32_t)a;
-  addr_table_i[30] = (uint32_t)b;
-  addr_table_i[29] = (uint32_t)m;
+  addr_table_i[27] = (uint32_t)a;
+  addr_table_i[26] = (uint32_t)b;
 
-  addr_table_o[31] = (uint32_t)res;
+  addr_table_o[29] = (uint32_t)res;
 
   // Flush the address table itself so the hardware can read it via DMA.
   Xil_DCacheFlushRange((UINTPTR)addr_table_i, sizeof(addr_table_i));
@@ -58,7 +56,7 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
 
   // --- Send commands to Hardware ---
   HWreg[ADDR_TABLE_BASE_I] = (uint32_t)addr_table_i;
-  HWreg[ARGC_I] = 3;
+  HWreg[ARGC_I] = 2;
   HWreg[ADDR_TABLE_BASE_O] = (uint32_t)addr_table_o;
   HWreg[ARGC_O] = 1;
 
@@ -88,7 +86,7 @@ void montMul_HW(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_
   print_array_contents("result", res);
 }
 
-void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
+void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R) {
   volatile uint32_t* HWreg = (volatile uint32_t*)0x40400000;
 
   // Hardware Register Mapping (matches ecdsa.v)
@@ -119,11 +117,10 @@ void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
   addr_table_i[28] = (uint32_t)Q->X;
   addr_table_i[27] = (uint32_t)Q->Y;
   addr_table_i[26] = (uint32_t)Q->Z;
-  addr_table_i[25] = (uint32_t)M;
 
-  addr_table_o[31] = (uint32_t)R->X;
+  addr_table_o[31] = (uint32_t)R->Z;
   addr_table_o[30] = (uint32_t)R->Y;
-  addr_table_o[29] = (uint32_t)R->Z;
+  addr_table_o[29] = (uint32_t)R->X;
 
   // Flush the address table itself so the hardware can read it via DMA.
   Xil_DCacheFlushRange((UINTPTR)addr_table_i, sizeof(addr_table_i));
@@ -136,7 +133,7 @@ void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
 
   // --- Send commands to Hardware ---
   HWreg[ADDR_TABLE_BASE_I] = (uint32_t)addr_table_i;
-  HWreg[ARGC_I] = 7;
+  HWreg[ARGC_I] = 6;
   HWreg[ADDR_TABLE_BASE_O] = (uint32_t)addr_table_o;
   HWreg[ARGC_O] = 3;
   HWreg[COMMAND] = EC_ADD_START; // Start operation
@@ -152,16 +149,16 @@ void EC_add_HW(EC_point_t *P, EC_point_t *Q, EC_point_t *R, uint32_t *M) {
   Xil_DCacheInvalidateRange((UINTPTR)R->Y, 32 * sizeof(uint32_t));
   Xil_DCacheInvalidateRange((UINTPTR)R->Z, 32 * sizeof(uint32_t));
   
-  // printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
-  // xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
-  // xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
-  // xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
-  // xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
-  // xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
-  // xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
-  // xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
+  printf("STATUS: %08X\n\r", (unsigned int)HWreg[STATUS]);
+  xil_printf("HW rout1: %08X\n\r", (unsigned int)HWreg[1]);
+  xil_printf("HW rout2: %08X\n\r", (unsigned int)HWreg[2]);
+  xil_printf("HW rout3: %08X\n\r", (unsigned int)HWreg[3]);
+  xil_printf("HW rout4: %08X\n\r", (unsigned int)HWreg[4]);
+  xil_printf("HW rout5: %08X\n\r", (unsigned int)HWreg[5]);
+  xil_printf("HW rout6: %08X\n\r", (unsigned int)HWreg[6]);
+  xil_printf("HW rout7: %08X\n\r", (unsigned int)HWreg[7]);
   
-  // print_array_contents("result Rx", R->X); // Example: print R->X as result
-  // print_array_contents("result Ry", R->Y); // Example: print R->Y as result
-  // print_array_contents("result Rz", R->Z); // Example: print R->Z as result
+  print_array_contents("result Rx", R->X); // Example: print R->X as result
+  print_array_contents("result Ry", R->Y); // Example: print R->Y as result
+  print_array_contents("result Rz", R->Z); // Example: print R->Z as result
 }

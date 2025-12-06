@@ -222,13 +222,11 @@ module tb_ecdsa_wrapper_ec_add();
     mem_write(Yq_ADDR, 1024'd2 << (643));
     mem_write(Zq_ADDR, 1024'd3 << (643));
     
-    mem_write(M_ADDR, 1024'd10 << (643));
-
-    mem_write(MEM_ARRAY_I, (16'b0 << 208 | Xp_ADDR << 192 | 16'b0 << 176 | Yp_ADDR << 160| 16'b0 << 144 | Zp_ADDR << 128 | 16'b0 << 112 | Xq_ADDR << 96 | 16'b0 << 80 | Yq_ADDR << 64 | 16'b0 << 48 | Zq_ADDR << 32 | 16'b0 << 16 | M_ADDR) << (1024-224)); // addr_table[0] = &a
-    mem_write(MEM_ARRAY_O, (16'b0 << 80 | Xr_ADDR << 64 | 16'b0 << 48 | Yr_ADDR << 32 | 16'b0 << 16 | Zr_ADDR) << (1024-96)); // addr_table[31] = &r
+    mem_write(MEM_ARRAY_I, (16'b0 << 176 | Xp_ADDR << 160 | 16'b0 << 144 | Yp_ADDR << 128 | 16'b0 << 112 | Zp_ADDR << 96 | 16'b0 << 80 | Xq_ADDR << 64 | 16'b0 << 48 | Yq_ADDR << 32 | 16'b0 << 16 | Zq_ADDR) << (1024-192));
+    mem_write(MEM_ARRAY_O, (16'b0 << 80 | Zr_ADDR << 64 | 16'b0 << 48 | Yr_ADDR << 32 | 16'b0 << 16 | Xr_ADDR) << (1024-96)); // addr_table[31] = &r
 
     reg_write(ADDR_TABLE_BASE_I, MEM_ARRAY_I); // addr_table base address
-    reg_write(ARGC_I, 32'd7);
+    reg_write(ARGC_I, 32'd6);
     reg_write(ADDR_TABLE_BASE_O, MEM_ARRAY_O); // result address
     reg_write(ARGC_O, 32'd3);
 

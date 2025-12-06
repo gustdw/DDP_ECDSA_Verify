@@ -1,176 +1,47 @@
 module pipelined_adder(
     input  wire         clk,
-    input  wire         resetn,
     input  wire         start,
     input  wire         Cin,
     input  wire [383:0] A,
     input  wire [383:0] B,
     output wire [384:0] C,
-    output wire         done);
+    output wire         done
+    );
 
-    // Stage 1 registers
-        // Mid registers
-    wire [127:0] A_mid_buf1_D;
-    reg  [127:0] A_mid_buf1_Q;
-    assign A_mid_buf1_D = A[255:128];
+    reg [383:0] A_reg, B_reg, out_reg;
+    reg         Cin_reg, start_reg, start_buf, start_buf2, done_reg;
 
-    wire [127:0] B_mid_buf1_D;
-    reg  [127:0] B_mid_buf1_Q;
-    assign B_mid_buf1_D = B[255:128];
+    wire cout_adder;
+    wire [127:0] adder_out;
 
-    always @(posedge clk)
-    begin
-        if(~resetn) begin
-                A_mid_buf1_Q <= 128'd0;
-                B_mid_buf1_Q <= 128'd0;
-            end
-        else begin
-                A_mid_buf1_Q <= A_mid_buf1_D;
-                B_mid_buf1_Q <= B_mid_buf1_D;
-            end
-    end
-        // Top registers
-    wire [127:0] A_top_buf1_D;
-    reg  [127:0] A_top_buf1_Q;
-    assign A_top_buf1_D = A[383:256];
-
-    wire [127:0] B_top_buf1_D;
-    reg  [127:0] B_top_buf1_Q;
-    assign B_top_buf1_D = B[383:256];
-
-    always @(posedge clk)
-    begin
-        if(~resetn) begin
-            A_top_buf1_Q <= 128'd0;
-            B_top_buf1_Q <= 128'd0;
-        end
-        else begin
-            A_top_buf1_Q <= A_top_buf1_D;
-            B_top_buf1_Q <= B_top_buf1_D;
-        end
-    end
-        // Low registers
-    wire            Cout1_low_buf1_D;
-    reg             Cout1_low_buf1_Q;
-    wire    [127:0] Res_low_buf1_D;
-    reg     [127:0] Res_low_buf1_Q;
-    assign {Cout1_low_buf1_D, Res_low_buf1_D} = A[127:0] + B[127:0] + Cin;
-    
-    always @(posedge clk)
-    begin
-        if(~resetn) begin
-            Res_low_buf1_Q <= 128'd0;
-            Cout1_low_buf1_Q <= 1'd0;
-        end
-        else begin
-            Res_low_buf1_Q <= Res_low_buf1_D;
-            Cout1_low_buf1_Q <= Cout1_low_buf1_D;
+    always @ (posedge clk) begin
+        if (start) begin 
+            A_reg <= A;
+            B_reg <= B;
+            Cin_reg <= Cin;
+        end else begin
+            A_reg <= {128'b0, A_reg[383:128]};
+            B_reg <= {128'b0, B_reg[383:128]};
+            Cin_reg <= cout_adder;
         end
     end
 
-    // Stage 2 registers
-        // Mid registers
-    wire     [127:0] Res_mid_buf2_D; 
-    reg      [127:0] Res_mid_buf2_Q;
-    wire Cout2_mid_buf2_D;
-    reg Cout2_mid_buf2_Q;
-
-    assign {Cout2_mid_buf2_D, Res_mid_buf2_D} = A_mid_buf1_Q + B_mid_buf1_Q + Cout1_low_buf1_Q;
-
-    always @(posedge clk)
-    begin
-        if(~resetn) begin        
-            Res_mid_buf2_Q <= 128'd0;
-            Cout2_mid_buf2_Q <= 1'd0;
-        end
-        else begin              
-            Res_mid_buf2_Q <= Res_mid_buf2_D;
-            Cout2_mid_buf2_Q <= Cout2_mid_buf2_D;
-        end
-    end
-    
-        // Top registers
-    wire [127:0] A_top_buf2_D;
-    reg [127:0] A_top_buf2_Q;
-    assign A_top_buf2_D = A_top_buf1_Q;
-    
-    wire [127:0] B_top_buf2_D;
-    reg [127:0] B_top_buf2_Q;
-    assign B_top_buf2_D = B_top_buf1_Q;
-
-    wire [127:0] Res_low_buf2_D;
-    reg [127:0] Res_low_buf2_Q;
-    assign Res_low_buf2_D = Res_low_buf1_Q;
-
-    always @(posedge clk) begin
-        if(~resetn) begin        
-            A_top_buf2_Q <= 128'd0;
-            B_top_buf2_Q <= 128'd0;
-            Res_low_buf2_Q <= 128'd0;
-        end
-        else begin              
-            A_top_buf2_Q <= A_top_buf2_D;
-            B_top_buf2_Q <= B_top_buf2_D;
-            Res_low_buf2_Q <= Res_low_buf2_D;
-        end
+    always @ (posedge clk) begin
+        start_reg <= start;
+        start_buf <= start_reg;
+        start_buf2 <= start_buf;
+        done_reg <= start_buf2;
+        
     end
 
-    // Stage 3 registers
-        // Low registers
-    wire [127:0] Res_low_buf3_D;
-    reg [127:0] Res_low_buf3_Q;
-    assign Res_low_buf3_D = Res_low_buf2_Q;
-
-        // Mid registers
-    wire [127:0] Res_mid_buf3_D;
-    reg [127:0] Res_mid_buf3_Q;
-    assign Res_mid_buf3_D = Res_mid_buf2_Q;
-
-    always @(posedge clk) begin
-        if (~resetn) begin
-            Res_low_buf3_Q = 128'd0;
-            Res_mid_buf3_Q = 128'd0;
-        end
-        else begin
-            Res_low_buf3_Q = Res_low_buf3_D;
-            Res_mid_buf3_Q = Res_mid_buf3_D;
-        end
+    always @ (posedge clk) begin
+        out_reg <= {adder_out, out_reg[383:128]};
     end
 
-        // Top registers
-    wire [127:0] Res_top_buf3_D;
-    reg [127:0] Res_top_buf3_Q;
-    wire Cout3_top_buf3_D;
-    reg Cout3_top_buf3_Q;
+    assign {cout_adder, adder_out} = A_reg[127:0] + B_reg[127:0] + Cin_reg;
+    assign done = done_reg;
+    assign C = {Cin_reg, out_reg};
 
-    assign {Cout3_top_buf3_D, Res_top_buf3_D} = A_top_buf2_Q + B_top_buf2_Q + Cout2_mid_buf2_Q;
-    always @(posedge clk) begin
-        if(~resetn) begin        
-            Res_top_buf3_Q <= 128'd0;
-            Cout3_top_buf3_Q <= 1'd0;
-        end
-        else begin              
-            Res_top_buf3_Q <= Res_top_buf3_D;
-            Cout3_top_buf3_Q <= Cout3_top_buf3_D;
-        end
-    end
 
-        // Output
-    assign C = {Cout3_top_buf3_Q, Res_top_buf3_Q, Res_mid_buf3_Q, Res_low_buf3_Q};
-
-    // Done signal
-    wire start_buf1_D, start_buf2_D, start_buf3_D;
-    reg start_buf1_Q, start_buf2_Q, start_buf3_Q;
-
-    assign start_buf1_D = start;
-    assign start_buf2_D = start_buf1_Q;
-    assign start_buf3_D = start_buf2_Q;
-
-    always @(posedge clk) begin
-        start_buf1_Q <= start_buf1_D;
-        start_buf2_Q <= start_buf2_D;
-        start_buf3_Q <= start_buf3_D;
-    end
-    assign done = start_buf3_Q;
 
 endmodule

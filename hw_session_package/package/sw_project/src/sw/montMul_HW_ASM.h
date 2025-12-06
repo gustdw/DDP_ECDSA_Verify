@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-void montMul_HW_ASM(const uint32_t *a, const uint32_t *b, const uint32_t *m, uint32_t *res);
+void montMul_HW_ASM(const uint32_t *a, const uint32_t *b, uint32_t *res);
 
 #endif /* MONTMUL_HW_ASM_H_ */

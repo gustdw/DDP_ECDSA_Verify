@@ -4,6 +4,7 @@
 #include "CoDesign.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdalign.h>
 
 // Helper to compare two 1024-bit (32 * 32-bit) arrays
 // Returns 1 if equal, 0 if different
@@ -19,7 +20,7 @@ uint8_t compare_bignum(uint32_t *a, uint32_t *b, size_t length) {
     return 1; // Pass
 }
 
-uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, const EC_point_t *public_key, const EC_point_t *G, uint32_t K_X_Modn[32], const uint32_t modulus[32]) {
+uint8_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, const EC_point_t *public_key, const EC_point_t *G, uint32_t K_X_Modn[32]) {
     EC_point_t *Q = malloc(sizeof(EC_point_t));
     EC_point_t *L = malloc(sizeof(EC_point_t));
     EC_point_t *C = malloc(sizeof(EC_point_t));
@@ -33,17 +34,34 @@ uint32_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, 
         if (C_prime) free(C_prime);
         return -1;
     }
-
-    EC_mult((EC_point_t*)G, (uint32_t*)message, Q, modulus);
-    EC_mult((EC_point_t*)public_key, K_X_Modn, L, modulus);
-    EC_add_HW_ASM(Q, L, C, (uint32_t*)modulus);
-    EC_mult((EC_point_t*)&signature->K, (uint32_t*)signature->s, C_prime, modulus);
+    // START_TIMING
+    EC_mult((EC_point_t*)G, (uint32_t*)message, Q);
+    // STOP_TIMING
+    // xil_printf("EC_mult G * message done.\n\r");
+    // START_TIMING
+    EC_mult((EC_point_t*)public_key, K_X_Modn, L);
+    // STOP_TIMING
+    // xil_printf("EC_mult public_key * K_X_Modn done.\n\r");
+    // START_TIMING
+    EC_add_HW_ASM(Q, L, C);
+    // STOP_TIMING
+    // xil_printf("EC_add_HW_ASM Q + L done.\n\r");
+    // START_TIMING
+    EC_mult((EC_point_t*)&signature->K, (uint32_t*)signature->s, C_prime);
+    // STOP_TIMING
+    // xil_printf("EC_mult signature->K * signature->s done.\n\r");
 
     // Compare C and C_prime
-    uint32_t LHS[32];
-    uint32_t RHS[32];
-    montMul_HW_ASM(C->Z, C_prime->X, modulus, LHS);
-    montMul_HW_ASM(C_prime->Z, C->X, modulus, RHS);
+    alignas(128) uint32_t LHS[32];
+    alignas(128) uint32_t RHS[32];
+    // START_TIMING
+    montMul_HW_ASM(C->Z, C_prime->X, LHS);
+    // STOP_TIMING
+    // xil_printf("montMul_HW_ASM C->Z * C_prime->X done.\n\r");
+    // START_TIMING
+    montMul_HW_ASM(C_prime->Z, C->X, RHS);
+    // STOP_TIMING
+    // xil_printf("montMul_HW_ASM C_prime->Z * C->X done.\n\r");
     
     uint8_t result = compare_bignum(LHS, RHS, 32);
 

@@ -9,7 +9,7 @@ module montgomery(
   input  [380:0] in_m,
   input          out_read,
   output [380:0] result,
-  output          done
+  output reg         done
     );
 
 // Controller 
@@ -25,7 +25,7 @@ module montgomery(
 
     reg [2:0] state, next_state;
     reg [8:0] count; // counter for 381 bits
-    reg done;
+
 
     wire [383:0] C1_sum, C1_carry;
     wire [383:0] C2_sum, C2_carry;
@@ -227,9 +227,9 @@ module montgomery(
                 C_carry <= 384'b0;
                 B_reg <= in_b;
                 M_reg <= in_m;
-                B2_reg <= {2'b0, in_b, 1'b0};
+                B2_reg <= {2'b0, B_reg, 1'b0};
                 M2_reg <= {2'b0, in_m, 1'b0};
-                B3_reg <= {3'b0, in_b} + {2'b0, in_b, 1'b0};
+                B3_reg <= {3'b0, B_reg} + {2'b0, B_reg, 1'b0};
                 M3_reg <= {3'b0, in_m} + {2'b0, in_m, 1'b0};
                 M_neg_reg <= -{3'b0, in_m};
             end else begin

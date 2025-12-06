@@ -1,4 +1,4 @@
-module ecdsa #(parameter MAX_ARGC_I = 7, parameter MAX_ARGC_O = 3) (
+module ecdsa #(parameter MAX_ARGC_I = 6, parameter MAX_ARGC_O = 3) (
     input  wire          clk,
     input  wire          resetn,
     output wire   [ 3:0] leds,
@@ -25,17 +25,18 @@ module ecdsa #(parameter MAX_ARGC_I = 7, parameter MAX_ARGC_O = 3) (
   // In this example three input registers are used.
   // The first one is used for giving a command to FPGA.
   // The others are for setting DMA input and output data addresses.
-  wire [31:0] command, addr_table_base_i, argc_i, addr_table_base_o, argc_o;
+  wire [31:0] command, addr_table_base_i, addr_table_base_o;
+  wire [2:0] argc_i, argc_o;
   assign command        = rin0; // use rin0 as command
 
   // Inputs use the following logic: point to a table of arguments in memory which has the inputs stored sequentially. The argument count is also provided.
   assign addr_table_base_i = rin1; // use rin1 as input base address of argument table
-  assign argc_i = rin2; // use rin2 as input amount of expected arguments
+  assign argc_i = rin2[2:0]; // use rin2 as input amount of expected arguments
   assign addr_table_base_o = rin3; // use rin3 as output data address
-  assign argc_o = rin4; // use rin4 as output data address
+  assign argc_o = rin4[2:0]; // use rin4 as output data address
 
   // Internal signals
-  reg [MAX_ARGC_I*32-1:0] input_addr_buff; // buffer to hold all input addresses read from memory, MAX_ARGC_I is a random number, should be revisited after all operations are in place
+  reg [MAX_ARGC_I*32-1:0] input_addr_buff; // buffer to hold all input addresses read from memory
   reg [MAX_ARGC_I*381-1:0] input_value_buff; // buffer to hold all the dereferenced input addresses.
 
   reg [MAX_ARGC_O*32-1:0] output_addr_buff; // buffer to hold all output addresses read from memory
@@ -43,14 +44,13 @@ module ecdsa #(parameter MAX_ARGC_I = 7, parameter MAX_ARGC_O = 3) (
   // Only one output register is used. It will the status of FPGA's execution.
   wire [31:0] status;
   assign rout0 = status; // use rout0 as status --- IGNORE ---
-  assign rout1 = 0;
+  assign rout1 = mont_mult_result[31:0]; // use rout1 to output montgomery multiplication result LSBs
   assign rout2 = 0;
   assign rout3 = 0;
   assign rout4 = 0;
   assign rout5 = 0;
   assign rout6 = 0;
   assign rout7 = 0;
-
 
 localparam
     CMD_MONT_MULT = 32'd1,
@@ -89,9 +89,7 @@ localparam
   wire inputs_loaded, outputs_written, computation_done;
   assign inputs_loaded = (counter == argc_i - 1);
   assign outputs_written = (counter == argc_o - 1);
-  assign computation_done = (isCmdMontMult) ? mont_mult_done :
-                            (isCmdECAdd)    ? ec_add_done :
-                            1'b0;
+  assign computation_done = (isCmdECAdd || isCmdMontMult) ? ec_add_done : 1'b0;
   
   always@(*) begin
     // state defined logic
@@ -232,37 +230,18 @@ localparam
         end
 
         STATE_LOAD_VALUE_TABLE: begin
-          // Explicit MUX based on counter
-          case (counter)
-              0: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-0)*32 - 1) -: 32];
-              1: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-1)*32 - 1) -: 32];
-              2: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-2)*32 - 1) -: 32];
-              3: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-3)*32 - 1) -: 32];
-              4: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-4)*32 - 1) -: 32];
-              5: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-5)*32 - 1) -: 32];
-              6: dma_rx_address <= input_addr_buff[((MAX_ARGC_I-6)*32 - 1) -: 32];
-              default: dma_rx_address <= 32'h0;
-          endcase
+          dma_rx_address <= input_addr_buff[31:0];
       end
 
       STATE_WAIT_VALUE_TABLE : begin
           if (dma_done) begin
-              // Explicit write enable based on counter
-              case (counter)
-                  0: input_value_buff[380:0]     <= dma_rx_data[380:0];
-                  1: input_value_buff[761:381]   <= dma_rx_data[380:0];
-                  2: input_value_buff[1142:762]  <= dma_rx_data[380:0];
-                  3: input_value_buff[1523:1143] <= dma_rx_data[380:0];
-                  4: input_value_buff[1904:1524] <= dma_rx_data[380:0];
-                  5: input_value_buff[2285:1905] <= dma_rx_data[380:0];
-                  6: input_value_buff[2666:2286] <= dma_rx_data[380:0];
-                  default: ;
-              endcase
+              input_value_buff <= { input_value_buff[MAX_ARGC_I*381-382 : 0], dma_rx_data[380:0] };
           end
       end
 
         STATE_READ_VALUE_TABLE: begin
           counter <= counter + 1;
+          input_addr_buff <= {32'b0, input_addr_buff[MAX_ARGC_I*32-1 : 32]};
         end
 
         STATE_COMPUTE : begin
@@ -284,18 +263,7 @@ localparam
         end
         
         STATE_TX: begin
-          case (counter)
-            0: begin 
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 0)*32 - 1) -: 32];
-            end
-            1: begin
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 1)*32 - 1) -: 32];
-            end
-            2: begin
-              dma_tx_address <= output_addr_buff[((MAX_ARGC_O - 2)*32 - 1) -: 32];
-            end
-            default: dma_tx_address <= 32'h0;
-          endcase
+          dma_tx_address <= output_addr_buff[31:0];
         end
 
         STATE_TX_WAIT: begin
@@ -303,12 +271,14 @@ localparam
 
         STATE_TX_UPDATE: begin
           counter <= counter + 1;
+          output_addr_buff <= {32'b0, output_addr_buff[MAX_ARGC_O*32-1 : 32]};
+          
           case (command)
             CMD_EC_ADD:
-              case (counter)
-                0: r_data <= ec_add_Xr;
+              case (counter + 1)
                 1: r_data <= ec_add_Yr;
                 2: r_data <= ec_add_Zr;
+                default: r_data <= 381'b0;
               endcase
           endcase
         end
@@ -332,45 +302,15 @@ localparam
   
   // --- ECDSA OPERATIONS INSTANCES ---
   // Multiplier
-  wire mont_mult_start, mont_mult_done;
-  reg mont_mult_start_reg;
-  always @(posedge clk) begin
-    case (state)
-      STATE_IDLE: mont_mult_start_reg <= 1'b0;
-      STATE_READ_VALUE_TABLE: mont_mult_start_reg <= 1'b1 && inputs_loaded;
-      STATE_COMPUTE: mont_mult_start_reg <= 1'b0;
-    endcase
-  end
-  wire [380:0] mont_mult_result, mont_mult_a, mont_mult_b, mont_mult_m;
-  assign mont_mult_start = (state == STATE_COMPUTE && isCmdMontMult);
+  wire mont_mult_done;
+  wire [380:0] mont_mult_result, mont_mult_a, mont_mult_b;
   assign mont_mult_a = input_value_buff[380 : 0];
   assign mont_mult_b = input_value_buff[2*381-1 : 381];
-  assign mont_mult_m = input_value_buff[3*381-1 : 2*381];
-  // montgomery montgomery_instance (
-  //   .clk (clk),
-  //   .resetn (resetn),
-  //   .start (mont_mult_start),
-  //   .in_a (mont_mult_a),
-  //   .in_b (mont_mult_b),
-  //   .in_m (mont_mult_m),
-  //   .done (mont_mult_done),
-  //   .result (mont_mult_result)
-  // );
-
-  montgomery montgomery_willem (
-    .clk (clk),
-    .resetn (resetn),
-    .start (mont_mult_start_reg),
-    .in_a (mont_mult_a),
-    .in_b (mont_mult_b),
-    .in_m (mont_mult_m),
-    .done (mont_mult_done),
-    .result (mont_mult_result)
-  );
 
   // EC Addition
-  wire ec_add_start, ec_add_done;
-  assign ec_add_start = (state == STATE_COMPUTE && isCmdECAdd);
+  wire ec_add_start, ec_add_done, ec_out_read;
+  assign ec_add_start = (state == STATE_COMPUTE && (isCmdECAdd || isCmdMontMult));
+  assign ec_out_read = (isStateDone);
 
   wire [380:0] ec_add_Xp, ec_add_Yp, ec_add_Zp;
   assign ec_add_Xp = input_value_buff[1*381-1 -: 381];
@@ -382,25 +322,33 @@ localparam
   assign ec_add_Yq = input_value_buff[5*381-1 -: 381];
   assign ec_add_Zq = input_value_buff[6*381-1 -: 381];
 
-  wire [380:0] ec_add_M;
-  assign ec_add_M = input_value_buff[7*381-1 -: 381];
-
   wire [380:0] ec_add_Xr, ec_add_Yr, ec_add_Zr;
+
+  wire [380:0] ec_add_input_1, ec_add_input_2, ec_add_input_3, ec_add_input_4, ec_add_input_5, ec_add_input_6;
+  assign ec_add_input_1 = (isCmdECAdd) ? ec_add_Xp : (isCmdMontMult) ? mont_mult_a : 381'b0;
+  assign ec_add_input_2 = ec_add_Yp;
+  assign ec_add_input_3 = ec_add_Zp;
+  assign ec_add_input_4 = (isCmdECAdd) ? ec_add_Xq : (isCmdMontMult) ? mont_mult_b : 381'b0;
+  assign ec_add_input_5 = ec_add_Yq;
+  assign ec_add_input_6 = ec_add_Zq;
+
   EC_adder ec_adder_inst (
     .clk(clk),
     .resetn(resetn),
     .start(ec_add_start),
-    .Xp(ec_add_Xp),
-    .Yp(ec_add_Yp),
-    .Zp(ec_add_Zp),
-    .Xq(ec_add_Xq),
-    .Yq(ec_add_Yq),
-    .Zq(ec_add_Zq),
-    .M(ec_add_M),
+    .out_read(ec_out_read),
+    .Xp(ec_add_input_1),
+    .Yp(ec_add_input_2),
+    .Zp(ec_add_input_3),
+    .Xq(ec_add_input_4),
+    .Yq(ec_add_input_5),
+    .Zq(ec_add_input_6),
     .Xr(ec_add_Xr),
     .Yr(ec_add_Yr),
     .Zr(ec_add_Zr),
+    .mont(mont_mult_result),
+    .done_mont(mont_mult_done),
     .done(ec_add_done)
-);
+  );
+
 endmodule
-// EC point addition module

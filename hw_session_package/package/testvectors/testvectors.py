@@ -78,12 +78,16 @@ if operation == 3:
 
   print ("Test Vector for Windowed Montgomery Multiplication\n")
 
-  M = helpers.getModulus(381)
+  M = curves.q
   A = helpers.getRandomInt(381) % M
   B = helpers.getRandomInt(381) % M
 
   C = HW.MontMul(A, B, M)
   D = SW.MontMul(A, B, M)
+
+  print("alignas(128) uint32_t a[32] = {" + f"{helpers.WriteConstants(A << 643, 32)}" + "}")
+  print("alignas(128) uint32_t b[32] = {" + f"{helpers.WriteConstants(B << 643, 32)}" + "}")
+  print("alignas(128) uint32_t res[32] = {" + f"{helpers.WriteConstants(C << 643, 32)}" + "}")
 
   e = (C - D)
   print(f"in_a        <= 381'h{A:0096x};")  
