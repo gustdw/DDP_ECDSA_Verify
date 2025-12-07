@@ -132,7 +132,7 @@ int main() {
   xil_printf("Starting CoDesign Testbench\n\r");
 
   enum test_mode {MONTGOMERY_MUL_HW=1, ECDSA_ADD_HW=2, ECDSA_VERIFICATION_HW=3, ECDSA_VERIFICATION_MANY=4, ECDSA_MULTIPLICATION=5, ECDSA_VERIFY=6};
-  enum test_mode test_mode = ECDSA_VERIFICATION_HW;
+  enum test_mode test_mode = ECDSA_VERIFICATION_MANY;
   
   START_TIMING
   switch(test_mode) {

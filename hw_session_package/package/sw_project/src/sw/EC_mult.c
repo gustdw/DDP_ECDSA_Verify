@@ -18,7 +18,7 @@ void EC_mult(EC_point_t *P, uint32_t s[32], EC_point_t *R) {
     // ---------------------------------------------------------
     
     // Find the first non-zero word (scanning high to low)
-for (i = 28; i >= 20; i--) {
+    for (i = 28; i >= 20; i--) {
         if (s[i] != 0) break;
     }
 

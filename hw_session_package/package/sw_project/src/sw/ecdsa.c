@@ -26,11 +26,6 @@ uint8_t verify_ecdsa(const uint32_t message[32], const signature_t *signature, c
     alignas(128) EC_point_t C;
     alignas(128) EC_point_t C_prime;
 
-    memset(&Q, 0, sizeof(EC_point_t));
-    memset(&L, 0, sizeof(EC_point_t));
-    memset(&C, 0, sizeof(EC_point_t));
-    memset(&C_prime, 0, sizeof(EC_point_t));
-    
     EC_mult((EC_point_t*)G, (uint32_t*)message, (EC_point_t*)&Q);
 
     EC_mult((EC_point_t*)public_key, (uint32_t*)K_X_Modn, (EC_point_t*)&L);
