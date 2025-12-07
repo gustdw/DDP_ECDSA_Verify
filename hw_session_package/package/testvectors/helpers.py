@@ -77,7 +77,7 @@ def WriteConstants(number, size):
     # print (out)
 
 def CreateConstants(seed, message, K, s, modulus, r, public_key, C, C_prime, G):
-    target = open("../sw_project/src/sw/testvector.c", 'w')
+    target = open("../sw_project/src/sw/tests/testvector.c", 'w')
     target.truncate()
 
     # extern uint32_t modulus[32], 

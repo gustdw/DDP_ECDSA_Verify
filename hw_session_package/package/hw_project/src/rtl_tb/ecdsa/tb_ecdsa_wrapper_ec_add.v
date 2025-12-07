@@ -214,13 +214,13 @@ module tb_ecdsa_wrapper_ec_add();
 
     #`LONG_WAIT
 
-    mem_write(Xp_ADDR, 1024'd1 << (643));
-    mem_write(Yp_ADDR, 1024'd2 << (643));
-    mem_write(Zp_ADDR, 1024'd3 << (643));
+    mem_write(Xp_ADDR, 1024'h14ad7aaac4b0568e8782d0d1e42292e211bbbe335792b7dd9af825de8c56ce18e73ba2706d5ce84177434454ca5016ff << (643));
+    mem_write(Yp_ADDR, 1024'h1896c3131f7a0ed3d3aa33145c56847e173d155026f0cdff80e751c6330124c0f85a29e065f911db349d5b249490e408 << (643));
+    mem_write(Zp_ADDR, 1024'h10b4d649510734a904ff38f565daabb2f519425af7cd8cea07f9fed4180e79cad7dce74ad68a02613cef549e15a33789 << (643));
 
-    mem_write(Xq_ADDR, 1024'd1 << (643));
-    mem_write(Yq_ADDR, 1024'd2 << (643));
-    mem_write(Zq_ADDR, 1024'd3 << (643));
+    mem_write(Xq_ADDR, 1024'h115eda640b3c66234824fc417d51d888f4f34da18b97553738808b13beda0b4fededba028871da14da802954a329fab9 << (643));
+    mem_write(Yq_ADDR, 1024'h068a8d9c1c1d0f055a72a15a9518acd95d343cbd3b28c7e365d6b79743e92a5d8d357517ee86241bfbb0180a78f66527 << (643));
+    mem_write(Zq_ADDR, 1024'h07adf6a83d381d37d84c15993ac4453ada0b5df0d0bfa2a3515120b3983b6d59cd95a58a69c3b60cd29912250850471b << (643));
     
     mem_write(MEM_ARRAY_I, (16'b0 << 176 | Xp_ADDR << 160 | 16'b0 << 144 | Yp_ADDR << 128 | 16'b0 << 112 | Zp_ADDR << 96 | 16'b0 << 80 | Xq_ADDR << 64 | 16'b0 << 48 | Yq_ADDR << 32 | 16'b0 << 16 | Zq_ADDR) << (1024-192));
     mem_write(MEM_ARRAY_O, (16'b0 << 80 | Zr_ADDR << 64 | 16'b0 << 48 | Yr_ADDR << 32 | 16'b0 << 16 | Xr_ADDR) << (1024-96)); // addr_table[31] = &r

@@ -16,9 +16,7 @@ module EC_adder (
     output wire done_mont,
     output reg done
 );
-    // New control signals
-    reg times_12, times_12_next;
-    reg times_3, times_3_next;
+
     localparam [380:0] M = 381'h1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaab;
 
     // ------------------ Controller ------------------ //
@@ -46,6 +44,10 @@ module EC_adder (
 
     // Control signal logic
     reg done_next;
+    
+    reg times_12, times_12_next;
+    reg times_12_2, times_12_2_next;
+    reg times_3, times_3_next;
 
     // start signals
     reg start_mult0_next, start_mult1_next, start_mult2_next;
@@ -117,7 +119,7 @@ module EC_adder (
                 end
             end
             START_ADD_MULT2: begin
-                if (adder0_done && !state_entry_buf) begin // Adders always take same cycles -> can just check one (we use only adder 0-2 here)
+                if (adder0_done & !state_entry_buf) begin // Adders always take same cycles -> can just check one (we use only adder 0-2 here)
                     next_state = START_X12;
                 end else begin
                     next_state = START_ADD_MULT2;
@@ -131,7 +133,7 @@ module EC_adder (
                 end
             end
             START_X3: begin
-                if (adder0_done && adder0_done_buf && !state_entry_buf) begin
+                if (mult0_done & mult1_done & mult2_done) begin
                     next_state = START_SUB;
                 end else begin
                     next_state = START_X3;
@@ -152,7 +154,7 @@ module EC_adder (
                 end
             end
             START_MULT_FINAL: begin
-                if (mult0_done & mult1_done & mult2_done) begin
+                if (mult0_done & mult1_done & mult2_done & !state_entry_buf) begin
                     next_state = START_ADD_FINAL;
                 end else begin
                     next_state = START_MULT_FINAL;
@@ -183,6 +185,7 @@ module EC_adder (
             IDLE: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
@@ -217,44 +220,12 @@ module EC_adder (
             START_ADD_MULT: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b1;
                 start_mult1_next = 1'b1;
                 start_mult2_next = 1'b1;
-
-                start_adder0_next = 1'b1;
-                start_adder1_next = 1'b1;
-                start_adder2_next = 1'b1;
-
-                subtract_adder0_next = 1'b0;
-                subtract_adder1_next = 1'b0;
-                subtract_adder2_next = 1'b0;
-
-                read_mult0_next = 1'b0;
-                read_mult1_next = 1'b0;
-                read_mult2_next = 1'b0;
-
-                read_adder0_next = 1'b0;
-                read_adder1_next = 1'b0;
-                read_adder2_next = 1'b0;
-
-                select_in_mult0_next = MULT_IN1;
-                select_in_mult1_next = MULT_IN1;
-                select_in_mult2_next = MULT_IN1;
-
-                select_in_adder0_next = START_ADD_MULT;
-                select_in_adder1_next = START_ADD_MULT;
-                select_in_adder2_next = START_ADD_MULT;
-            end
-            START_ADD2: begin
-                done_next = 1'b0;
-                times_12_next = 1'b0;
-                times_3_next = 1'b0;
-
-                start_mult0_next = 1'b0;
-                start_mult1_next = 1'b0;
-                start_mult2_next = 1'b0;
 
                 start_adder0_next = 1'b1;
                 start_adder1_next = 1'b1;
@@ -276,6 +247,40 @@ module EC_adder (
                 select_in_mult1_next = MULT_IN1;
                 select_in_mult2_next = MULT_IN1;
 
+                select_in_adder0_next = START_ADD_MULT;
+                select_in_adder1_next = START_ADD_MULT;
+                select_in_adder2_next = START_ADD_MULT;
+            end
+            START_ADD2: begin
+                done_next = 1'b0;
+                times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
+                times_3_next = 1'b0;
+
+                start_mult0_next = 1'b0;
+                start_mult1_next = 1'b0;
+                start_mult2_next = 1'b0;
+
+                start_adder0_next = 1'b1;
+                start_adder1_next = 1'b1;
+                start_adder2_next = 1'b1;
+
+                subtract_adder0_next = 1'b0;
+                subtract_adder1_next = 1'b0;
+                subtract_adder2_next = 1'b0;
+
+                read_mult0_next = 1'b0;
+                read_mult1_next = 1'b0;
+                read_mult2_next = 1'b0;
+
+                read_adder0_next = 1'b0;
+                read_adder1_next = 1'b0;
+                read_adder2_next = 1'b0;
+
+                select_in_mult0_next = MULT_IN1;
+                select_in_mult1_next = MULT_IN1;
+                select_in_mult2_next = MULT_IN1;
+
                 select_in_adder0_next = START_ADD2;
                 select_in_adder1_next = START_ADD2;
                 select_in_adder2_next = START_ADD2;
@@ -284,6 +289,7 @@ module EC_adder (
             START_ADD_MULT2: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b1;
@@ -317,6 +323,7 @@ module EC_adder (
             START_X12: begin
                 done_next = 1'b0;
                 times_12_next = 1'b1;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
@@ -350,6 +357,7 @@ module EC_adder (
             START_X3: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b1;
 
                 start_mult0_next = 1'b0;
@@ -383,6 +391,7 @@ module EC_adder (
             START_SUB: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
@@ -405,9 +414,9 @@ module EC_adder (
                 read_adder1_next = 1'b1;
                 read_adder2_next = 1'b1;
 
-                select_in_mult0_next = MULT_IN3;
-                select_in_mult1_next = MULT_IN3;
-                select_in_mult2_next = MULT_IN3;
+                select_in_mult0_next = MULT_IN2;
+                select_in_mult1_next = MULT_IN2;
+                select_in_mult2_next = MULT_IN2;
 
                 select_in_adder0_next = START_SUB;
                 select_in_adder1_next = START_SUB;
@@ -416,6 +425,7 @@ module EC_adder (
             START_X12_2: begin
                 done_next = 1'b0;
                 times_12_next = 1'b1;
+                times_12_2_next = 1'b1;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b1;
@@ -449,13 +459,14 @@ module EC_adder (
             START_MULT_FINAL: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b1;
                 start_mult1_next = 1'b1;
                 start_mult2_next = 1'b1;
 
-                start_adder0_next = 1'b1;
+                start_adder0_next = 1'b0;
                 start_adder1_next = 1'b0;
                 start_adder2_next = 1'b0;
 
@@ -482,19 +493,20 @@ module EC_adder (
             START_ADD_FINAL: begin
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
                 start_mult1_next = 1'b0;
                 start_mult2_next = 1'b0;
 
-                start_adder0_next = 1'b0;
+                start_adder0_next = 1'b1;
                 start_adder1_next = 1'b1;
                 start_adder2_next = 1'b1;
 
                 subtract_adder0_next = 1'b0;
                 subtract_adder1_next = 1'b0;
-                subtract_adder2_next = 1'b0;
+                subtract_adder2_next = 1'b1;
 
                 read_mult0_next = 1'b1;
                 read_mult1_next = 1'b1;
@@ -504,9 +516,9 @@ module EC_adder (
                 read_adder1_next = 1'b0;
                 read_adder2_next = 1'b0;
 
-                select_in_mult0_next = MULT_IN4;
-                select_in_mult1_next = MULT_IN4;
-                select_in_mult2_next = MULT_IN4;
+                select_in_mult0_next = MULT_IN1;
+                select_in_mult1_next = MULT_IN1;
+                select_in_mult2_next = MULT_IN1;
 
                 select_in_adder0_next = START_ADD_FINAL;
                 select_in_adder1_next = START_ADD_FINAL;
@@ -515,6 +527,7 @@ module EC_adder (
             DONE_STATE: begin
                 done_next = 1'b1;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
@@ -548,6 +561,7 @@ module EC_adder (
             default: begin 
                 done_next = 1'b0;
                 times_12_next = 1'b0;
+                times_12_2_next = 1'b0;
                 times_3_next = 1'b0;
 
                 start_mult0_next = 1'b0;
@@ -586,6 +600,7 @@ module EC_adder (
         done <= done_next;
 
         times_12 <= times_12_next;
+        times_12_2 <= times_12_2_next;
         times_3 <= times_3_next;
 
         start_mult0 <= start_mult0_next;
@@ -626,9 +641,26 @@ module EC_adder (
     reg [380:0] mult0_in_a;
     reg [380:0] mult0_in_b;
     wire [380:0] mult0_in_m;
+    wire         mult0_starter;
+    reg         mult0_reader;
     wire [380:0] mult0_result;
     wire         mult0_done;
 
+
+    assign mult0_starter = ((select_in_mult0 == MULT_IN3) | (select_in_mult0 == MULT_IN4)) ? (start_mult0 & !mult0_done) : start_mult0;
+    
+    always @(*) begin
+        if (select_in_mult0 == MULT_IN4) begin 
+            if (state_entry_buf) begin
+                mult0_reader <= 1'b1;
+            end else begin
+                mult0_reader <= 1'b0;
+            end
+        end else begin
+            mult0_reader <= read_mult0;
+        end
+    end
+    
     always @(*) begin
         case(select_in_mult0)
             MULT_IN1: begin
@@ -636,8 +668,8 @@ module EC_adder (
                 mult0_in_b = Xq;
             end
             MULT_IN2: begin
-                mult0_in_a = adder0_result_buf;
-                mult0_in_b = adder1_result_buf;
+                mult0_in_a = adder0_result_buf2;
+                mult0_in_b = adder1_result_buf2;
             end
             MULT_IN3: begin
                 mult0_in_a = adder2_result_buf2;
@@ -660,8 +692,8 @@ module EC_adder (
     montgomery mult0 (
         .clk      (clk        ),
         .resetn   (resetn     ),
-        .start    (start_mult0),
-        .out_read (read_mult0),
+        .start    (mult0_starter),
+        .out_read (mult0_reader),
         .in_a     (mult0_in_a ),
         .in_b     (mult0_in_b ),
         .in_m     (mult0_in_m ),
@@ -671,10 +703,21 @@ module EC_adder (
 
     reg [380:0] mult0_result_buf;
     always @(posedge clk) begin
-        if (((current_state == START_ADD2) | (current_state == START_MULT_FINAL)) && mult0_done) begin
+        if (((current_state == START_ADD2) | (current_state == START_X12_2)) && mult0_done) begin
             mult0_result_buf <= mult0_result;
         end else begin 
             mult0_result_buf <= mult0_result_buf;
+        end
+    end
+    
+    reg went_high;
+    always @(posedge clk) begin
+        if ((current_state == START_ADD2) && !went_high && mult0_done) begin
+            went_high <= 1'b1;
+        end else if (current_state == IDLE) begin
+            went_high <= 1'b0;
+        end else begin
+            went_high <= went_high;
         end
     end
 
@@ -682,10 +725,26 @@ module EC_adder (
     reg [380:0] mult1_in_a;
     reg [380:0] mult1_in_b;
     wire [380:0] mult1_in_m;
+    wire         mult1_starter;
+    reg          mult1_reader;
     wire [380:0] mult1_result;
     wire         mult1_done;
 
     assign mult1_in_m     = M;
+    
+    assign mult1_starter = ((select_in_mult1 == MULT_IN3) | (select_in_mult1 == MULT_IN4)) ? (start_mult1 & !mult1_done) : start_mult1;
+
+    always @(*) begin
+        if (select_in_mult1 == MULT_IN4) begin 
+            if (state_entry_buf) begin
+                mult1_reader <= 1'b1;
+            end else begin
+                mult1_reader <= 1'b0;
+            end
+        end else begin
+            mult1_reader <= read_mult1;
+        end
+    end
 
     always @(*) begin
         case(select_in_mult1)
@@ -694,7 +753,7 @@ module EC_adder (
                 mult1_in_b = Yq;
             end
             MULT_IN2: begin
-                mult1_in_a = adder2_result_buf;
+                mult1_in_a = adder2_result_buf2;
                 mult1_in_b = adder0_result;
             end
             MULT_IN3: begin
@@ -715,8 +774,8 @@ module EC_adder (
     montgomery mult1 (
         .clk      (clk        ),
         .resetn   (resetn    ),
-        .start    (start_mult1),
-        .out_read (read_mult1),
+        .start    (mult1_starter),
+        .out_read (mult1_reader),
         .in_a     (mult1_in_a ),
         .in_b     (mult1_in_b ),
         .in_m     (mult1_in_m ),
@@ -726,7 +785,7 @@ module EC_adder (
 
     reg [380:0] mult1_result_buf;
     always @(posedge clk) begin
-        if (((current_state == START_ADD2) | (current_state == START_MULT_FINAL)) && mult1_done) begin
+        if (((current_state == START_ADD2) | (current_state == START_X12_2)) && mult1_done) begin
             mult1_result_buf <= mult1_result;
         end else begin 
             mult1_result_buf <= mult1_result_buf;
@@ -737,10 +796,25 @@ module EC_adder (
     reg [380:0] mult2_in_a;
     reg [380:0] mult2_in_b;
     wire [380:0] mult2_in_m;
+    wire         mult2_starter;
+    reg          mult2_reader;
     wire [380:0] mult2_result;
     wire         mult2_done;
 
     assign mult2_in_m     = M;
+    assign mult2_starter = ((select_in_mult2 == MULT_IN3) | (select_in_mult2 == MULT_IN4)) ? (start_mult2 & !mult2_done) : start_mult2;
+
+    always @(*) begin
+        if (select_in_mult2 == MULT_IN4) begin 
+            if (state_entry_buf) begin
+                mult2_reader <= 1'b1;
+            end else begin
+                mult2_reader <= 1'b0;
+            end
+        end else begin
+            mult2_reader <= read_mult2;
+        end
+    end
 
     always @(*) begin
         case(select_in_mult2)
@@ -770,8 +844,8 @@ module EC_adder (
     montgomery mult2 (
         .clk      (clk        ),
         .resetn   (resetn     ),
-        .start    (start_mult2),
-        .out_read (read_mult2),
+        .start    (mult2_starter),
+        .out_read (mult2_reader),
         .in_a     (mult2_in_a ),
         .in_b     (mult2_in_b ),
         .in_m     (mult2_in_m ),
@@ -781,7 +855,7 @@ module EC_adder (
 
     reg [380:0] mult2_result_buf;
     always @(posedge clk) begin
-        if (((current_state == START_ADD2) | (current_state == START_MULT_FINAL)) && mult2_done) begin
+        if (((current_state == START_ADD2) | (current_state == START_X12_2)) && mult2_done) begin
             mult2_result_buf <= mult2_result;
         end else begin 
             mult2_result_buf <= mult2_result_buf;
@@ -796,10 +870,13 @@ module EC_adder (
     reg [380:0] adder0_in_b;
     wire [380:0] adder0_in_m;
     wire [380:0] adder0_result;
+    wire        adder0_reader;
     wire        adder0_done;
     reg         adder0_done_buf;
 
     assign adder0_in_m     = M;
+    
+    assign adder0_reader = times_3 ? !(adder0_done && adder0_done_buf) : read_adder0;
 
     always @(*) begin
         case (select_in_adder0)
@@ -835,9 +912,9 @@ module EC_adder (
                 adder0_in_a = adder1_result;
                 adder0_in_b = adder1_result;
             end
-            START_MULT_FINAL: begin
-                adder0_in_a = mult1_result;
-                adder0_in_b = mult2_result;
+            START_ADD_FINAL: begin
+                adder0_in_a = mult1_result_buf;
+                adder0_in_b = mult2_result_buf;
             end
             default: begin
                 adder0_in_a = Xp;
@@ -855,13 +932,13 @@ module EC_adder (
         .clk      (clk         ),
         .resetn   (resetn      ),
         .result   (adder0_result),
-        .out_read (read_adder0),
+        .out_read (adder0_reader),
         .done     (adder0_done )
     );
 
     reg [380:0] adder0_result_buf, adder0_result_buf2;
     always @(posedge clk) begin
-        if ((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_X3) | (current_state == START_SUB)) begin
+        if (((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_SUB)) && adder0_done) begin
             adder0_result_buf <= adder0_result;
             adder0_result_buf2 <= adder0_result_buf;
         end else begin
@@ -948,7 +1025,7 @@ module EC_adder (
 
     reg [380:0] adder1_result_buf, adder1_result_buf2;
     always @(posedge clk) begin
-        if ((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_X3) | (current_state == START_SUB)) begin
+        if (((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_SUB)) && adder1_done) begin
             adder1_result_buf <= adder1_result;
             adder1_result_buf2 <= adder1_result_buf;
         end else begin
@@ -963,12 +1040,15 @@ module EC_adder (
     wire [380:0] adder2_in_m;
     wire [380:0] adder2_result;
     wire         adder2_starter;
+    wire         adder2_reader;
     wire         adder2_done;
     reg          adder2_done_buf;
 
     assign adder2_in_m     = M;
 
     assign adder2_starter = times_12 ? (adder1_done || adder2_done_buf) : start_adder2;
+    
+    assign adder2_reader = times_12_2 ? !(adder2_done && adder2_done_buf) : read_adder2;
 
     always @(*) begin
         case (select_in_adder2)
@@ -1024,14 +1104,14 @@ module EC_adder (
         .start    (adder2_starter),
         .clk      (clk         ),
         .resetn   (resetn     ),
-        .out_read (read_adder2),
+        .out_read (adder2_reader),
         .result   (adder2_result),
         .done     (adder2_done )
     );
 
     reg [380:0] adder2_result_buf, adder2_result_buf2;
     always @(posedge clk) begin
-        if ((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_X3) | (current_state == START_SUB)) begin
+        if (((current_state == START_ADD_MULT) | (current_state == START_ADD_MULT2) | (current_state == START_SUB)) && adder2_done) begin
             adder2_result_buf <= adder2_result;
             adder2_result_buf2 <= adder2_result_buf;
         end else begin
@@ -1048,6 +1128,8 @@ module EC_adder (
     assign Yr = adder1_result;
     assign Zr = adder0_result;
     assign mont = mult0_result;
-    assign done_mont = mult0_done;
+    assign done_mont = (mult0_done && !went_high);
+    
+    wire test = adder0_done & !state_entry_buf;
 
 endmodule

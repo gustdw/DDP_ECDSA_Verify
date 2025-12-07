@@ -49,11 +49,21 @@ module montgomery(
         end
     end
 
+    reg start_buf;
+    reg start_buf2;
+    always @(posedge clk) begin
+        start_buf <= start;
+        start_buf2 <= start_buf;
+    end
+    
+    
+
+
     // Combinational logic for next state
     always @(*) begin
         case (state)
             S0: begin
-                if (start) begin
+                if (start_buf2) begin
                     next_state = S1;
                 end else begin
                     next_state = S0;
@@ -212,34 +222,22 @@ module montgomery(
     // Registers for next values
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
-            C_sum <= 384'b0;
-            C_carry <= 384'b0;
             B_reg <= 381'b0;
             M_reg <= 381'b0;
-            B2_reg <= 384'b0;
             M2_reg <= 384'b0;
-            B3_reg <= 384'b0;
             M3_reg <= 384'b0;
             M_neg_reg <= 384'b0;
         end else begin
-            if (state == S0) begin
-                C_sum <= 384'b0;
-                C_carry <= 384'b0;
+            if ((state == S0) & (!start_buf2)) begin
                 B_reg <= in_b;
                 M_reg <= in_m;
-                B2_reg <= {2'b0, B_reg, 1'b0};
                 M2_reg <= {2'b0, in_m, 1'b0};
-                B3_reg <= {3'b0, B_reg} + {2'b0, B_reg, 1'b0};
                 M3_reg <= {3'b0, in_m} + {2'b0, in_m, 1'b0};
                 M_neg_reg <= -{3'b0, in_m};
             end else begin
-                C_sum <= C_sum_next;
-                C_carry <= C_carry_next;
                 B_reg <= B_reg;
                 M_reg <= M_reg;
-                B2_reg <= B2_reg;
                 M2_reg <= M2_reg;
-                B3_reg <= B3_reg;
                 M3_reg <= M3_reg;
                 M_neg_reg <= M_neg_reg;
             end
@@ -251,11 +249,35 @@ module montgomery(
         if (!resetn) begin
             A_reg <= 381'b0;
         end else begin
-            if (state == S0) begin
-                A_reg <= in_a;
+            if ((state == S0)) begin
+                if (!start_buf2) begin
+                    A_reg <= in_a;
+                end else begin
+                    A_reg <= A_reg;
+                end
             end else begin
                 A_reg <= A_reg >> 2;
             end
+        end
+    end
+
+    // B regs
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin 
+            C_sum <= 384'b0;
+            C_carry <= 384'b0;
+            B2_reg <= 384'b0;
+            B3_reg <= 384'b0;
+        end else if (state == S0) begin
+            B2_reg <= {2'b0, B_reg, 1'b0};
+            B3_reg <= {3'b0, B_reg} + {2'b0, B_reg, 1'b0};
+            C_sum <= 384'b0;
+            C_carry <= 384'b0;
+        end else begin 
+            B2_reg <= B2_reg;
+            B3_reg <= B3_reg;
+            C_sum <= C_sum_next;
+            C_carry <= C_carry_next;
         end
     end
     
@@ -320,3 +342,4 @@ module montgomery(
 //    wire [383:0] C_next = C_sum + {C_carry, 1'b0};
 
 endmodule
+

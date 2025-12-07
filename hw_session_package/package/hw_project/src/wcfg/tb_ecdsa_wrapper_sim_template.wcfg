@@ -13,15 +13,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="847.107 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,548.232 ns"></ZoomEndTime>
-      <Cursor1Time time="1,105.000 ns"></Cursor1Time>
+      <ZoomStartTime time="8,987.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="9,793.001 ns"></ZoomEndTime>
+      <Cursor1Time time="9,174.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="184"></NameColumnWidth>
+      <NameColumnWidth column_width="160"></NameColumnWidth>
       <ValueColumnWidth column_width="59"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="26" />
    <wvobject type="group" fp_name="group32">
       <obj_property name="label">Axil_Wires</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -38,6 +38,34 @@
    <wvobject type="group" fp_name="group1126">
       <obj_property name="label">Memory</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/r_data">
+      <obj_property name="ElementShortName">r_data[380:0]</obj_property>
+      <obj_property name="ObjectShortName">r_data[380:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/dma_tx_data">
+      <obj_property name="ElementShortName">dma_tx_data[380:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_tx_data[380:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/dma_tx_address">
+      <obj_property name="ElementShortName">dma_tx_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_tx_address[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/state">
+      <obj_property name="ElementShortName">state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_start">
+      <obj_property name="ElementShortName">ec_add_start</obj_property>
+      <obj_property name="ObjectShortName">ec_add_start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_done">
+      <obj_property name="ElementShortName">ec_add_done</obj_property>
+      <obj_property name="ObjectShortName">ec_add_done</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_out_read">
+      <obj_property name="ElementShortName">ec_out_read</obj_property>
+      <obj_property name="ObjectShortName">ec_out_read</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_Xp">
       <obj_property name="ElementShortName">ec_add_Xp[380:0]</obj_property>
@@ -98,49 +126,5 @@
    <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_input_6">
       <obj_property name="ElementShortName">ec_add_input_6[380:0]</obj_property>
       <obj_property name="ObjectShortName">ec_add_input_6[380:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_start">
-      <obj_property name="ElementShortName">ec_add_start</obj_property>
-      <obj_property name="ObjectShortName">ec_add_start</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_add_done">
-      <obj_property name="ElementShortName">ec_add_done</obj_property>
-      <obj_property name="ObjectShortName">ec_add_done</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/ec_out_read">
-      <obj_property name="ElementShortName">ec_out_read</obj_property>
-      <obj_property name="ObjectShortName">ec_out_read</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/state">
-      <obj_property name="ElementShortName">state[3:0]</obj_property>
-      <obj_property name="ObjectShortName">state[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/r_data">
-      <obj_property name="ElementShortName">r_data[380:0]</obj_property>
-      <obj_property name="ObjectShortName">r_data[380:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/dma_tx_data">
-      <obj_property name="ElementShortName">dma_tx_data[380:0]</obj_property>
-      <obj_property name="ObjectShortName">dma_tx_data[380:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/dma_tx_address">
-      <obj_property name="ElementShortName">dma_tx_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">dma_tx_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/output_addr_buff">
-      <obj_property name="ElementShortName">output_addr_buff[95:0]</obj_property>
-      <obj_property name="ObjectShortName">output_addr_buff[95:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/input_addr_buff">
-      <obj_property name="ElementShortName">input_addr_buff[191:0]</obj_property>
-      <obj_property name="ObjectShortName">input_addr_buff[191:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/input_value_buff">
-      <obj_property name="ElementShortName">input_value_buff[2285:0]</obj_property>
-      <obj_property name="ObjectShortName">input_value_buff[2285:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb_ecdsa_wrapper_ec_add/dut/tb_ecdsa_project_i/ecdsa_0/inst/counter">
-      <obj_property name="ElementShortName">counter[3:0]</obj_property>
-      <obj_property name="ObjectShortName">counter[3:0]</obj_property>
    </wvobject>
 </wave_config>

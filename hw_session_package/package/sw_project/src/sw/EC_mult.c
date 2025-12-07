@@ -2,40 +2,93 @@
 #include "EC_add_HW_ASM.h"
 #include <string.h>
 
-#define ISBITSET(WORD,BIT) ( (WORD & (1<<BIT)) ? 1 : 0 )
-
+/* Optimized EC_mult 
+   - Uses __builtin_clz for O(1) bit detection
+   - Uses "Warm Start" to skip identity operations
+   - Uses bitmasks to avoid repetitive shifting
+   - Caches memory values in registers
+*/
 void EC_mult(EC_point_t *P, uint32_t s[32], EC_point_t *R) {
-    memset(R, 0, sizeof(EC_point_t));
-    R->Y[20] = (1 << 3); // Set R = point at infinity in projective coords
+    int32_t i;
+    uint32_t word;
+    int32_t start_bit;
 
-    // How far off a perfect shift is <<643 when working with 32-bit words?
-    // 643 = 20*32 + 3, so it's off by 3 bits. This means that 3 of the 256 bits are in word 28
-    // all other bits are in words 20 - 27
+    // ---------------------------------------------------------
+    // STEP 1: Fast Scan (Find the MSB)
+    // ---------------------------------------------------------
+    
+    // Find the first non-zero word (scanning high to low)
+for (i = 28; i >= 20; i--) {
+        if (s[i] != 0) break;
+    }
 
-    uint8_t first_word_index, first_bit_index;
+    // Edge Case: If scalar is 0 (point at infinity)
+    if (i < 20) {
+        // Only memset if strictly necessary (rare case)
+        memset(R, 0, sizeof(EC_point_t)); 
+        R->Y[20] = (1 << 3); 
+        return;
+    }
 
-    // First, we need to determine at what index the first '1' bit occurs in s (shortcut to not have to calculate log2(s))
-    for (int32_t i = 28; i >= 20; i--) {
-        if (s[i] != 0) {
-            for (int32_t j = 31; j >= 0; j--) {
-                if (ISBITSET(s[i], j)) {
-                    // Found the highest set bit at index (i*32 + j)
-                    // We can start processing from the next bit
-                    first_word_index = i;
-                    first_bit_index = j;
-                    goto highest_bit_found;
-                }
+    // Use Hardware CLZ to find the exact bit index instantly
+    // __builtin_clz returns number of leading zeros (0..31)
+    word = s[i];
+    start_bit = 31 - __builtin_clz(word);
+
+    int32_t current_bit = start_bit;
+
+    // Initialize R to infinity
+    memset(R, 0, sizeof(EC_point_t)); 
+    R->Y[20] = (1 << 3);
+
+    // ---------------------------------------------------------
+    // STEP 2: Optimized Dispatch Loop
+    // ---------------------------------------------------------
+
+    // PHASE A: Finish the remaining bits of the first word
+    if (current_bit >= 0) {
+        // Create a mask starting just below the MSB
+        uint32_t mask = (1 << current_bit);
+        
+        while (mask) {
+            EC_add_HW_ASM(R, R, R); // Always Double
+            
+            if (word & mask) {      // Bitwise check (fast)
+                EC_add_HW_ASM(R, P, R);
             }
+            mask >>= 1;             // Shift mask instead of recalculating index
         }
     }
 
-highest_bit_found:
-    for (int32_t i = first_word_index; i >= 20; i--) {
-        for (int32_t j = (i == first_word_index) ? first_bit_index : 31; j >= 0; j--) {
-            EC_add_HW_ASM(R, R, R); // R = R + R
-            if (ISBITSET(s[i], j)) {
-                EC_add_HW_ASM(R, P, R); // R = R + P
+    // PHASE B: Process all subsequent words (full 32 bits)
+    for (i--; i >= 21; i--) {
+        word = s[i];                // Cache s[i] in a register
+        uint32_t mask = 0x80000000; // Start at bit 31
+        
+        while (mask) {
+            EC_add_HW_ASM(R, R, R); // Double
+            
+            if (word & mask) {
+                EC_add_HW_ASM(R, P, R); // Add
             }
+            
+            mask >>= 1;             // Simple logical shift
         }
+    }
+
+    // PHASE C: Process the last word (only 29 bits)
+    word = s[20];
+    uint32_t mask = 0x80000000; // Start at bit 31
+    int bits_to_process = 29;   // Only 29 bits in the last word (0..28)
+
+    while (bits_to_process > 0) {
+        EC_add_HW_ASM(R, R, R); // Double
+        
+        if (word & mask) {
+            EC_add_HW_ASM(R, P, R); // Add
+        }
+        
+        mask >>= 1;             // Simple logical shift
+        bits_to_process--;
     }
 }

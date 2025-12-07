@@ -103,10 +103,12 @@ def EC_scalar_mult(s, P):
     """
     R = (0, 1, 0)  # Identity element in projective coordinates (adjust if using affine)
     bin_s = bin(s)[2:]  # Convert scalar to binary string without '0b' prefix
+    i = 0
     for bit in bin_s:
         R = EC_addition(R, R)  # Point doubling
         if bit == '1':
             R = EC_addition(R, P)  # Point addition
+        i += 1
     return R
 
 
@@ -138,9 +140,6 @@ def ecdsa_verify(m, signature, P):    #m message, P public key
     Q = EC_scalar_mult(m, G)
     L = EC_scalar_mult(r, P)
     C = EC_addition(Q, L)
-    # print(f"C.x          <= 381'h{(C[0])<<(3):96x};") # we shift up by 3 bits and therefore pad with 3 zeros
-    # print(f"C.y          <= 381'h{(C[1])<<(3):96x};") # this way, the hex looks the same when compared with how we will find the result in the test run
-    # print(f"C.z          <= 381'h{(C[2])<<(3):96x};")
     C_prime = EC_scalar_mult(s, K)
     valid  = (C[0]*C_prime[2])%curves.q  == (C[2]*C_prime[0])%curves.q
     return  valid, C, C_prime, r

@@ -19,6 +19,7 @@ module hweval_montgomery(
                                     .in_a   (in_a     ),
                                     .in_b   (in_b     ),
                                     .in_m   (in_m     ),
+                                    .out_read (done),
                                     .result (result   ),
                                     .done   (done     ));
 

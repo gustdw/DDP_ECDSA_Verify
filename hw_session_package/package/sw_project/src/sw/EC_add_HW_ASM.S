@@ -28,14 +28,14 @@ EC_add_HW_ASM:
     /* We need to store R->Z, R->Y, R->X at addr_table_o[29, 30, 31]
        Offsets: 116, 120, 124.
        We map registers to data:
-       r3 = R->Z (Low Addr)
+       r3 = R->Z (High Addr)
        r4 = R->Y
-       r5 = R->X (High Addr)
+       r5 = R->X (Low Addr)
     */
     ldr     r10, =addr_table_o
-    add     r3, r2, #256       /* R->Z */
-    add     r4, r2, #128       /* R->Y */
-    mov     r5, r2             /* R->X */
+    mov     r3, r2            /* R->X */
+    add     r4, r2, #128    /* R->Y */
+    add     r5, r2, #256    /* R->Z */
 
     /* TRICK: Store 3 words in one bus transaction to offset 116 */
     add     r12, r10, #116
