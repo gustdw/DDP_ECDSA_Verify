@@ -10,6 +10,7 @@ module hweval_modadder (
     reg  [380:0] in_a;
     reg  [380:0] in_b;
     reg  [380:0] in_m;
+    reg          out_read;
     wire [380:0] result;
     wire          done;
        
@@ -22,6 +23,7 @@ module hweval_modadder (
         .in_a     (in_a    ),
         .in_b     (in_b    ),
         .in_m     (in_m    ),
+        .out_read (out_read),
         .result   (result  ),
         .done     (done    ));
 
@@ -33,7 +35,9 @@ module hweval_modadder (
             in_a     <= 381'b1;
             in_b     <= 381'b1;
             in_m     <= 381'h1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaab;
+            
             subtract <= 1'b0;
+            out_read <= 1'b0;
                     
             start    <= 1'b0;           
             
@@ -45,6 +49,7 @@ module hweval_modadder (
                 in_b     <= in_b;
                 in_m     <= in_m;
                 subtract <= subtract;
+                out_read <= out_read;
                 
                 start    <= 1'b1;            
                 
@@ -55,6 +60,7 @@ module hweval_modadder (
                 in_b     <= in_b;
                 in_m     <= in_m;
                 subtract <= subtract;
+                out_read <= out_read;
                         
                 start    <= 1'b0;           
                 
@@ -66,6 +72,7 @@ module hweval_modadder (
                 in_b     <= result[380:0];
                 in_m     <= result[380:0] ^ 381'h1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaab;
                 subtract <= result[380] & result[379];
+                out_read <= ~out_read;
                                     
                 start    <= 1'b0;
                             

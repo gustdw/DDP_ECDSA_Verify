@@ -1,30 +1,5 @@
 `timescale 1ns / 1ps
 
-/*
-Modular adder/subtractor using 2's complement:
-If subtract == 0: out = (in_a + in_b) mod in_m
-If subtract == 1: out = (in_a - in_b) mod in_m
-
-TIP! You can assume that in_a and in_b are smaller than in_m
--> in_a mod in_m = in_a
--> in_b mod in_m = in_b
-
--> in_a + in_b mod in_m = in_a + in_b if in_a + in_b > in_m else in_a + in_b mod in_m = in_a + in_b - in_m
-
--> in_a - in_b mod in_m = in_a - in_b + in_m if in_a - in_b < 0 else in_a - in_b mod in_m = in_a - in_b
-
-2's complement:
-  {carry_out, sum} = in_a + in_b + carry_in
-  {carry_out, sum} = in_a + ~in_b + 1 and carry_out = carry_out xor 1
-
-Why not use carry_out of addition? 
-    a+b is max 2m-2 -> carry out of a+b-m is 0 -> select modulo operation
-    a+b < m -> carry out of a+b-m is 1 -> select normal operation
-        
-    same reasoning for subtraction
-*/
-
-
 module modadder(
     input  wire [380:0] in_a,
     input  wire [380:0] in_b,
@@ -33,82 +8,174 @@ module modadder(
     input  wire         start,
     input  wire         clk,
     input  wire         resetn,
-    output reg [380:0] result,
-    output wire         done
+    input  wire         out_read,
+    output reg [380:0]  result,
+    output reg          done
 ); 
-    // intermediate signals of adders
-    wire [384:0] res_adder1;
-    wire [384:0] res_adder2;
-   
-    wire cout_adder1;
-    wire cout_adder2;
+
+    // --- State Machine Definitions ---
+    localparam S_IDLE   = 2'b00; // Waiting for start
+    localparam S_CALC_1 = 2'b01; // First pass (A +/- B)
+    localparam S_CALC_2 = 2'b10; // Second pass (Result +/- M)
+    localparam S_DONE   = 2'b11; // Holding result
+
+    reg [1:0] state;
+    reg [1:0] next_state;
+
+    // --- Signals ---
     
-    wire done_adder1;
-    wire done_adder2;
+    // Shared Adder Signals
+    wire [384:0] adder_result;
+    wire         adder_done;
+    wire         adder_cout;
+    reg          adder_start; // Controlled by logic
+    
+    // Muxed Inputs for the Adder
+    reg [384:0] mux_in_a;
+    reg [384:0] mux_in_b;
+    reg         mux_subtract;
 
-    // intermediate wires
-    wire [381:0] res;
-    wire [380:0] out;
+    // Intermediate Storage (Output of Pass 1)
+    reg [381:0] reg_pass1;
+    reg         cout_pass1;
+    reg         done_buf;
+    
+    always @(posedge clk) begin
+        done_buf <= adder_done;
+    end
 
-    // first 384 bit adder 
+    // Internal wires for final logic
+    wire [380:0] final_calc_out;
 
-    adder adder1 (
-        .clk    (clk    ),
-        .resetn (resetn ),
-        .start  (start  ),
-        .subtract (subtract),
-        .in_a   ({{3{in_a[380]}}, in_a}  ),
-        .in_b   ({{3{in_b[380]}}, in_b}  ),
-        .result (res_adder1),
-        .done   (done_adder1   )
+    // --- FSM Logic ---
+    
+    // 1. State Register
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) 
+            state <= S_IDLE;
+        else 
+            state <= next_state;
+    end
+
+    // 2. Next State Logic
+    always @(*) begin
+        next_state = state;
+        case (state)
+            S_IDLE: begin
+                if (start) 
+                    next_state = S_CALC_1;
+            end
+            S_CALC_1: begin
+                // When Adder finishes Pass 1, move to Pass 2
+                if (adder_done) 
+                    next_state = S_CALC_2;
+            end
+            S_CALC_2: begin
+                // When Adder finishes Pass 2, move to Done
+                if (adder_done) 
+                    next_state = S_DONE;
+            end
+            S_DONE: begin
+                // Wait for handshake
+                if (out_read) 
+                    next_state = S_IDLE;
+            end
+            default: next_state = S_IDLE;
+        endcase
+    end
+
+    // 3. Output Logic (Done Signal)
+    always @(*) begin
+        done = (state == S_DONE);
+    end
+
+    // --- Datapath & Muxing ---
+
+    // Logic to select inputs for the single Adder based on State
+    always @(*) begin
+        // Defaults (avoid latches)
+        mux_in_a     = {3'b0, in_a};
+        mux_in_b     = {3'b0, in_b};
+        mux_subtract = subtract;
+        adder_start  = 1'b0;
+
+        case (state)
+            S_IDLE: begin
+                // Pass 1 Setup (Pre-load)
+                mux_in_a     = {3'b0, in_a};
+                mux_in_b     = {3'b0, in_b};
+                mux_subtract = subtract;
+                // Kick off adder if start is high
+                adder_start  = start; 
+            end
+
+            S_CALC_1: begin
+                // Maintain Pass 1 inputs
+                mux_in_a     = {3'b0, in_a};
+                mux_in_b     = {3'b0, in_b};
+                mux_subtract = subtract;
+            end
+
+            S_CALC_2: begin
+                // Pass 2 Setup: 
+                // Input A is result of Pass 1 (reg_pass1)
+                // Input B is Modulo (in_m)
+                // Subtract is Inverted
+                mux_in_a     = {2'b0, reg_pass1}; // Note: Original code used 2 bit padding here
+                mux_in_b     = {3'b0, in_m};
+                mux_subtract = ~subtract;
+                adder_start = done_buf;
+                // No start trigger here, it was triggered at the end of CALC_1
+            end
+        endcase
+    end
+
+    // --- Single Adder Instantiation ---
+    adder shared_adder (
+        .clk      (clk),
+        .resetn   (resetn),
+        .start    (adder_start), 
+        .subtract (mux_subtract), 
+        .in_a     (mux_in_a),
+        .in_b     (mux_in_b),
+        .result   (adder_result),
+        .done     (adder_done)
     );
+    
+    assign adder_cout = adder_result[384];
 
-    // wiring
-    assign res = res_adder1[381:0];
-    assign cout_adder1 = res_adder1[384]; // carry out of addition or subtraction
-
-    // second 384 bit adder
-    adder adder2 (
-        .clk    (clk    ),
-        .resetn (resetn ),
-        .start  (done_adder1), // start when first adder is done
-        .subtract (~subtract), // if first adder did addition, second does subtraction and vice versa
-        .in_a   ({2'b0, res}),
-        .in_b   ({3'b0, in_m}),
-        .result (res_adder2),
-        .done   (done_adder2   )
-    );
-
-    // wiring
-    assign cout_adder2 = res_adder2[384]; // carry out of addition or subtraction
-    assign out = res_adder2[380:0];
-    assign done = done_adder2; // since rest is combinatorial logic, done when second adder is done
-
-    // Res buffer because adder takes 1 clock cycle
-
-    reg [380:0] res_buf;
-    reg         cout_buf;
+    // --- Register Management ---
 
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
-            res_buf <= 0;
-            cout_buf <= 0;
+            reg_pass1  <= 0;
+            cout_pass1 <= 0;
+            result     <= 0;
         end else begin
-            if (done_adder1) begin
-                res_buf <= res;
-                cout_buf <= cout_adder1;
-            end else begin
-                res_buf <= res_buf;
-                cout_buf <= cout_buf;
+            
+            // Capture Pass 1 Results
+            if (state == S_CALC_1 && adder_done) begin
+                reg_pass1  <= adder_result[381:0];
+                cout_pass1 <= adder_result[384];
+            end
+
+            // Capture Final Results (End of Pass 2)
+            if (state == S_CALC_2 && adder_done) begin
+                // Replicating the exact logic from your original code:
+                // If subtract=1 (A-B):
+                //    Borrow (cout_pass1=1) -> Use Adder Pass 2 ( (A-B)+M )
+                //    No Borrow             -> Use Buffer Pass 1 ( A-B )
+                // If subtract=0 (A+B):
+                //    Carry (adder_cout=1)  -> Use Buffer Pass 1 ( (A+B)-M produced carry? This logic maps to your original mux)
+                //    *Note*: In your original code: (cout_adder2 ? res_buf1 : out)
+                
+                if (subtract) begin
+                    result <= (cout_pass1) ? adder_result[380:0] : reg_pass1[380:0];
+                end else begin
+                    result <= (adder_cout) ? reg_pass1[380:0] : adder_result[380:0];
+                end
             end
         end
-    end
-
-    // Final result selection
-    wire [380:0] result_w;
-    assign result_w = subtract ? (cout_buf ? out : res_buf) : (cout_adder2 ? res_buf : out);
-    always @(*) begin
-        result <= result_w;
     end
 
 endmodule

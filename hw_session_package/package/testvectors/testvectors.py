@@ -78,12 +78,16 @@ if operation == 3:
 
   print ("Test Vector for Windowed Montgomery Multiplication\n")
 
-  M = helpers.getModulus(381)
+  M = curves.q
   A = helpers.getRandomInt(381) % M
   B = helpers.getRandomInt(381) % M
 
   C = HW.MontMul(A, B, M)
   D = SW.MontMul(A, B, M)
+
+  print("alignas(128) uint32_t a[32] = {" + f"{helpers.WriteConstants(A << 643, 32)}" + "}")
+  print("alignas(128) uint32_t b[32] = {" + f"{helpers.WriteConstants(B << 643, 32)}" + "}")
+  print("alignas(128) uint32_t res[32] = {" + f"{helpers.WriteConstants(C << 643, 32)}" + "}")
 
   e = (C - D)
   print(f"in_a        <= 381'h{A:0096x};")  
@@ -117,6 +121,9 @@ if operation == 4:
   assert(e1 == 0)
   assert(e2 == 0)
 
+  print("alignas(128) EC_point_t P = {.X = {" + f"{helpers.WriteConstants(Point1[0] << 643, 32)}" + "}, .Y = {" + f"{helpers.WriteConstants(Point1[1] << 643, 32)}" + "}, .Z = {" + f"{helpers.WriteConstants(Point1[2] << 643, 32)}" + "}};")
+  print("alignas(128) EC_point_t Q = {.X = {" + f"{helpers.WriteConstants(Point2[0] << 643, 32)}" + "}, .Y = {" + f"{helpers.WriteConstants(Point2[1] << 643, 32)}" + "}, .Z = {" + f"{helpers.WriteConstants(Point2[2] << 643, 32)}" + "}};")
+  print("alignas(128) EC_point_t R = {.X = {" + f"{helpers.WriteConstants(Out_SW[0] << 643, 32)}" + "}, .Y = {" + f"{helpers.WriteConstants(Out_SW[1] << 643, 32)}" + "}, .Z = {" + f"{helpers.WriteConstants(Out_SW[2] << 643, 32)}" + "}};")
 
   print(f"inM          <= 381'h{curves.q:0096x};\n")
   print(f"inX1         <= 381'h{Point1[0]:0096x};")  
@@ -154,6 +161,14 @@ if operation == 5:
   assert(e0 == 0)
   assert(e1 == 0)
   assert(e2 == 0)
+
+  print("alignas(128) uint32_t s1[32] = {" + f"{helpers.WriteConstants(s2 << 643, 32)}" + "};")
+  print("alignas(128) EC_point_t Point = {.X = {" + f"{helpers.WriteConstants(Point[0] << 643, 32)}" + "}, .Y = {" + f"{helpers.WriteConstants(Point[1] << 643, 32)}" + "}, .Z = {" + f"{helpers.WriteConstants(Point[2] << 643, 32)}" + "}};")
+
+
+  print("alignas(128) uint32_t res_X[32] = {" + f"{helpers.WriteConstants(Out_SW[0] << 643, 32)}" + "};")
+  print("alignas(128) uint32_t res_Y[32] = {" + f"{helpers.WriteConstants(Out_SW[1] << 643, 32)}" + "};")
+  print("alignas(128) uint32_t res_Z[32] = {" + f"{helpers.WriteConstants(Out_SW[2] << 643, 32)}" + "};")
 
 
 
